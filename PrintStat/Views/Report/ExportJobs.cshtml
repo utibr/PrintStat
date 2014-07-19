@@ -1,0 +1,76 @@
+﻿@model PrintStat.Models.ViewModels.ReportSettingsView
+
+@using (Html.BeginForm("ExportJobs", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <fieldset>
+        <div class="control-group">
+            <table class="tdnoborder" cellpadding="6" cellspacing="8">
+                <tr>
+                    <td class="tdnoborder">
+                        <label class="control-label" for="EmployeeTabNumber">
+                            Сотрудник
+                        </label>
+
+                        <div class="styled-select">
+                            @Html.DropDownList("EmployeeTabNumber", new SelectList(ViewBag.UserEmployees, "Value", "Text"))
+                        </div>
+                    </td>
+                    <td class="tdnoborder">
+                        <label class="control-label" for="AuthorTabNumber">
+                            Автор
+                        </label>
+
+                        <div class="styled-select">
+                            @Html.DropDownList("AuthorTabNumber", new SelectList(ViewBag.AuthorEmployees, "Value", "Text"))
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="tdnoborder">
+                        <label class="control-label" for="PrinterID">
+                            Принтер
+                        </label>
+
+                        <div class="styled-select">
+                            @Html.DropDownList("PrinterID", new SelectList(ViewBag.Printers, "Value", "Text"))
+                        </div>
+                    </td>
+                    <td class="tdnoborder">
+                        <label class="control-label" for="ApplicationID">
+                            Приложение
+                        </label>
+
+                        <div class="styled-select">
+                            @Html.DropDownList("ApplicationID", new SelectList(ViewBag.Applications, "Value", "Text"))
+                        </div>
+
+                    </td>
+                </tr>
+
+                <tr></tr>
+
+                <tr>
+                    <td class="tdnoborder">
+                        <label class="control-label" for="DepartmentID">
+                            Отдел
+                        </label>
+
+                        <div class="controls">
+                            @Html.DropDownList("DepartmentID", new SelectList(ViewBag.Departments, "Value", "Text"))
+                            @Html.ValidationMessage("DepartmentID")
+                        </div>
+                    </td>
+                    <td class="tdnoborder">
+                        
+                    </td>
+            </table>
+         </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Создать отчет о печати
+            </button>
+            @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn" })
+        </div>
+    </fieldset>
+}
