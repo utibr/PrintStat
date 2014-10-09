@@ -21,7 +21,7 @@
         <a href="@Url.Action("CreatePlotterJob", "Home")">Добавить задание плоттера</a>
         <a href="@Url.Action("CreatePrinterJob", "Home")">Добавить задание принтера</a>
         <a href="@Url.Action("ExportJobs", "Report")">Отчет о печати</a>
-        <a href="@Url.Action("ExportResources", "Home")">Статистика использования расходников</a>
+       @* <a href="@Url.Action("ExportResources", "Home")">Статистика использования расходников</a>*@
     </div>
 
 </p>
@@ -54,7 +54,7 @@
 
             {
             <tr>
-                <td width="80">
+                @*<td width="80">
                     @if (@Job.DeviceType.ID == 1)
                     { 
                         <a href="@Url.Action("EditPlotterJob", "Home", new { id = @Job.ID })">●</a>
@@ -64,10 +64,11 @@
                     {
                         <a href="@Url.Action("EditPrinterJob", "Home", new { id = @Job.ID })">●</a>
                     }
-                </td>
-                <td width="80">
-                    <a href="@Url.Action("ViewJob", "Home", new { id = @Job.ID })"><font color="blue">●</font></a>
-                </td>
+                </td>*@
+                @*<td width="80">
+                    <a href="@Url.Action("" +
+                                         "ViewJob", "Home", new { id = @Job.ID })"><font color="blue">●</font></a>
+                </td>*@
                 <td width="80">
                     <a href="@Url.Action("DeleteJob", "Home", new { id = @Job.ID })"><font color="red">●</font></a>
                 </td>
@@ -121,7 +122,7 @@
 
                 <td width="120">
                     <font size="1">
-                        @Job.Printer
+                        @Job.Device
                     </font>
                 </td>
 

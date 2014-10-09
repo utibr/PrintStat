@@ -24,8 +24,8 @@ namespace PrintStat.Controllers
 
         private void InitViewBag()
         {
-            ViewBag.Printers = Repository.Printers;
-            ViewBag.Plotters = Repository.Plotters;
+            //ViewBag.Printers = Repository.Printers;
+            //ViewBag.Plotters = Repository.Plotters;
             ViewBag.Applications = Repository.Applications;
             ViewBag.PrinterPapertypes = Repository.PrinterPaperTypes;
             ViewBag.PlotterPapertypes = Repository.PlotterPaperTypes;

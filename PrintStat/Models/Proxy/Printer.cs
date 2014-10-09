@@ -6,7 +6,7 @@ using System.Web;
 namespace PrintStat
 {
 
-    public partial class Printer: IBaseObject
+    public partial class Device: IBaseObject
     {
 
         public override string ToString()

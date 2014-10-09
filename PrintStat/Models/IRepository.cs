@@ -8,9 +8,9 @@ namespace PrintStat.Models
 {
     public interface IRepository
     {
-        IQueryable<Printer> PrintersAndPlotters { get;  }
-        IQueryable<Printer> Printers { get; }
-        IQueryable<Printer> Plotters { get; }
+        IQueryable<Device> PrintersAndPlotters { get;  }
+  //      IQueryable<Device> Printers { get; }
+   //     IQueryable<Device> Plotters { get; }
         
         IQueryable<PaperType> PaperTypes { get;  }
         IQueryable<PaperType> PrinterPaperTypes { get;  }
@@ -25,14 +25,14 @@ namespace PrintStat.Models
         IQueryable<Employee> AuthorEmployees { get;  }
         IQueryable<Employee> UserEmployees { get; }
 
-        IQueryable<Setup> Setup { get; }
+       // IQueryable<Setup> Setup { get; }
 
         IQueryable<Department> Departments { get; }
 
 
-        bool CreatePrinter(Printer instance);
-        bool UpdatePrinter(Printer instance);
-        bool RemovePrinter(Printer instance);
+        bool CreatePrinter(Device instance);
+        bool UpdatePrinter(Device instance);
+        bool RemovePrinter(Device instance);
 
 
         bool CreatePapertype(PaperType instance);
@@ -51,7 +51,7 @@ namespace PrintStat.Models
         bool UpdateJob(Job instance);
         bool RemoveJob(Job instance);
 
-        bool SaveSettings(Setup settings);
+       // bool SaveSettings(Setup settings);
         
 
 

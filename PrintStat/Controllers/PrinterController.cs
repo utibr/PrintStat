@@ -43,7 +43,7 @@ namespace PrintStat.Controllers
 
             if (ModelState.IsValid) 
             {
-                var printer = (Printer)ModelMapper.Map(printerView, typeof(PrinterView), typeof(Printer));
+                var printer = (Device)ModelMapper.Map(printerView, typeof(PrinterView), typeof(Device));
                 Repository.CreatePrinter(printer);
                 return RedirectToAction("Index");
             }
@@ -59,7 +59,7 @@ namespace PrintStat.Controllers
             var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == id);
             if (printer != null)
             {
-                var printerView = (PrinterView)ModelMapper.Map(printer, typeof(Printer), typeof(PrinterView));
+                var printerView = (PrinterView)ModelMapper.Map(printer, typeof(Device), typeof(PrinterView));
                 return View(printerView);
             }
             return RedirectToAction("Index");
@@ -71,7 +71,7 @@ namespace PrintStat.Controllers
             if (ModelState.IsValid)
             {
                 var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == printerView.ID);
-                ModelMapper.Map(printerView, printer, typeof(PrinterView), typeof(Printer));
+                ModelMapper.Map(printerView, printer, typeof(PrinterView), typeof(Device));
                 Repository.UpdatePrinter(printer);
 
                 return RedirectToAction("Index");

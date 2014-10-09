@@ -11,59 +11,59 @@ namespace PrintStat.Models
     public partial class SQLRepository: IRepository 
     {
         [Inject]
-        public PrinterStatDataContext Db {get; set;}
+        public PrintStatDataDataContext Db {get; set;}
 
-        public IQueryable<Printer> PrintersAndPlotters
+        public IQueryable<Device> PrintersAndPlotters
         {
             get
             {
-                return Db.Printer;
+                return Db.Device;
             }
         }
 
-        public IQueryable<Printer> Printers
-        {
-            get 
-            {
-                return Db.Printer.Where(p => p.DeviceTypeID == 2);
-            }
-        }
+        //public IQueryable<Device> Printers
+        //{
+        //    get 
+        //    {
+        //        return Db.Device.Where(p => p.DeviceTypeID == 2);
+        //    }
+        //}
 
-        public IQueryable<Printer> Plotters
-        {
-            get
-            {
-                return Db.Printer.Where(p => p.DeviceTypeID == 1);
-            }
-        }
+        //public IQueryable<Device> Plotters
+        //{
+        //    get
+        //    {
+        //        return Db.Device.Where(p => p.DeviceTypeID == 1);
+        //    }
+        //}
 
-        public bool CreatePrinter(Printer instance)
+        public bool CreatePrinter(Device instance)
         {
-             Db.Printer.InsertOnSubmit(instance);
-             Db.Printer.Context.SubmitChanges();
+             Db.Device.InsertOnSubmit(instance);
+             Db.Device.Context.SubmitChanges();
              return true;
          }
 
-        public bool UpdatePrinter(Printer instance)
+        public bool UpdatePrinter(Device instance)
         {
-            Printer updating = Db.Printer.FirstOrDefault(p => p.ID == instance.ID);
+            Device updating = Db.Device.FirstOrDefault(p => p.ID == instance.ID);
             if (updating != null)
             {
                 updating.Name = instance.Name;
-                Db.Printer.Context.SubmitChanges();
+                Db.Device.Context.SubmitChanges();
                 return true;
             }
 
             return false;
         }
 
-        public bool RemovePrinter(Printer instance)
+        public bool RemovePrinter(Device instance)
         {
-            Printer deleting = Db.Printer.FirstOrDefault(p=>p.ID == instance.ID);
+            Device deleting = Db.Device.FirstOrDefault(p=>p.ID == instance.ID);
             if (deleting != null)
             {
-                Db.Printer.DeleteOnSubmit(deleting);
-                Db.Printer.Context.SubmitChanges();
+                Db.Device.DeleteOnSubmit(deleting);
+                Db.Device.Context.SubmitChanges();
                 return true;
             }
 

@@ -1,18 +1,123 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PrinterStat" Class="PrinterStatDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=DESMI-PC;Initial Catalog=PrinterStat;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PrinterStatConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PrintStat" Class="PrintStatDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=BUKA;Initial Catalog=PrintStat;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PrintStatConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.TagType" Member="TagType">
+    <Type Name="TagType">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="TagType_Tag" Member="Tag" ThisKey="ID" OtherKey="TagTypeID" Type="Tag" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Application" Member="Application">
+    <Type Name="Application">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Application_Job" Member="Job" ThisKey="ID" OtherKey="ApplicationID" Type="Job" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cartridge" Member="Cartridge">
+    <Type Name="Cartridge">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ColorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ShortName" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Association Name="Cartridge_CartridgeDevice" Member="CartridgeDevice" ThisKey="ID" OtherKey="CartridgeID" Type="CartridgeDevice" />
+      <Association Name="Cartridge_ExpForJob" Member="ExpForJob" ThisKey="ID" OtherKey="CartridgeID" Type="ExpForJob" />
+      <Association Name="CartridgeColor_Cartridge" Member="CartridgeColor" ThisKey="ColorID" OtherKey="ID" Type="CartridgeColor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CartridgeColor" Member="CartridgeColor">
+    <Type Name="CartridgeColor">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortName" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Association Name="CartridgeColor_Cartridge" Member="Cartridge" ThisKey="ID" OtherKey="ColorID" Type="Cartridge" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CartridgeDevice" Member="CartridgeDevice">
+    <Type Name="CartridgeDevice">
+      <Column Name="CartridgeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CurAmountOfInk" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Cartridge_CartridgeDevice" Member="Cartridge" ThisKey="CartridgeID" OtherKey="ID" Type="Cartridge" IsForeignKey="true" />
+      <Association Name="Device_CartridgeDevice" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Components" Member="Components">
+    <Type Name="Components">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Endurance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Components_DeviceComponents" Member="DeviceComponents" ThisKey="ID" OtherKey="ComponentsID" Type="DeviceComponents" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Department" Member="Department">
+    <Type Name="Department">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="Department_Employee" Member="Employee" ThisKey="ID" OtherKey="DepartmentID" Type="Employee" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Device" Member="Device">
+    <Type Name="Device">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PrintKindID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SearchString" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="InvNumber" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="StatisticsSupported" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Device_CartridgeDevice" Member="CartridgeDevice" ThisKey="ID" OtherKey="DeviceID" Type="CartridgeDevice" />
+      <Association Name="Device_DeviceComponents" Member="DeviceComponents" ThisKey="ID" OtherKey="DeviceID" Type="DeviceComponents" />
+      <Association Name="Device_Job" Member="Job" ThisKey="ID" OtherKey="DeviceID" Type="Job" />
+      <Association Name="Device_SNMP" Member="SNMP" ThisKey="ID" OtherKey="DeviceID" Type="SNMP" />
+      <Association Name="Model_Device" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
+      <Association Name="PrintKind_Device" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
+      <Association Name="PrintKind_Device1" Member="PrintKind1" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DeviceComponents" Member="DeviceComponents">
+    <Type Name="DeviceComponents">
+      <Column Name="ComponentsID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CurEndurance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Components_DeviceComponents" Member="Components" ThisKey="ComponentsID" OtherKey="ID" Type="Components" IsForeignKey="true" />
+      <Association Name="Device_DeviceComponents" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.DeviceType" Member="DeviceType">
     <Type Name="DeviceType">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="DeviceType_PaperType" Member="PaperType" ThisKey="ID" OtherKey="DeviceTypeID" Type="PaperType" />
-      <Association Name="DeviceType_Printer" Member="Printer" ThisKey="ID" OtherKey="DeviceTypeID" Type="Printer" />
+      <Association Name="DeviceType_Model" Member="Model" ThisKey="ID" OtherKey="DeviceTypeID" Type="Model" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employee">
+    <Type Name="Employee">
+      <Column Name="TabNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Employee_Job" Member="Job" ThisKey="TabNumber" OtherKey="AuthorTabNumber" Type="Job" />
+      <Association Name="Employee_Job1" Member="Job1" ThisKey="TabNumber" OtherKey="UserTabNumber" Type="Job" />
+      <Association Name="Employee_Settings" Member="Settings" ThisKey="TabNumber" OtherKey="UserTabNumber" Type="Settings" />
+      <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentID" OtherKey="ID" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ExpForJob" Member="ExpForJob">
+    <Type Name="ExpForJob">
+      <Column Name="JobID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CartridgeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Amount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Cartridge_ExpForJob" Member="Cartridge" ThisKey="CartridgeID" OtherKey="ID" Type="Cartridge" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Job_ExpForJob" Member="Job" ThisKey="JobID" OtherKey="ID" Type="Job" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Job" Member="Job">
     <Type Name="Job">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(2000) NOT NULL" CanBeNull="false" />
-      <Column Name="PrinterID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ApplicationID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Duration" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="StartTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -30,37 +135,43 @@
       <Column Name="IP" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
       <Column Name="ComputerName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="IsManual" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ParseDoc" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="ExpForJobID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Job_ExpForJob" Member="ExpForJob" ThisKey="ID" OtherKey="JobID" Type="ExpForJob" />
       <Association Name="Application_Job" Member="Application" ThisKey="ApplicationID" OtherKey="ID" Type="Application" IsForeignKey="true" />
-      <Association Name="Employee_Job" Member="Author" ThisKey="AuthorTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
-      <Association Name="Employee_Job1" Member="Employee" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
+      <Association Name="Employee_Job" Member="Employee" ThisKey="AuthorTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
+      <Association Name="Device_Job" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
+      <Association Name="Employee_Job1" Member="Employee1" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
       <Association Name="PaperType_Job" Member="PaperType" ThisKey="PaperTypeID" OtherKey="ID" Type="PaperType" IsForeignKey="true" />
-      <Association Name="Printer_Job" Member="Printer" ThisKey="PrinterID" OtherKey="ID" Type="Printer" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Application" Member="Application">
-    <Type Name="Application">
+  <Table Name="dbo.Manufacturer" Member="Manufacturer">
+    <Type Name="Manufacturer">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Application_Job" Member="Job" ThisKey="ID" OtherKey="ApplicationID" Type="Job" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Manufacturer_Model" Member="Model" ThisKey="ID" OtherKey="ManufacturerID" Type="Model" />
     </Type>
   </Table>
-  <Table Name="dbo.Employee" Member="Employee">
-    <Type Name="Employee">
-      <Column Name="TabNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Employee_Job" Member="Job" ThisKey="TabNumber" OtherKey="AuthorTabNumber" Type="Job" />
-      <Association Name="Employee_Job1" Member="Job1" ThisKey="TabNumber" OtherKey="UserTabNumber" Type="Job" />
-      <Association Name="Employee_Setup" Member="Setup" ThisKey="TabNumber" OtherKey="TabNumber" Type="Setup" />
-      <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentID" OtherKey="ID" Type="Department" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Department" Member="Department">
-    <Type Name="Department">
+  <Table Name="dbo.Model" Member="Model">
+    <Type Name="Model">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
-      <Column Name="ShortName" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
-      <Association Name="Department_Employee" Member="Employee" ThisKey="ID" OtherKey="DepartmentID" Type="Employee" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ManufacturerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PrintKindID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Model_Device" Member="Device" ThisKey="ID" OtherKey="ModelID" Type="Device" />
+      <Association Name="Model_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="ModelID" Type="ModelTag" />
+      <Association Name="DeviceType_Model" Member="DeviceType" ThisKey="DeviceTypeID" OtherKey="ID" Type="DeviceType" IsForeignKey="true" />
+      <Association Name="Manufacturer_Model" Member="Manufacturer" ThisKey="ManufacturerID" OtherKey="ID" Type="Manufacturer" IsForeignKey="true" />
+      <Association Name="PrintKind_Model" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ModelTag" Member="ModelTag">
+    <Type Name="ModelTag">
+      <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Model_ModelTag" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
+      <Association Name="Tag_ModelTag" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PaperType" Member="PaperType">
@@ -71,60 +182,63 @@
       <Column Name="Height_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="PaperType_Job" Member="Job" ThisKey="ID" OtherKey="PaperTypeID" Type="Job" />
-      <Association Name="DeviceType_PaperType" Member="DeviceType" ThisKey="DeviceTypeID" OtherKey="ID" Type="DeviceType" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Printer" Member="Printer">
-    <Type Name="Printer">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PrintKindID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SearchString" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="InvNumber" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="StatisticsSupported" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Printer_Job" Member="Job" ThisKey="ID" OtherKey="PrinterID" Type="Job" />
-      <Association Name="Printer_Cartridge" Member="Cartridge" ThisKey="ID" OtherKey="PrinterID" Type="Cartridge" />
-      <Association Name="DeviceType_Printer" Member="DeviceType" ThisKey="DeviceTypeID" OtherKey="ID" Type="DeviceType" IsForeignKey="true" />
-      <Association Name="PrintKind_Printer" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PrintKind" Member="PrintKind">
     <Type Name="PrintKind">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="PrintKind_Printer" Member="Printer" ThisKey="ID" OtherKey="PrintKindID" Type="Printer" />
+      <Association Name="PrintKind_Device" Member="Device" ThisKey="ID" OtherKey="PrintKindID" Type="Device" />
+      <Association Name="PrintKind_Device1" Member="Device1" ThisKey="ID" OtherKey="PrintKindID" Type="Device" />
+      <Association Name="PrintKind_Model" Member="Model" ThisKey="ID" OtherKey="PrintKindID" Type="Model" />
     </Type>
   </Table>
-  <Table Name="dbo.Cartridge" Member="Cartridge">
-    <Type Name="Cartridge">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="PrinterID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="ColorID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ShortName" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
-      <Association Name="Printer_Cartridge" Member="Printer" ThisKey="PrinterID" OtherKey="ID" Type="Printer" IsForeignKey="true" />
-      <Association Name="CartridgeColor_Cartridge" Member="CartridgeColor" ThisKey="ColorID" OtherKey="ID" Type="CartridgeColor" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.CartridgeColor" Member="CartridgeColor">
-    <Type Name="CartridgeColor">
+  <Table Name="dbo.Profile" Member="Profile">
+    <Type Name="Profile">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="ShortName" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
-      <Association Name="CartridgeColor_Cartridge" Member="Cartridge" ThisKey="ID" OtherKey="ColorID" Type="Cartridge" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="Profile_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="ProfileID" Type="SettingValue" />
     </Type>
   </Table>
-  <Table Name="dbo.Setup" Member="Setup">
-    <Type Name="Setup">
-      <Column Name="MailServer" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
-      <Column Name="AccountName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Pwd" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Protocol" Type="System.String" DbType="NVarChar(4) NOT NULL" CanBeNull="false" />
-      <Column Name="Port" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="TabNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+  <Table Name="dbo.Settings" Member="Settings">
+    <Type Name="Settings">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Association Name="Employee_Setup" Member="Employee" ThisKey="TabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
+      <Column Name="ParameterName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="UserTabNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Settings_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="SettingsID" Type="SettingValue" />
+      <Association Name="Employee_Settings" Member="Employee" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SettingValue" Member="SettingValue">
+    <Type Name="SettingValue">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SettingsID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ProfileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Profile_SettingValue" Member="Profile" ThisKey="ProfileID" OtherKey="ID" Type="Profile" IsForeignKey="true" />
+      <Association Name="Settings_SettingValue" Member="Settings" ThisKey="SettingsID" OtherKey="ID" Type="Settings" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SNMP" Member="SNMP">
+    <Type Name="SNMP">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TagID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Device_SNMP" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
+      <Association Name="Tag_SNMP" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tag" Member="Tag">
+    <Type Name="Tag">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Tag" Member="Tag1" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TagTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Tag_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="TagID" Type="ModelTag" />
+      <Association Name="Tag_SNMP" Member="SNMP" ThisKey="ID" OtherKey="TagID" Type="SNMP" />
+      <Association Name="TagType_Tag" Member="TagType" ThisKey="TagTypeID" OtherKey="ID" Type="TagType" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

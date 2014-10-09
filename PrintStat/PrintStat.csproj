@@ -239,16 +239,16 @@
     <Compile Include="Models\Proxy\Printer.cs" />
     <Compile Include="Models\SQLRepository\PrinterSQLRepository.cs" />
     <Compile Include="Models\IRepository.cs" />
-    <Compile Include="PrintStatData.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PrintStatData.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="PrintStatData.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PrintStatData.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

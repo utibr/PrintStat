@@ -136,34 +136,34 @@ namespace PrintStat.Models
         }
 
 
-        public IQueryable<Setup> Setup
-        {
-            get
-            {
-                return Db.Setup;
-            }
-        }
+        //public IQueryable<Setup> Setup
+        //{
+        //    get
+        //    {
+        //        return Db.Setup;
+        //    }
+        //}
 
-        public bool SaveSettings(Setup settings)
-        {
+        //public bool SaveSettings(Setup settings)
+        //{
 
-            var s = Db.Setup.FirstOrDefault();
-            if (s != null)
-            {
-                s.AccountName = settings.AccountName;
-                s.MailServer = settings.MailServer;
-                s.Pwd = settings.Pwd;
-                s.Employee = Db.Employee.FirstOrDefault(p => p.TabNumber == "1190");
-                s.Port = settings.Port;
-            }
-            else
-            {
-                settings.Employee = Db.Employee.FirstOrDefault(p => p.TabNumber == "1190");
-                Db.Setup.InsertOnSubmit(settings);
-            }
+        //    var s = Db.Setup.FirstOrDefault();
+        //    if (s != null)
+        //    {
+        //        s.AccountName = settings.AccountName;
+        //        s.MailServer = settings.MailServer;
+        //        s.Pwd = settings.Pwd;
+        //        s.Employee = Db.Employee.FirstOrDefault(p => p.TabNumber == "1190");
+        //        s.Port = settings.Port;
+        //    }
+        //    else
+        //    {
+        //        settings.Employee = Db.Employee.FirstOrDefault(p => p.TabNumber == "1190");
+        //        Db.Setup.InsertOnSubmit(settings);
+        //    }
 
-            Db.Setup.Context.SubmitChanges();
-            return true;
-        }
+        //    Db.Setup.Context.SubmitChanges();
+        //    return true;
+        //}
     }
 }

@@ -24,11 +24,11 @@ namespace PrintStat.Mappers
             Mapper.CreateMap<Job, JobView>();
             Mapper.CreateMap<JobView, Job>();
 
-            Mapper.CreateMap<Printer, PrinterView>();
-            Mapper.CreateMap<PrinterView, Printer>();
+            Mapper.CreateMap<Device, PrinterView>();
+            Mapper.CreateMap<PrinterView, Device>();
 
-            Mapper.CreateMap<SettingsView, Setup>();
-            Mapper.CreateMap<Setup, SettingsView>();
+            //Mapper.CreateMap<SettingsView, Setup>();
+            //Mapper.CreateMap<Setup, SettingsView>();
         }
 
 
