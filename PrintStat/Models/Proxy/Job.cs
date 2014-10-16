@@ -50,7 +50,7 @@ namespace PrintStat
         {
             get
             {
-                if (_Width_cm == 0 && PaperType != null && PaperType.Width_cm != null) return PaperType.Width_cm.Value;
+          //      if (_Width_cm == 0 && PaperType != null && PaperType.Width_cm != null) return PaperType.Width_cm.Value;
                 return _Width_cm;
             }
         }
@@ -59,7 +59,7 @@ namespace PrintStat
         {
             get
             {
-                if (_Height_cm == 0 && PaperType != null && PaperType.Height_cm != null) return PaperType.Height_cm.Value;
+        //        if (_Height_cm == 0 && PaperType != null && PaperType.Height_cm != null) return PaperType.Height_cm.Value;
                 return _Width_cm;
             }
         }
@@ -91,7 +91,8 @@ namespace PrintStat
         {
             get
             {
-                return PaperType != null ? PaperType.Name : "";
+                //             return PaperType != null ? PaperType.Name : "";
+                return null;
             }
         }
 

@@ -72,6 +72,7 @@
       <Association Name="Device_DeviceComponents" Member="DeviceComponents" ThisKey="ID" OtherKey="DeviceID" Type="DeviceComponents" />
       <Association Name="Device_Job" Member="Job" ThisKey="ID" OtherKey="DeviceID" Type="Job" />
       <Association Name="Device_SNMP" Member="SNMP" ThisKey="ID" OtherKey="DeviceID" Type="SNMP" />
+      <Association Name="Device_PaperType" Member="PaperType" ThisKey="ID" OtherKey="DeviceID" Type="PaperType" />
       <Association Name="Model_Device" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
       <Association Name="PrintKind_Device" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
       <Association Name="PrintKind_Device1" Member="PrintKind1" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
@@ -138,11 +139,11 @@
       <Column Name="ParseDoc" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="ExpForJobID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Job_ExpForJob" Member="ExpForJob" ThisKey="ID" OtherKey="JobID" Type="ExpForJob" />
+      <Association Name="Job_SizePaper" Member="SizePaper" ThisKey="ID" OtherKey="JobID" Type="SizePaper" />
       <Association Name="Application_Job" Member="Application" ThisKey="ApplicationID" OtherKey="ID" Type="Application" IsForeignKey="true" />
       <Association Name="Employee_Job" Member="Employee" ThisKey="AuthorTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
       <Association Name="Device_Job" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
       <Association Name="Employee_Job1" Member="Employee1" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
-      <Association Name="PaperType_Job" Member="PaperType" ThisKey="PaperTypeID" OtherKey="ID" Type="PaperType" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Manufacturer" Member="Manufacturer">
@@ -172,16 +173,6 @@
       <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Model_ModelTag" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
       <Association Name="Tag_ModelTag" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PaperType" Member="PaperType">
-    <Type Name="PaperType">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Width_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
-      <Column Name="Height_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
-      <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="PaperType_Job" Member="Job" ThisKey="ID" OtherKey="PaperTypeID" Type="Job" />
     </Type>
   </Table>
   <Table Name="dbo.PrintKind" Member="PrintKind">
@@ -239,6 +230,24 @@
       <Association Name="Tag_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="TagID" Type="ModelTag" />
       <Association Name="Tag_SNMP" Member="SNMP" ThisKey="ID" OtherKey="TagID" Type="SNMP" />
       <Association Name="TagType_Tag" Member="TagType" ThisKey="TagTypeID" OtherKey="ID" Type="TagType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SizePaper" Member="SizePaper">
+    <Type Name="SizePaper">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Width_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Height_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="JobID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Job_SizePaper" Member="Job" ThisKey="JobID" OtherKey="ID" Type="Job" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PaperType" Member="PaperType">
+    <Type Name="PaperType">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Device_PaperType" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
 </Database>

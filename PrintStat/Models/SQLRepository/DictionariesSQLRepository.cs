@@ -22,15 +22,17 @@ namespace PrintStat.Models
         { 
             get
             {
-                return Db.PaperType.Where(p => p.DeviceTypeID == 2);
+                //       return Db.PaperType.Where(p => p.DeviceTypeID == 2);
+                return null;
             }
         }
         public IQueryable<PaperType> PlotterPaperTypes 
         {
             get
-                {
-                 return Db.PaperType.Where(p => p.DeviceTypeID == 1);
-                }
+            {
+                //     return Db.PaperType.Where(p => p.DeviceTypeID == 1);
+                return null;
+            }
         }
 
         public IQueryable<Department> Departments
