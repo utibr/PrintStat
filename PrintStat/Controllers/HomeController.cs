@@ -24,8 +24,8 @@ namespace PrintStat.Controllers
 
         private void InitViewBag()
         {
-            //ViewBag.Printers = Repository.Printers;
-            //ViewBag.Plotters = Repository.Plotters;
+            ViewBag.Printers = Repository.Printers;
+            ViewBag.Plotters = Repository.Plotters;
             ViewBag.Applications = Repository.Applications;
             ViewBag.PrinterPapertypes = Repository.PrinterPaperTypes;
             ViewBag.PlotterPapertypes = Repository.PlotterPaperTypes;
@@ -44,7 +44,7 @@ namespace PrintStat.Controllers
             newJobView.Duration = 0;
             newJobView.Pages = 1;
             newJobView.Copies = 1;
-            newJobView.PaperTypeID = 0;
+            newJobView.SizePaperID = 0;
             newJobView.IsManual = true;
 
             return View(newJobView);
@@ -60,7 +60,7 @@ namespace PrintStat.Controllers
             newJobView.Duration = 0;
             newJobView.Pages = 1;
             newJobView.Copies = 1;
-            newJobView.PaperTypeID = 0;
+            newJobView.SizePaperID = 0;
             newJobView.IsManual = true;
 
             return View(newJobView);

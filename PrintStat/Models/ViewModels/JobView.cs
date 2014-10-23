@@ -12,7 +12,7 @@ namespace PrintStat.Models.ViewModels
     public class JobView: BaseView
     {
 
-        public int PrinterID { get; set; }
+        public int DeviceID { get; set; } //PrinterID
         public int ApplicationID { get; set; }
         public int? Duration { get; set; }
 
@@ -26,7 +26,7 @@ namespace PrintStat.Models.ViewModels
         public decimal Height_cm { get; set; }
         public int? Width_px { get; set; }
         public int? Height_px { get; set; }
-        public int? PaperTypeID { get; set; }
+        public int? SizePaperID { get; set; }
         public string AuthorTabNumber { get; set; }
         public int? Size_kb { get; set; }
         public string IP { get; set; }

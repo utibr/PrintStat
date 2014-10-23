@@ -9,9 +9,12 @@ namespace PrintStat.Models
     public interface IRepository
     {
         IQueryable<Device> PrintersAndPlotters { get;  }
-  //      IQueryable<Device> Printers { get; }
-   //     IQueryable<Device> Plotters { get; }
-        
+        IQueryable<Device> Printers { get; }
+        IQueryable<Device> Plotters { get; }
+
+        //Добавление 
+        IQueryable<SizePaper> SizePapers { get; }
+
         IQueryable<PaperType> PaperTypes { get;  }
         IQueryable<PaperType> PrinterPaperTypes { get;  }
         IQueryable<PaperType> PlotterPaperTypes { get; }
@@ -40,6 +43,10 @@ namespace PrintStat.Models
 
         bool RemovePapertype(PaperType instance);
 
+        // SizePaper
+        bool CreateSizePaper(SizePaper instance);
+        bool UpdateSizePaper(SizePaper instance);
+        bool RemoveSizePaper(SizePaper instance);
 
 
         bool CreateDevicetype(DeviceType instance);

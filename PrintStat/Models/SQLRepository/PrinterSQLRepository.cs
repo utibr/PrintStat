@@ -21,21 +21,41 @@ namespace PrintStat.Models
             }
         }
 
-        //public IQueryable<Device> Printers
-        //{
-        //    get 
-        //    {
-        //        return Db.Device.Where(p => p.DeviceTypeID == 2);
-        //    }
-        //}
+        public IQueryable<Device> Printers
+        {
+            get
+            {
+                return Db.Model.Join(Db.DeviceType.Where(dt => (dt.Name == "Принтер" || dt.Name == "принтер")),
+                                    m => m.DeviceTypeID,
+                                    dt => dt.ID,
+                                    (m, dt) => m).Join(Db.Device,
+                                                        d => d.ID,
+                                                        dt => dt.ModelID,
+                                                        (d, dt) => dt);
 
-        //public IQueryable<Device> Plotters
-        //{
-        //    get
-        //    {
-        //        return Db.Device.Where(p => p.DeviceTypeID == 1);
-        //    }
-        //}
+
+                //.Select(arg=> new
+                //                                        {
+                //                                            arg.ID, arg.Name, arg.ModelID, arg.PrintKindID,
+                //                                            arg.SearchString, arg.InvNumber, arg.StatisticsSupported
+                //                                        }))
+            }
+        }
+
+        public IQueryable<Device> Plotters
+        {
+            get
+            {
+
+                return Db.Model.Join(Db.DeviceType.Where(dt => (dt.Name=="Плоттер" || dt.Name=="плоттер")),
+                                    m => m.DeviceTypeID,
+                                    dt => dt.ID,
+                                    (m, dt) => m).Join(Db.Device,
+                                                        d => d.ID,
+                                                        dt => dt.ModelID,
+                                                        (d, dt) => dt);
+            }
+        }
 
         public bool CreatePrinter(Device instance)
         {

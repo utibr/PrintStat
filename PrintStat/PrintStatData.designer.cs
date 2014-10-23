@@ -66,9 +66,6 @@ namespace PrintStat
     partial void InsertExpForJob(ExpForJob instance);
     partial void UpdateExpForJob(ExpForJob instance);
     partial void DeleteExpForJob(ExpForJob instance);
-    partial void InsertJob(Job instance);
-    partial void UpdateJob(Job instance);
-    partial void DeleteJob(Job instance);
     partial void InsertManufacturer(Manufacturer instance);
     partial void UpdateManufacturer(Manufacturer instance);
     partial void DeleteManufacturer(Manufacturer instance);
@@ -96,12 +93,15 @@ namespace PrintStat
     partial void InsertTag(Tag instance);
     partial void UpdateTag(Tag instance);
     partial void DeleteTag(Tag instance);
-    partial void InsertSizePaper(SizePaper instance);
-    partial void UpdateSizePaper(SizePaper instance);
-    partial void DeleteSizePaper(SizePaper instance);
     partial void InsertPaperType(PaperType instance);
     partial void UpdatePaperType(PaperType instance);
     partial void DeletePaperType(PaperType instance);
+    partial void InsertJob(Job instance);
+    partial void UpdateJob(Job instance);
+    partial void DeleteJob(Job instance);
+    partial void InsertSizePaper(SizePaper instance);
+    partial void UpdateSizePaper(SizePaper instance);
+    partial void DeleteSizePaper(SizePaper instance);
     #endregion
 		
 		public PrintStatDataDataContext() : 
@@ -230,14 +230,6 @@ namespace PrintStat
 			}
 		}
 		
-		public System.Data.Linq.Table<Job> Job
-		{
-			get
-			{
-				return this.GetTable<Job>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Manufacturer> Manufacturer
 		{
 			get
@@ -310,19 +302,27 @@ namespace PrintStat
 			}
 		}
 		
-		public System.Data.Linq.Table<SizePaper> SizePaper
-		{
-			get
-			{
-				return this.GetTable<SizePaper>();
-			}
-		}
-		
 		public System.Data.Linq.Table<PaperType> PaperType
 		{
 			get
 			{
 				return this.GetTable<PaperType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Job> Job
+		{
+			get
+			{
+				return this.GetTable<Job>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SizePaper> SizePaper
+		{
+			get
+			{
+				return this.GetTable<SizePaper>();
 			}
 		}
 	}
@@ -1440,11 +1440,11 @@ namespace PrintStat
 		
 		private EntitySet<DeviceComponents> _DeviceComponents;
 		
-		private EntitySet<Job> _Job;
-		
 		private EntitySet<SNMP> _SNMP;
 		
 		private EntitySet<PaperType> _PaperType;
+		
+		private EntitySet<Job> _Job;
 		
 		private EntityRef<Model> _Model;
 		
@@ -1476,9 +1476,9 @@ namespace PrintStat
 		{
 			this._CartridgeDevice = new EntitySet<CartridgeDevice>(new Action<CartridgeDevice>(this.attach_CartridgeDevice), new Action<CartridgeDevice>(this.detach_CartridgeDevice));
 			this._DeviceComponents = new EntitySet<DeviceComponents>(new Action<DeviceComponents>(this.attach_DeviceComponents), new Action<DeviceComponents>(this.detach_DeviceComponents));
-			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
 			this._SNMP = new EntitySet<SNMP>(new Action<SNMP>(this.attach_SNMP), new Action<SNMP>(this.detach_SNMP));
 			this._PaperType = new EntitySet<PaperType>(new Action<PaperType>(this.attach_PaperType), new Action<PaperType>(this.detach_PaperType));
+			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
 			this._Model = default(EntityRef<Model>);
 			this._PrintKind = default(EntityRef<PrintKind>);
 			this._PrintKind1 = default(EntityRef<PrintKind>);
@@ -1659,19 +1659,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Job", ThisKey="ID", OtherKey="DeviceID")]
-		public EntitySet<Job> Job
-		{
-			get
-			{
-				return this._Job;
-			}
-			set
-			{
-				this._Job.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SNMP", Storage="_SNMP", ThisKey="ID", OtherKey="DeviceID")]
 		public EntitySet<SNMP> SNMP
 		{
@@ -1695,6 +1682,19 @@ namespace PrintStat
 			set
 			{
 				this._PaperType.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Job", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<Job> Job
+		{
+			get
+			{
+				return this._Job;
+			}
+			set
+			{
+				this._Job.Assign(value);
 			}
 		}
 		
@@ -1844,18 +1844,6 @@ namespace PrintStat
 			entity.Device = null;
 		}
 		
-		private void attach_Job(Job entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = this;
-		}
-		
-		private void detach_Job(Job entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = null;
-		}
-		
 		private void attach_SNMP(SNMP entity)
 		{
 			this.SendPropertyChanging();
@@ -1875,6 +1863,18 @@ namespace PrintStat
 		}
 		
 		private void detach_PaperType(PaperType entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+		
+		private void attach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_Job(Job entity)
 		{
 			this.SendPropertyChanging();
 			entity.Device = null;
@@ -2199,11 +2199,11 @@ namespace PrintStat
 		
 		private int _DepartmentID;
 		
+		private EntitySet<Settings> _Settings;
+		
 		private EntitySet<Job> _Job;
 		
 		private EntitySet<Job> _Job1;
-		
-		private EntitySet<Settings> _Settings;
 		
 		private EntityRef<Department> _Department;
 		
@@ -2221,9 +2221,9 @@ namespace PrintStat
 		
 		public Employee()
 		{
+			this._Settings = new EntitySet<Settings>(new Action<Settings>(this.attach_Settings), new Action<Settings>(this.detach_Settings));
 			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
 			this._Job1 = new EntitySet<Job>(new Action<Job>(this.attach_Job1), new Action<Job>(this.detach_Job1));
-			this._Settings = new EntitySet<Settings>(new Action<Settings>(this.attach_Settings), new Action<Settings>(this.detach_Settings));
 			this._Department = default(EntityRef<Department>);
 			OnCreated();
 		}
@@ -2292,6 +2292,19 @@ namespace PrintStat
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Settings", Storage="_Settings", ThisKey="TabNumber", OtherKey="UserTabNumber")]
+		public EntitySet<Settings> Settings
+		{
+			get
+			{
+				return this._Settings;
+			}
+			set
+			{
+				this._Settings.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job", Storage="_Job", ThisKey="TabNumber", OtherKey="AuthorTabNumber")]
 		public EntitySet<Job> Job
 		{
@@ -2315,19 +2328,6 @@ namespace PrintStat
 			set
 			{
 				this._Job1.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Settings", Storage="_Settings", ThisKey="TabNumber", OtherKey="UserTabNumber")]
-		public EntitySet<Settings> Settings
-		{
-			get
-			{
-				return this._Settings;
-			}
-			set
-			{
-				this._Settings.Assign(value);
 			}
 		}
 		
@@ -2385,6 +2385,18 @@ namespace PrintStat
 			}
 		}
 		
+		private void attach_Settings(Settings entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = this;
+		}
+		
+		private void detach_Settings(Settings entity)
+		{
+			this.SendPropertyChanging();
+			entity.Employee = null;
+		}
+		
 		private void attach_Job(Job entity)
 		{
 			this.SendPropertyChanging();
@@ -2407,18 +2419,6 @@ namespace PrintStat
 		{
 			this.SendPropertyChanging();
 			entity.Author = null;
-		}
-		
-		private void attach_Settings(Settings entity)
-		{
-			this.SendPropertyChanging();
-			entity.Employee = this;
-		}
-		
-		private void detach_Settings(Settings entity)
-		{
-			this.SendPropertyChanging();
-			entity.Employee = null;
 		}
 	}
 	
@@ -2611,792 +2611,6 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Job")]
-	public partial class Job : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private int _DeviceID;
-		
-		private int _ApplicationID;
-		
-		private System.Nullable<int> _Duration;
-		
-		private System.Nullable<System.DateTime> _StartTime;
-		
-		private System.Nullable<System.DateTime> _EndTime;
-		
-		private string _UserTabNumber;
-		
-		private System.Nullable<int> _Pages;
-		
-		private int _Copies;
-		
-		private decimal _Width_cm;
-		
-		private decimal _Height_cm;
-		
-		private System.Nullable<int> _Width_px;
-		
-		private System.Nullable<int> _Height_px;
-		
-		private System.Nullable<int> _PaperTypeID;
-		
-		private string _AuthorTabNumber;
-		
-		private System.Nullable<int> _Size_kb;
-		
-		private string _IP;
-		
-		private string _ComputerName;
-		
-		private bool _IsManual;
-		
-		private System.Data.Linq.Binary _ParseDoc;
-		
-		private System.Nullable<int> _ExpForJobID;
-		
-		private EntitySet<ExpForJob> _ExpForJob;
-		
-		private EntitySet<SizePaper> _SizePaper;
-		
-		private EntityRef<Application> _Application;
-		
-		private EntityRef<Employee> _Employee;
-		
-		private EntityRef<Device> _Device;
-		
-		private EntityRef<Employee> _Employee1;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDeviceIDChanging(int value);
-    partial void OnDeviceIDChanged();
-    partial void OnApplicationIDChanging(int value);
-    partial void OnApplicationIDChanged();
-    partial void OnDurationChanging(System.Nullable<int> value);
-    partial void OnDurationChanged();
-    partial void OnStartTimeChanging(System.Nullable<System.DateTime> value);
-    partial void OnStartTimeChanged();
-    partial void OnEndTimeChanging(System.Nullable<System.DateTime> value);
-    partial void OnEndTimeChanged();
-    partial void OnUserTabNumberChanging(string value);
-    partial void OnUserTabNumberChanged();
-    partial void OnPagesChanging(System.Nullable<int> value);
-    partial void OnPagesChanged();
-    partial void OnCopiesChanging(int value);
-    partial void OnCopiesChanged();
-    partial void OnWidth_cmChanging(decimal value);
-    partial void OnWidth_cmChanged();
-    partial void OnHeight_cmChanging(decimal value);
-    partial void OnHeight_cmChanged();
-    partial void OnWidth_pxChanging(System.Nullable<int> value);
-    partial void OnWidth_pxChanged();
-    partial void OnHeight_pxChanging(System.Nullable<int> value);
-    partial void OnHeight_pxChanged();
-    partial void OnPaperTypeIDChanging(System.Nullable<int> value);
-    partial void OnPaperTypeIDChanged();
-    partial void OnAuthorTabNumberChanging(string value);
-    partial void OnAuthorTabNumberChanged();
-    partial void OnSize_kbChanging(System.Nullable<int> value);
-    partial void OnSize_kbChanged();
-    partial void OnIPChanging(string value);
-    partial void OnIPChanged();
-    partial void OnComputerNameChanging(string value);
-    partial void OnComputerNameChanged();
-    partial void OnIsManualChanging(bool value);
-    partial void OnIsManualChanged();
-    partial void OnParseDocChanging(System.Data.Linq.Binary value);
-    partial void OnParseDocChanged();
-    partial void OnExpForJobIDChanging(System.Nullable<int> value);
-    partial void OnExpForJobIDChanged();
-    #endregion
-		
-		public Job()
-		{
-			this._ExpForJob = new EntitySet<ExpForJob>(new Action<ExpForJob>(this.attach_ExpForJob), new Action<ExpForJob>(this.detach_ExpForJob));
-			this._SizePaper = new EntitySet<SizePaper>(new Action<SizePaper>(this.attach_SizePaper), new Action<SizePaper>(this.detach_SizePaper));
-			this._Application = default(EntityRef<Application>);
-			this._Employee = default(EntityRef<Employee>);
-			this._Device = default(EntityRef<Device>);
-			this._Employee1 = default(EntityRef<Employee>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(2000) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
-		public int DeviceID
-		{
-			get
-			{
-				return this._DeviceID;
-			}
-			set
-			{
-				if ((this._DeviceID != value))
-				{
-					if (this._Device.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDeviceIDChanging(value);
-					this.SendPropertyChanging();
-					this._DeviceID = value;
-					this.SendPropertyChanged("DeviceID");
-					this.OnDeviceIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationID", DbType="Int NOT NULL")]
-		public int ApplicationID
-		{
-			get
-			{
-				return this._ApplicationID;
-			}
-			set
-			{
-				if ((this._ApplicationID != value))
-				{
-					if (this._Application.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnApplicationIDChanging(value);
-					this.SendPropertyChanging();
-					this._ApplicationID = value;
-					this.SendPropertyChanged("ApplicationID");
-					this.OnApplicationIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Duration", DbType="Int")]
-		public System.Nullable<int> Duration
-		{
-			get
-			{
-				return this._Duration;
-			}
-			set
-			{
-				if ((this._Duration != value))
-				{
-					this.OnDurationChanging(value);
-					this.SendPropertyChanging();
-					this._Duration = value;
-					this.SendPropertyChanged("Duration");
-					this.OnDurationChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> StartTime
-		{
-			get
-			{
-				return this._StartTime;
-			}
-			set
-			{
-				if ((this._StartTime != value))
-				{
-					this.OnStartTimeChanging(value);
-					this.SendPropertyChanging();
-					this._StartTime = value;
-					this.SendPropertyChanged("StartTime");
-					this.OnStartTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> EndTime
-		{
-			get
-			{
-				return this._EndTime;
-			}
-			set
-			{
-				if ((this._EndTime != value))
-				{
-					this.OnEndTimeChanging(value);
-					this.SendPropertyChanging();
-					this._EndTime = value;
-					this.SendPropertyChanged("EndTime");
-					this.OnEndTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserTabNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string UserTabNumber
-		{
-			get
-			{
-				return this._UserTabNumber;
-			}
-			set
-			{
-				if ((this._UserTabNumber != value))
-				{
-					if (this._Employee1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUserTabNumberChanging(value);
-					this.SendPropertyChanging();
-					this._UserTabNumber = value;
-					this.SendPropertyChanged("UserTabNumber");
-					this.OnUserTabNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pages", DbType="Int")]
-		public System.Nullable<int> Pages
-		{
-			get
-			{
-				return this._Pages;
-			}
-			set
-			{
-				if ((this._Pages != value))
-				{
-					this.OnPagesChanging(value);
-					this.SendPropertyChanging();
-					this._Pages = value;
-					this.SendPropertyChanged("Pages");
-					this.OnPagesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Copies", DbType="Int NOT NULL")]
-		public int Copies
-		{
-			get
-			{
-				return this._Copies;
-			}
-			set
-			{
-				if ((this._Copies != value))
-				{
-					this.OnCopiesChanging(value);
-					this.SendPropertyChanging();
-					this._Copies = value;
-					this.SendPropertyChanged("Copies");
-					this.OnCopiesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width_cm", DbType="Decimal(6,2) NOT NULL")]
-		public decimal Width_cm
-		{
-			get
-			{
-				return this._Width_cm;
-			}
-			set
-			{
-				if ((this._Width_cm != value))
-				{
-					this.OnWidth_cmChanging(value);
-					this.SendPropertyChanging();
-					this._Width_cm = value;
-					this.SendPropertyChanged("Width_cm");
-					this.OnWidth_cmChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height_cm", DbType="Decimal(6,2) NOT NULL")]
-		public decimal Height_cm
-		{
-			get
-			{
-				return this._Height_cm;
-			}
-			set
-			{
-				if ((this._Height_cm != value))
-				{
-					this.OnHeight_cmChanging(value);
-					this.SendPropertyChanging();
-					this._Height_cm = value;
-					this.SendPropertyChanged("Height_cm");
-					this.OnHeight_cmChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width_px", DbType="Int")]
-		public System.Nullable<int> Width_px
-		{
-			get
-			{
-				return this._Width_px;
-			}
-			set
-			{
-				if ((this._Width_px != value))
-				{
-					this.OnWidth_pxChanging(value);
-					this.SendPropertyChanging();
-					this._Width_px = value;
-					this.SendPropertyChanged("Width_px");
-					this.OnWidth_pxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height_px", DbType="Int")]
-		public System.Nullable<int> Height_px
-		{
-			get
-			{
-				return this._Height_px;
-			}
-			set
-			{
-				if ((this._Height_px != value))
-				{
-					this.OnHeight_pxChanging(value);
-					this.SendPropertyChanging();
-					this._Height_px = value;
-					this.SendPropertyChanged("Height_px");
-					this.OnHeight_pxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PaperTypeID", DbType="Int")]
-		public System.Nullable<int> PaperTypeID
-		{
-			get
-			{
-				return this._PaperTypeID;
-			}
-			set
-			{
-				if ((this._PaperTypeID != value))
-				{
-					this.OnPaperTypeIDChanging(value);
-					this.SendPropertyChanging();
-					this._PaperTypeID = value;
-					this.SendPropertyChanged("PaperTypeID");
-					this.OnPaperTypeIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorTabNumber", DbType="NVarChar(50)")]
-		public string AuthorTabNumber
-		{
-			get
-			{
-				return this._AuthorTabNumber;
-			}
-			set
-			{
-				if ((this._AuthorTabNumber != value))
-				{
-					if (this._Employee.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnAuthorTabNumberChanging(value);
-					this.SendPropertyChanging();
-					this._AuthorTabNumber = value;
-					this.SendPropertyChanged("AuthorTabNumber");
-					this.OnAuthorTabNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Size_kb", DbType="Int")]
-		public System.Nullable<int> Size_kb
-		{
-			get
-			{
-				return this._Size_kb;
-			}
-			set
-			{
-				if ((this._Size_kb != value))
-				{
-					this.OnSize_kbChanging(value);
-					this.SendPropertyChanging();
-					this._Size_kb = value;
-					this.SendPropertyChanged("Size_kb");
-					this.OnSize_kbChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IP", DbType="NVarChar(16)")]
-		public string IP
-		{
-			get
-			{
-				return this._IP;
-			}
-			set
-			{
-				if ((this._IP != value))
-				{
-					this.OnIPChanging(value);
-					this.SendPropertyChanging();
-					this._IP = value;
-					this.SendPropertyChanged("IP");
-					this.OnIPChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ComputerName", DbType="NVarChar(50)")]
-		public string ComputerName
-		{
-			get
-			{
-				return this._ComputerName;
-			}
-			set
-			{
-				if ((this._ComputerName != value))
-				{
-					this.OnComputerNameChanging(value);
-					this.SendPropertyChanging();
-					this._ComputerName = value;
-					this.SendPropertyChanged("ComputerName");
-					this.OnComputerNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsManual", DbType="Bit NOT NULL")]
-		public bool IsManual
-		{
-			get
-			{
-				return this._IsManual;
-			}
-			set
-			{
-				if ((this._IsManual != value))
-				{
-					this.OnIsManualChanging(value);
-					this.SendPropertyChanging();
-					this._IsManual = value;
-					this.SendPropertyChanged("IsManual");
-					this.OnIsManualChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParseDoc", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary ParseDoc
-		{
-			get
-			{
-				return this._ParseDoc;
-			}
-			set
-			{
-				if ((this._ParseDoc != value))
-				{
-					this.OnParseDocChanging(value);
-					this.SendPropertyChanging();
-					this._ParseDoc = value;
-					this.SendPropertyChanged("ParseDoc");
-					this.OnParseDocChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpForJobID", DbType="Int")]
-		public System.Nullable<int> ExpForJobID
-		{
-			get
-			{
-				return this._ExpForJobID;
-			}
-			set
-			{
-				if ((this._ExpForJobID != value))
-				{
-					this.OnExpForJobIDChanging(value);
-					this.SendPropertyChanging();
-					this._ExpForJobID = value;
-					this.SendPropertyChanged("ExpForJobID");
-					this.OnExpForJobIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Job_ExpForJob", Storage="_ExpForJob", ThisKey="ID", OtherKey="JobID")]
-		public EntitySet<ExpForJob> ExpForJob
-		{
-			get
-			{
-				return this._ExpForJob;
-			}
-			set
-			{
-				this._ExpForJob.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Job_SizePaper", Storage="_SizePaper", ThisKey="ID", OtherKey="JobID")]
-		public EntitySet<SizePaper> SizePaper
-		{
-			get
-			{
-				return this._SizePaper;
-			}
-			set
-			{
-				this._SizePaper.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Application_Job", Storage="_Application", ThisKey="ApplicationID", OtherKey="ID", IsForeignKey=true)]
-		public Application Application
-		{
-			get
-			{
-				return this._Application.Entity;
-			}
-			set
-			{
-				Application previousValue = this._Application.Entity;
-				if (((previousValue != value) 
-							|| (this._Application.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Application.Entity = null;
-						previousValue.Job.Remove(this);
-					}
-					this._Application.Entity = value;
-					if ((value != null))
-					{
-						value.Job.Add(this);
-						this._ApplicationID = value.ID;
-					}
-					else
-					{
-						this._ApplicationID = default(int);
-					}
-					this.SendPropertyChanged("Application");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job", Storage="_Employee", ThisKey="AuthorTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
-		public Employee Employee
-		{
-			get
-			{
-				return this._Employee.Entity;
-			}
-			set
-			{
-				Employee previousValue = this._Employee.Entity;
-				if (((previousValue != value) 
-							|| (this._Employee.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Employee.Entity = null;
-						previousValue.Job.Remove(this);
-					}
-					this._Employee.Entity = value;
-					if ((value != null))
-					{
-						value.Job.Add(this);
-						this._AuthorTabNumber = value.TabNumber;
-					}
-					else
-					{
-						this._AuthorTabNumber = default(string);
-					}
-					this.SendPropertyChanged("Employee");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
-		public Device Device
-		{
-			get
-			{
-				return this._Device.Entity;
-			}
-			set
-			{
-				Device previousValue = this._Device.Entity;
-				if (((previousValue != value) 
-							|| (this._Device.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Device.Entity = null;
-						previousValue.Job.Remove(this);
-					}
-					this._Device.Entity = value;
-					if ((value != null))
-					{
-						value.Job.Add(this);
-						this._DeviceID = value.ID;
-					}
-					else
-					{
-						this._DeviceID = default(int);
-					}
-					this.SendPropertyChanged("Device");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job1", Storage="_Employee1", ThisKey="UserTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
-		public Employee Author
-		{
-			get
-			{
-				return this._Employee1.Entity;
-			}
-			set
-			{
-				Employee previousValue = this._Employee1.Entity;
-				if (((previousValue != value) 
-							|| (this._Employee1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Employee1.Entity = null;
-						previousValue.Job1.Remove(this);
-					}
-					this._Employee1.Entity = value;
-					if ((value != null))
-					{
-						value.Job1.Add(this);
-						this._UserTabNumber = value.TabNumber;
-					}
-					else
-					{
-						this._UserTabNumber = default(string);
-					}
-					this.SendPropertyChanged("Employee1");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ExpForJob(ExpForJob entity)
-		{
-			this.SendPropertyChanging();
-			entity.Job = this;
-		}
-		
-		private void detach_ExpForJob(ExpForJob entity)
-		{
-			this.SendPropertyChanging();
-			entity.Job = null;
-		}
-		
-		private void attach_SizePaper(SizePaper entity)
-		{
-			this.SendPropertyChanging();
-			entity.Job = this;
-		}
-		
-		private void detach_SizePaper(SizePaper entity)
-		{
-			this.SendPropertyChanging();
-			entity.Job = null;
 		}
 	}
 	
@@ -5169,205 +4383,6 @@ namespace PrintStat
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SizePaper")]
-	public partial class SizePaper : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private System.Nullable<decimal> _Width_cm;
-		
-		private System.Nullable<decimal> _Height_cm;
-		
-		private System.Nullable<int> _JobID;
-		
-		private EntityRef<Job> _Job;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnWidth_cmChanging(System.Nullable<decimal> value);
-    partial void OnWidth_cmChanged();
-    partial void OnHeight_cmChanging(System.Nullable<decimal> value);
-    partial void OnHeight_cmChanged();
-    partial void OnJobIDChanging(System.Nullable<int> value);
-    partial void OnJobIDChanged();
-    #endregion
-		
-		public SizePaper()
-		{
-			this._Job = default(EntityRef<Job>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width_cm", DbType="Decimal(6,2)")]
-		public System.Nullable<decimal> Width_cm
-		{
-			get
-			{
-				return this._Width_cm;
-			}
-			set
-			{
-				if ((this._Width_cm != value))
-				{
-					this.OnWidth_cmChanging(value);
-					this.SendPropertyChanging();
-					this._Width_cm = value;
-					this.SendPropertyChanged("Width_cm");
-					this.OnWidth_cmChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height_cm", DbType="Decimal(6,2)")]
-		public System.Nullable<decimal> Height_cm
-		{
-			get
-			{
-				return this._Height_cm;
-			}
-			set
-			{
-				if ((this._Height_cm != value))
-				{
-					this.OnHeight_cmChanging(value);
-					this.SendPropertyChanging();
-					this._Height_cm = value;
-					this.SendPropertyChanged("Height_cm");
-					this.OnHeight_cmChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobID", DbType="Int")]
-		public System.Nullable<int> JobID
-		{
-			get
-			{
-				return this._JobID;
-			}
-			set
-			{
-				if ((this._JobID != value))
-				{
-					if (this._Job.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnJobIDChanging(value);
-					this.SendPropertyChanging();
-					this._JobID = value;
-					this.SendPropertyChanged("JobID");
-					this.OnJobIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Job_SizePaper", Storage="_Job", ThisKey="JobID", OtherKey="ID", IsForeignKey=true, DeleteRule="CASCADE")]
-		public Job Job
-		{
-			get
-			{
-				return this._Job.Entity;
-			}
-			set
-			{
-				Job previousValue = this._Job.Entity;
-				if (((previousValue != value) 
-							|| (this._Job.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Job.Entity = null;
-						previousValue.SizePaper.Remove(this);
-					}
-					this._Job.Entity = value;
-					if ((value != null))
-					{
-						value.SizePaper.Add(this);
-						this._JobID = value.ID;
-					}
-					else
-					{
-						this._JobID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Job");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PaperType")]
 	public partial class PaperType : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -5516,6 +4531,967 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Job")]
+	public partial class Job : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private int _DeviceID;
+		
+		private int _ApplicationID;
+		
+		private System.Nullable<int> _Duration;
+		
+		private System.Nullable<System.DateTime> _StartTime;
+		
+		private System.Nullable<System.DateTime> _EndTime;
+		
+		private string _UserTabNumber;
+		
+		private System.Nullable<int> _Pages;
+		
+		private int _Copies;
+		
+		private decimal _Width_cm;
+		
+		private decimal _Height_cm;
+		
+		private System.Nullable<int> _Width_px;
+		
+		private System.Nullable<int> _Height_px;
+		
+		private System.Nullable<int> _SizePaperID;
+		
+		private string _AuthorTabNumber;
+		
+		private System.Nullable<int> _Size_kb;
+		
+		private string _IP;
+		
+		private string _ComputerName;
+		
+		private bool _IsManual;
+		
+		private System.Data.Linq.Binary _ParseDoc;
+		
+		private System.Nullable<int> _ExpForJobID;
+		
+		private EntitySet<ExpForJob> _ExpForJob;
+		
+		private EntityRef<Application> _Application;
+		
+		private EntityRef<Employee> _Employee;
+		
+		private EntityRef<Device> _Device;
+		
+		private EntityRef<Employee> _Author;
+		
+		private EntityRef<SizePaper> _SizePaper;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDeviceIDChanging(int value);
+    partial void OnDeviceIDChanged();
+    partial void OnApplicationIDChanging(int value);
+    partial void OnApplicationIDChanged();
+    partial void OnDurationChanging(System.Nullable<int> value);
+    partial void OnDurationChanged();
+    partial void OnStartTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnStartTimeChanged();
+    partial void OnEndTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnEndTimeChanged();
+    partial void OnUserTabNumberChanging(string value);
+    partial void OnUserTabNumberChanged();
+    partial void OnPagesChanging(System.Nullable<int> value);
+    partial void OnPagesChanged();
+    partial void OnCopiesChanging(int value);
+    partial void OnCopiesChanged();
+    partial void OnWidth_cmChanging(decimal value);
+    partial void OnWidth_cmChanged();
+    partial void OnHeight_cmChanging(decimal value);
+    partial void OnHeight_cmChanged();
+    partial void OnWidth_pxChanging(System.Nullable<int> value);
+    partial void OnWidth_pxChanged();
+    partial void OnHeight_pxChanging(System.Nullable<int> value);
+    partial void OnHeight_pxChanged();
+    partial void OnSizePaperIDChanging(System.Nullable<int> value);
+    partial void OnSizePaperIDChanged();
+    partial void OnAuthorTabNumberChanging(string value);
+    partial void OnAuthorTabNumberChanged();
+    partial void OnSize_kbChanging(System.Nullable<int> value);
+    partial void OnSize_kbChanged();
+    partial void OnIPChanging(string value);
+    partial void OnIPChanged();
+    partial void OnComputerNameChanging(string value);
+    partial void OnComputerNameChanged();
+    partial void OnIsManualChanging(bool value);
+    partial void OnIsManualChanged();
+    partial void OnParseDocChanging(System.Data.Linq.Binary value);
+    partial void OnParseDocChanged();
+    partial void OnExpForJobIDChanging(System.Nullable<int> value);
+    partial void OnExpForJobIDChanged();
+    #endregion
+		
+		public Job()
+		{
+			this._ExpForJob = new EntitySet<ExpForJob>(new Action<ExpForJob>(this.attach_ExpForJob), new Action<ExpForJob>(this.detach_ExpForJob));
+			this._Application = default(EntityRef<Application>);
+			this._Employee = default(EntityRef<Employee>);
+			this._Device = default(EntityRef<Device>);
+			this._Author = default(EntityRef<Employee>);
+			this._SizePaper = default(EntityRef<SizePaper>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(2000) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
+		public int DeviceID
+		{
+			get
+			{
+				return this._DeviceID;
+			}
+			set
+			{
+				if ((this._DeviceID != value))
+				{
+					if (this._Device.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDeviceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceID = value;
+					this.SendPropertyChanged("DeviceID");
+					this.OnDeviceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationID", DbType="Int NOT NULL")]
+		public int ApplicationID
+		{
+			get
+			{
+				return this._ApplicationID;
+			}
+			set
+			{
+				if ((this._ApplicationID != value))
+				{
+					if (this._Application.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnApplicationIDChanging(value);
+					this.SendPropertyChanging();
+					this._ApplicationID = value;
+					this.SendPropertyChanged("ApplicationID");
+					this.OnApplicationIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Duration", DbType="Int")]
+		public System.Nullable<int> Duration
+		{
+			get
+			{
+				return this._Duration;
+			}
+			set
+			{
+				if ((this._Duration != value))
+				{
+					this.OnDurationChanging(value);
+					this.SendPropertyChanging();
+					this._Duration = value;
+					this.SendPropertyChanged("Duration");
+					this.OnDurationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> StartTime
+		{
+			get
+			{
+				return this._StartTime;
+			}
+			set
+			{
+				if ((this._StartTime != value))
+				{
+					this.OnStartTimeChanging(value);
+					this.SendPropertyChanging();
+					this._StartTime = value;
+					this.SendPropertyChanged("StartTime");
+					this.OnStartTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserTabNumber", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string UserTabNumber
+		{
+			get
+			{
+				return this._UserTabNumber;
+			}
+			set
+			{
+				if ((this._UserTabNumber != value))
+				{
+					if (this._Author.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserTabNumberChanging(value);
+					this.SendPropertyChanging();
+					this._UserTabNumber = value;
+					this.SendPropertyChanged("UserTabNumber");
+					this.OnUserTabNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pages", DbType="Int")]
+		public System.Nullable<int> Pages
+		{
+			get
+			{
+				return this._Pages;
+			}
+			set
+			{
+				if ((this._Pages != value))
+				{
+					this.OnPagesChanging(value);
+					this.SendPropertyChanging();
+					this._Pages = value;
+					this.SendPropertyChanged("Pages");
+					this.OnPagesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Copies", DbType="Int NOT NULL")]
+		public int Copies
+		{
+			get
+			{
+				return this._Copies;
+			}
+			set
+			{
+				if ((this._Copies != value))
+				{
+					this.OnCopiesChanging(value);
+					this.SendPropertyChanging();
+					this._Copies = value;
+					this.SendPropertyChanged("Copies");
+					this.OnCopiesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width_cm", DbType="Decimal(6,2) NOT NULL")]
+		public decimal Width_cm
+		{
+			get
+			{
+				return this._Width_cm;
+			}
+			set
+			{
+				if ((this._Width_cm != value))
+				{
+					this.OnWidth_cmChanging(value);
+					this.SendPropertyChanging();
+					this._Width_cm = value;
+					this.SendPropertyChanged("Width_cm");
+					this.OnWidth_cmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height_cm", DbType="Decimal(6,2) NOT NULL")]
+		public decimal Height_cm
+		{
+			get
+			{
+				return this._Height_cm;
+			}
+			set
+			{
+				if ((this._Height_cm != value))
+				{
+					this.OnHeight_cmChanging(value);
+					this.SendPropertyChanging();
+					this._Height_cm = value;
+					this.SendPropertyChanged("Height_cm");
+					this.OnHeight_cmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width_px", DbType="Int")]
+		public System.Nullable<int> Width_px
+		{
+			get
+			{
+				return this._Width_px;
+			}
+			set
+			{
+				if ((this._Width_px != value))
+				{
+					this.OnWidth_pxChanging(value);
+					this.SendPropertyChanging();
+					this._Width_px = value;
+					this.SendPropertyChanged("Width_px");
+					this.OnWidth_pxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height_px", DbType="Int")]
+		public System.Nullable<int> Height_px
+		{
+			get
+			{
+				return this._Height_px;
+			}
+			set
+			{
+				if ((this._Height_px != value))
+				{
+					this.OnHeight_pxChanging(value);
+					this.SendPropertyChanging();
+					this._Height_px = value;
+					this.SendPropertyChanged("Height_px");
+					this.OnHeight_pxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SizePaperID", DbType="Int")]
+		public System.Nullable<int> SizePaperID
+		{
+			get
+			{
+				return this._SizePaperID;
+			}
+			set
+			{
+				if ((this._SizePaperID != value))
+				{
+					if (this._SizePaper.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSizePaperIDChanging(value);
+					this.SendPropertyChanging();
+					this._SizePaperID = value;
+					this.SendPropertyChanged("SizePaperID");
+					this.OnSizePaperIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthorTabNumber", DbType="NVarChar(50)")]
+		public string AuthorTabNumber
+		{
+			get
+			{
+				return this._AuthorTabNumber;
+			}
+			set
+			{
+				if ((this._AuthorTabNumber != value))
+				{
+					if (this._Employee.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAuthorTabNumberChanging(value);
+					this.SendPropertyChanging();
+					this._AuthorTabNumber = value;
+					this.SendPropertyChanged("AuthorTabNumber");
+					this.OnAuthorTabNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Size_kb", DbType="Int")]
+		public System.Nullable<int> Size_kb
+		{
+			get
+			{
+				return this._Size_kb;
+			}
+			set
+			{
+				if ((this._Size_kb != value))
+				{
+					this.OnSize_kbChanging(value);
+					this.SendPropertyChanging();
+					this._Size_kb = value;
+					this.SendPropertyChanged("Size_kb");
+					this.OnSize_kbChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IP", DbType="NVarChar(16)")]
+		public string IP
+		{
+			get
+			{
+				return this._IP;
+			}
+			set
+			{
+				if ((this._IP != value))
+				{
+					this.OnIPChanging(value);
+					this.SendPropertyChanging();
+					this._IP = value;
+					this.SendPropertyChanged("IP");
+					this.OnIPChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ComputerName", DbType="NVarChar(50)")]
+		public string ComputerName
+		{
+			get
+			{
+				return this._ComputerName;
+			}
+			set
+			{
+				if ((this._ComputerName != value))
+				{
+					this.OnComputerNameChanging(value);
+					this.SendPropertyChanging();
+					this._ComputerName = value;
+					this.SendPropertyChanged("ComputerName");
+					this.OnComputerNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsManual", DbType="Bit NOT NULL")]
+		public bool IsManual
+		{
+			get
+			{
+				return this._IsManual;
+			}
+			set
+			{
+				if ((this._IsManual != value))
+				{
+					this.OnIsManualChanging(value);
+					this.SendPropertyChanging();
+					this._IsManual = value;
+					this.SendPropertyChanged("IsManual");
+					this.OnIsManualChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParseDoc", DbType="VarBinary(MAX)", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary ParseDoc
+		{
+			get
+			{
+				return this._ParseDoc;
+			}
+			set
+			{
+				if ((this._ParseDoc != value))
+				{
+					this.OnParseDocChanging(value);
+					this.SendPropertyChanging();
+					this._ParseDoc = value;
+					this.SendPropertyChanged("ParseDoc");
+					this.OnParseDocChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExpForJobID", DbType="Int")]
+		public System.Nullable<int> ExpForJobID
+		{
+			get
+			{
+				return this._ExpForJobID;
+			}
+			set
+			{
+				if ((this._ExpForJobID != value))
+				{
+					this.OnExpForJobIDChanging(value);
+					this.SendPropertyChanging();
+					this._ExpForJobID = value;
+					this.SendPropertyChanged("ExpForJobID");
+					this.OnExpForJobIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Job_ExpForJob", Storage="_ExpForJob", ThisKey="ID", OtherKey="JobID")]
+		public EntitySet<ExpForJob> ExpForJob
+		{
+			get
+			{
+				return this._ExpForJob;
+			}
+			set
+			{
+				this._ExpForJob.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Application_Job", Storage="_Application", ThisKey="ApplicationID", OtherKey="ID", IsForeignKey=true)]
+		public Application Application
+		{
+			get
+			{
+				return this._Application.Entity;
+			}
+			set
+			{
+				Application previousValue = this._Application.Entity;
+				if (((previousValue != value) 
+							|| (this._Application.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Application.Entity = null;
+						previousValue.Job.Remove(this);
+					}
+					this._Application.Entity = value;
+					if ((value != null))
+					{
+						value.Job.Add(this);
+						this._ApplicationID = value.ID;
+					}
+					else
+					{
+						this._ApplicationID = default(int);
+					}
+					this.SendPropertyChanged("Application");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job", Storage="_Employee", ThisKey="AuthorTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
+		public Employee Employee
+		{
+			get
+			{
+				return this._Employee.Entity;
+			}
+			set
+			{
+				Employee previousValue = this._Employee.Entity;
+				if (((previousValue != value) 
+							|| (this._Employee.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Employee.Entity = null;
+						previousValue.Job.Remove(this);
+					}
+					this._Employee.Entity = value;
+					if ((value != null))
+					{
+						value.Job.Add(this);
+						this._AuthorTabNumber = value.TabNumber;
+					}
+					else
+					{
+						this._AuthorTabNumber = default(string);
+					}
+					this.SendPropertyChanged("Employee");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
+		public Device Device
+		{
+			get
+			{
+				return this._Device.Entity;
+			}
+			set
+			{
+				Device previousValue = this._Device.Entity;
+				if (((previousValue != value) 
+							|| (this._Device.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Device.Entity = null;
+						previousValue.Job.Remove(this);
+					}
+					this._Device.Entity = value;
+					if ((value != null))
+					{
+						value.Job.Add(this);
+						this._DeviceID = value.ID;
+					}
+					else
+					{
+						this._DeviceID = default(int);
+					}
+					this.SendPropertyChanged("Device");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job1", Storage="_Author", ThisKey="UserTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
+		public Employee Author
+		{
+			get
+			{
+				return this._Author.Entity;
+			}
+			set
+			{
+				Employee previousValue = this._Author.Entity;
+				if (((previousValue != value) 
+							|| (this._Author.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Author.Entity = null;
+						previousValue.Job1.Remove(this);
+					}
+					this._Author.Entity = value;
+					if ((value != null))
+					{
+						value.Job1.Add(this);
+						this._UserTabNumber = value.TabNumber;
+					}
+					else
+					{
+						this._UserTabNumber = default(string);
+					}
+					this.SendPropertyChanged("Author");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SizePaper_Job", Storage="_SizePaper", ThisKey="SizePaperID", OtherKey="ID", IsForeignKey=true, DeleteRule="CASCADE")]
+		public SizePaper SizePaper
+		{
+			get
+			{
+				return this._SizePaper.Entity;
+			}
+			set
+			{
+				SizePaper previousValue = this._SizePaper.Entity;
+				if (((previousValue != value) 
+							|| (this._SizePaper.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SizePaper.Entity = null;
+						previousValue.Job.Remove(this);
+					}
+					this._SizePaper.Entity = value;
+					if ((value != null))
+					{
+						value.Job.Add(this);
+						this._SizePaperID = value.ID;
+					}
+					else
+					{
+						this._SizePaperID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("SizePaper");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ExpForJob(ExpForJob entity)
+		{
+			this.SendPropertyChanging();
+			entity.Job = this;
+		}
+		
+		private void detach_ExpForJob(ExpForJob entity)
+		{
+			this.SendPropertyChanging();
+			entity.Job = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SizePaper")]
+	public partial class SizePaper : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private System.Nullable<decimal> _Width_cm;
+		
+		private System.Nullable<decimal> _Height_cm;
+		
+		private EntitySet<Job> _Job;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnWidth_cmChanging(System.Nullable<decimal> value);
+    partial void OnWidth_cmChanged();
+    partial void OnHeight_cmChanging(System.Nullable<decimal> value);
+    partial void OnHeight_cmChanged();
+    #endregion
+		
+		public SizePaper()
+		{
+			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Width_cm", DbType="Decimal(6,2)")]
+		public System.Nullable<decimal> Width_cm
+		{
+			get
+			{
+				return this._Width_cm;
+			}
+			set
+			{
+				if ((this._Width_cm != value))
+				{
+					this.OnWidth_cmChanging(value);
+					this.SendPropertyChanging();
+					this._Width_cm = value;
+					this.SendPropertyChanged("Width_cm");
+					this.OnWidth_cmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Height_cm", DbType="Decimal(6,2)")]
+		public System.Nullable<decimal> Height_cm
+		{
+			get
+			{
+				return this._Height_cm;
+			}
+			set
+			{
+				if ((this._Height_cm != value))
+				{
+					this.OnHeight_cmChanging(value);
+					this.SendPropertyChanging();
+					this._Height_cm = value;
+					this.SendPropertyChanged("Height_cm");
+					this.OnHeight_cmChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SizePaper_Job", Storage="_Job", ThisKey="ID", OtherKey="SizePaperID")]
+		public EntitySet<Job> Job
+		{
+			get
+			{
+				return this._Job;
+			}
+			set
+			{
+				this._Job.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.SizePaper = this;
+		}
+		
+		private void detach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.SizePaper = null;
 		}
 	}
 }

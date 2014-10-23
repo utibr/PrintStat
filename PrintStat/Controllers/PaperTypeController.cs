@@ -7,7 +7,7 @@ using PrintStat.Models.ViewModels;
 
 namespace PrintStat.Controllers
 {
-    public class PaperController : BaseController
+    public class PaperTypeController : BaseController
     {
         //
         // GET: /Paper/
@@ -37,6 +37,7 @@ namespace PrintStat.Controllers
 
             if (ModelState.IsValid) 
             {
+                
                 var paperType = (PaperType)ModelMapper.Map(papertypeView, typeof(PaperTypeView), typeof(PaperType));
                 Repository.CreatePapertype(paperType);
                 return RedirectToAction("Index");
@@ -84,5 +85,6 @@ namespace PrintStat.Controllers
             }
             return RedirectToAction("Index");
         }
+
     }
 }

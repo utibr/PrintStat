@@ -213,10 +213,11 @@
     <Compile Include="Controllers\DeviceTypeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
-    <Compile Include="Controllers\PaperController.cs" />
+    <Compile Include="Controllers\PaperTypeController.cs" />
     <Compile Include="Controllers\PrinterController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\SizePaperController.cs" />
     <Compile Include="Mappers\CommonMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Models\Proxy\Application.cs" />
@@ -224,10 +225,12 @@
     <Compile Include="Models\Proxy\Department.cs" />
     <Compile Include="Models\Proxy\IBaseObject.cs" />
     <Compile Include="Models\Proxy\Job.cs" />
+    <Compile Include="Models\Proxy\SizePaper.cs" />
     <Compile Include="Models\SQLRepository\JobSQLRepository.cs" />
     <Compile Include="Models\SQLRepository\DictionariesSQLRepository.cs" />
     <Compile Include="Models\Validation\IsNumericAttribute.cs" />
     <Compile Include="Models\ViewModels\BaseView.cs" />
+    <Compile Include="Models\ViewModels\SizePaperView.cs" />
     <Compile Include="Models\ViewModels\ReportSettingsView .cs" />
     <Compile Include="Models\ViewModels\SettingsView.cs" />
     <Compile Include="Models\ViewModels\PrinterView.cs" />
@@ -370,10 +373,10 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\table.snippet" />
     <Content Include="Snippets\sqltable.snippet" />
-    <Content Include="Views\Paper\Index.cshtml" />
+    <Content Include="Views\SizePaper\Index.cshtml" />
     <Content Include="Views\DeviceType\Index.cshtml" />
-    <Content Include="Views\Paper\CreatePaperType.cshtml" />
-    <Content Include="Views\Paper\EditPaperType.cshtml" />
+    <Content Include="Views\SizePaper\CreateSizePaper.cshtml" />
+    <Content Include="Views\SizePaper\EditSizePaper.cshtml" />
     <Content Include="Views\Dictionary\Index.cshtml" />
     <Content Include="Views\DeviceType\CreateDeviceType.cshtml" />
     <Content Include="Views\DeviceType\EditDeviceType.cshtml" />
@@ -386,6 +389,9 @@
     <Content Include="Views\Printer\EditPrinter.cshtml" />
     <Content Include="Views\Settings\Index.cshtml" />
     <Content Include="Views\Report\ExportJobs.cshtml" />
+    <Content Include="Views\PaperType\Index.cshtml" />
+    <Content Include="Views\PaperType\EditPaperType.cshtml" />
+    <Content Include="Views\PaperType\CreatePaperType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

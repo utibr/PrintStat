@@ -8,8 +8,38 @@ namespace PrintStat.Models
 {
     public partial class SQLRepository : IRepository 
     {
-        
-        [Display (Name = "Типоразмер бумаги")]
+
+        [Display(Name = "Типоразмер бумаги")]
+        public IQueryable<SizePaper> SizePapers
+        {
+            get { return Db.SizePaper; }
+        }
+
+
+        public bool CreateSizePaper(SizePaper instance)
+        {
+
+            Db.SizePaper.InsertOnSubmit(instance);
+            Db.SizePaper.Context.SubmitChanges();
+            return true;
+        }
+
+        public bool UpdateSizePaper(SizePaper instance)
+        {
+
+            Db.SizePaper.Context.SubmitChanges();
+            return true;
+        }
+
+        public bool RemoveSizePaper(SizePaper instance)
+        {
+            Db.SizePaper.DeleteOnSubmit(instance);
+            Db.SizePaper.Context.SubmitChanges();
+            return true;
+        }
+
+
+        [Display(Name= "Тип бумаги")]
         public IQueryable<PaperType> PaperTypes
         {
             get

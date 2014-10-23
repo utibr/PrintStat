@@ -11,10 +11,10 @@ namespace PrintStat.Mappers
     {
         static CommonMapper()
         {
-            Mapper.CreateMap<PaperTypeView, SizePaper>()
+            Mapper.CreateMap<SizePaperView, SizePaper>()
                .ForMember(dest => dest.Height_cm, opt => opt.MapFrom(src => src.Height_cm))
-               .ForMember(dest => dest.Width_cm, opt => opt.MapFrom(src => src.Width_cm)); 
-            Mapper.CreateMap<SizePaper, PaperTypeView>()
+               .ForMember(dest => dest.Width_cm, opt => opt.MapFrom(src => src.Width_cm));
+            Mapper.CreateMap<SizePaper, SizePaperView>()
                .ForMember(dest => dest.Height_cm, opt => opt.MapFrom(src => src.Height_cm))
                .ForMember(dest => dest.Width_cm, opt => opt.MapFrom(src => src.Width_cm));
 
@@ -26,6 +26,9 @@ namespace PrintStat.Mappers
 
             Mapper.CreateMap<Device, PrinterView>();
             Mapper.CreateMap<PrinterView, Device>();
+
+            Mapper.CreateMap<PaperType, PaperTypeView>();
+            Mapper.CreateMap<PaperTypeView,PaperType>();
 
             //Mapper.CreateMap<SettingsView, Setup>();
             //Mapper.CreateMap<Setup, SettingsView>();
