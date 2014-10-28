@@ -8,7 +8,7 @@
 
 <p>
     <div class="menu">
-        <a href="@Url.Action("CreatePrinter", "Printer")">Добавить принтер</a>
+        <a href="@Url.Action("CreatePrinter", "Device")">Добавить принтер</a>
     </div>
 
 </p>
@@ -32,10 +32,10 @@
             <tr>
                 
                 <td width="80">
-                    <a href="@Url.Action("EditPrinter", "Printer", new { id = @device.ID })">●</a>
+                    <a href="@Url.Action("EditPrinter", "Device", new { id = @device.ID })">●</a>
                 </td>
                 <td width="80">
-                    <a href="@Url.Action("DeletePrinter", "Printer", new { id = @device.ID })"><font color="red">●</font></a>
+                    <a href="@Url.Action("DeletePrinter", "Device", new { id = @device.ID })"><font color="red">●</font></a>
                 </td>
 
                 <td width="200">

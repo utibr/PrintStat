@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PrintStat.Models.ViewModels
 {
-    public class PrinterView: BaseView
+    public class DeviceView: BaseView
     {
         public int DeviceTypeID { get; set; }
         public int PrintKindID { get; set; }

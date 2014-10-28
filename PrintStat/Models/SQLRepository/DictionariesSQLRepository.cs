@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +15,14 @@ namespace PrintStat.Models
         {
             get { return Db.SizePaper; }
         }
+
+        public IQueryable<CartridgeColor> CartridgeColors
+        {
+            get
+            {
+                return Db.CartridgeColor;
+            }
+        } //private set?
 
 
         public bool CreateSizePaper(SizePaper instance)
@@ -48,11 +57,11 @@ namespace PrintStat.Models
             }
         }
 
-        public IQueryable<PaperType> PrinterPaperTypes 
+        public IQueryable<PaperType> PrinterPaperTypes  
         { 
             get
             {
-                //       return Db.PaperType.Where(p => p.DeviceTypeID == 2);
+                //return Db.PaperType.Where(p => p.DeviceTypeID == 2);
                 return null;
             }
         }
@@ -62,14 +71,6 @@ namespace PrintStat.Models
             {
                 //     return Db.PaperType.Where(p => p.DeviceTypeID == 1);
                 return null;
-            }
-        }
-
-        public IQueryable<Department> Departments
-        {
-            get
-            {
-                return Db.Department;
             }
         }
 
@@ -95,8 +96,139 @@ namespace PrintStat.Models
             Db.PaperType.Context.SubmitChanges();
             return true;
         }
+#region PrintKind definition
+
+        public bool CreatePrintKind(PrintKind instance)
+        {
+            Db.PrintKind.InsertOnSubmit(instance);
+            Db.PrintKind.Context.SubmitChanges();
+            return true;
+        }
+
+        public bool UpdatePrintKind(PrintKind instance)
+        {
+            Db.PrintKind.Context.SubmitChanges();
+            return true;
+        }
+
+        public bool RemovePrintKind(PrintKind instance)
+        {
+            Db.PrintKind.DeleteOnSubmit(instance);
+            Db.PrintKind.Context.SubmitChanges();
+            return true;
+        }
+#endregion
 
 
+
+        public IQueryable<Department> Departments
+        {
+            get
+            {
+                return Db.Department;
+            }
+        }
+
+        public bool CreateDepartment(Department instance)
+        {
+            if (instance.ID == 0)
+            {
+                Db.Department.InsertOnSubmit(instance);
+                Db.Department.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateDepartment(Department instance)
+        {
+            Department cache = Db.Department.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for Department
+                Db.Department.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveDepartment(Department instance)
+        {
+
+                Db.Department.DeleteOnSubmit(instance);
+                Db.Department.Context.SubmitChanges();
+                return true;
+
+        }
+        
+
+#region CartridgeColor definition
+
+
+        [Display(Name = "Приложения")]
+        public IQueryable<Application> Applications
+        {
+            get
+            {
+                return Db.Application;
+            }
+        }
+
+        public bool CreateApplication(Application instance)
+        {
+            if (instance.ID == 0)
+            {
+                Db.Application.InsertOnSubmit(instance);
+                Db.Application.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateApplication(Application instance)
+        {
+            Application cache = Db.Application.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for Application
+                Db.Application.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveApplication(Application instance)
+        {
+            
+                Db.Application.DeleteOnSubmit(instance);
+                Db.Application.Context.SubmitChanges();
+                return true;
+        }
+        
+        public bool CreateCartridgeColor(CartridgeColor instance)
+        {
+            Db.CartridgeColor.InsertOnSubmit(instance);
+            Db.CartridgeColor.Context.SubmitChanges();
+            return true;
+        }
+
+        public bool UpdateCartridgeColor(CartridgeColor instance)
+        {
+            Db.CartridgeColor.Context.SubmitChanges();
+            return true;
+        }
+
+        public bool RemoveCartridgeColor(CartridgeColor instance)
+        {
+            Db.CartridgeColor.DeleteOnSubmit(instance);
+            Db.CartridgeColor.Context.SubmitChanges();
+            return true;
+        }
+#endregion
         [Display(Name = "Типы устройств")]
         public IQueryable<DeviceType> DeviceTypes
         {
@@ -129,15 +261,8 @@ namespace PrintStat.Models
             return true;
         }
 
-        [Display(Name = "Приложения")]
-        public IQueryable<Application> Applications
-        {
 
-            get
-            {
-                return Db.Application;
-            }
-        }
+
 
 
         [Display(Name = "Сотрудники-авторы")]
@@ -166,6 +291,8 @@ namespace PrintStat.Models
                 return Db.PrintKind;
             }
         }
+
+
 
 
         //public IQueryable<Setup> Setup

@@ -7,7 +7,7 @@ using PrintStat.Models.ViewModels;
 
 namespace PrintStat.Controllers
 {
-    public class PrinterController : BaseController
+    public class DeviceController : BaseController
     {
         //
 
@@ -27,13 +27,13 @@ namespace PrintStat.Controllers
         public ActionResult CreatePrinter()
         {
             InitViewBag();
-            var newPaperView = new PrinterView ();
+            var newPaperView = new DeviceView ();
             return View(newPaperView);
         }
 
 
         [HttpPost]
-        public ActionResult CreatePrinter(PrinterView  printerView)
+        public ActionResult CreatePrinter(DeviceView  printerView)
         {
             var anyPrinter = Repository.PrintersAndPlotters.Any(p => string.Compare(p.Name, printerView.Name)==0);  
             if (anyPrinter)
@@ -43,7 +43,7 @@ namespace PrintStat.Controllers
 
             if (ModelState.IsValid) 
             {
-                var printer = (Device)ModelMapper.Map(printerView, typeof(PrinterView), typeof(Device));
+                var printer = (Device)ModelMapper.Map(printerView, typeof(DeviceView), typeof(Device));
                 Repository.CreatePrinter(printer);
                 return RedirectToAction("Index");
             }
@@ -59,19 +59,19 @@ namespace PrintStat.Controllers
             var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == id);
             if (printer != null)
             {
-                var printerView = (PrinterView)ModelMapper.Map(printer, typeof(Device), typeof(PrinterView));
+                var printerView = (DeviceView)ModelMapper.Map(printer, typeof(Device), typeof(DeviceView));
                 return View(printerView);
             }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult EditPrinter(PrinterView printerView)
+        public ActionResult EditPrinter(DeviceView printerView)
         {
             if (ModelState.IsValid)
             {
                 var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == printerView.ID);
-                ModelMapper.Map(printerView, printer, typeof(PrinterView), typeof(Device));
+                ModelMapper.Map(printerView, printer, typeof(DeviceView), typeof(Device));
                 Repository.UpdatePrinter(printer);
 
                 return RedirectToAction("Index");

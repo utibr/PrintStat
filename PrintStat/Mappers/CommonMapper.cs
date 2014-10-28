@@ -21,14 +21,26 @@ namespace PrintStat.Mappers
             Mapper.CreateMap<DeviceType, DeviceTypeView>();
             Mapper.CreateMap<DeviceTypeView, DeviceType>();
 
+            Mapper.CreateMap<PrintKind, PrintKindView>();
+            Mapper.CreateMap<PrintKindView, PrintKind>();
+
             Mapper.CreateMap<Job, JobView>();
             Mapper.CreateMap<JobView, Job>();
 
-            Mapper.CreateMap<Device, PrinterView>();
-            Mapper.CreateMap<PrinterView, Device>();
+            Mapper.CreateMap<Device, DeviceView>();
+            Mapper.CreateMap<DeviceView, Device>();
 
             Mapper.CreateMap<PaperType, PaperTypeView>();
             Mapper.CreateMap<PaperTypeView,PaperType>();
+
+            Mapper.CreateMap<CartridgeColor, CartridgeColorView>();
+            Mapper.CreateMap<CartridgeColorView, CartridgeColor>();
+
+            Mapper.CreateMap<Application, ApplicationView>();
+            Mapper.CreateMap<ApplicationView, Application>();
+
+            Mapper.CreateMap<Department, DepartmentView>();
+            Mapper.CreateMap<DepartmentView, Department>();
 
             //Mapper.CreateMap<SettingsView, Setup>();
             //Mapper.CreateMap<Setup, SettingsView>();

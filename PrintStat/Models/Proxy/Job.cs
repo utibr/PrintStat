@@ -38,13 +38,13 @@ namespace PrintStat
             }
         }
 
-        //public DeviceType DeviceType
-        //{
-        //    get
-        //    {
-        //        return Device.DeviceType;
-        //    }
-        //}
+        public DeviceType DeviceType
+        {
+            get
+            {
+                return Device.Model.DeviceType;
+            }
+        }
 
         public decimal RealWidth_cm
         {
@@ -66,7 +66,7 @@ namespace PrintStat
 
         public string PrinterName
         {
-            get { return Device != null ? Device.Name : ""; }
+            get { return Device != null?Device.Name:""; }
         }
 
         public string AuthorName
@@ -91,7 +91,7 @@ namespace PrintStat
         {
             get
             {
-                //             return PaperType != null ? PaperType.Name : "";
+                return SizePaper != null ? SizePaper.Name : "";
                 return null;
             }
         }

@@ -1,11 +1,11 @@
-﻿@model PrintStat.Models.ViewModels.PaperTypeView
+﻿@model PrintStat.Models.ViewModels.PrintKindView
 
-@using (Html.BeginForm("EditPaperType", "PaperType", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("EditPrintKind", "PrintKind", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <fieldset>
         <div class="control-group">
             <label class="control-label" for="Name">
-                Наименование типа бумаги
+                Наименование вида печати
             </label>
 
             <div class="controls">

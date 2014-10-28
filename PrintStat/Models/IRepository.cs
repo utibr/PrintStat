@@ -14,6 +14,7 @@ namespace PrintStat.Models
 
         //Добавление 
         IQueryable<SizePaper> SizePapers { get; }
+        IQueryable<CartridgeColor> CartridgeColors { get;}
 
         IQueryable<PaperType> PaperTypes { get;  }
         IQueryable<PaperType> PrinterPaperTypes { get;  }
@@ -24,14 +25,39 @@ namespace PrintStat.Models
         IQueryable<PrintKind> PrintKinds { get;  }
         IQueryable<Job> Jobs { get;  }
 
-        IQueryable<Application> Applications { get;  }
+
         IQueryable<Employee> AuthorEmployees { get;  }
         IQueryable<Employee> UserEmployees { get; }
 
        // IQueryable<Setup> Setup { get; }
 
+
+
+        #region Application
+
+        IQueryable<Application> Applications { get; }
+
+        bool CreateApplication(Application instance);
+
+        bool UpdateApplication(Application instance);
+
+        bool RemoveApplication(Application instance);
+
+        #endregion 
+        
+
+        #region Department
+
         IQueryable<Department> Departments { get; }
 
+        bool CreateDepartment(Department instance);
+
+        bool UpdateDepartment(Department instance);
+
+        bool RemoveDepartment(Department instance);
+
+        #endregion 
+        
 
         bool CreatePrinter(Device instance);
         bool UpdatePrinter(Device instance);
@@ -47,7 +73,15 @@ namespace PrintStat.Models
         bool CreateSizePaper(SizePaper instance);
         bool UpdateSizePaper(SizePaper instance);
         bool RemoveSizePaper(SizePaper instance);
+        //PrintKind
+        bool CreatePrintKind(PrintKind instance);
+        bool UpdatePrintKind(PrintKind instance);
+        bool RemovePrintKind(PrintKind instance);
 
+        //CartridgeColor
+        bool CreateCartridgeColor(CartridgeColor instance);
+        bool UpdateCartridgeColor(CartridgeColor instance);
+        bool RemoveCartridgeColor(CartridgeColor instance);
 
         bool CreateDevicetype(DeviceType instance);
         bool UpdateDevicetype(DeviceType instance);
