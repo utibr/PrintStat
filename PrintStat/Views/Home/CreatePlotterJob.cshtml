@@ -1,4 +1,6 @@
-﻿@model PrintStat.Models.ViewModels.JobView
+﻿@using PrintStat
+@using PrintStat.Models.ViewModels
+@model PrintStat.Models.ViewModels.JobView
 
 @using (Html.BeginForm("CreateJob", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
 {
@@ -71,7 +73,7 @@
                         </label>
 
                         <div class="controls">
-                            @Html.DropDownList("SizePaperID", new SelectList(ViewBag.PlotterPapertypes, "ID", "Name"))
+                            @Html.DropDownList("SizePaperID", new SelectList(ViewBag.SizePaper, "ID", "Name"))
                             @Html.ValidationMessage("SizePaperID")  @*papertypeID*@
                         </div>
                     </td>
@@ -84,7 +86,9 @@
                                     </label>
 
                                     <div class="controls">
-                                        @Html.TextBox("Width_cm", Model.Width_cm)
+                                        @*@Html.TextBox("Width_cm", Model.Width_cm)*@
+                                        @Html.TextBox("Widtn_cm", (ViewBag.SizePaper.FirstOrDefault(p => p.ID == )))
+
                                         @Html.ValidationMessage("Width_cm")
                                     </div>
                                 </td>

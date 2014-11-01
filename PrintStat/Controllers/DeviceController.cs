@@ -22,13 +22,14 @@ namespace PrintStat.Controllers
         {
             ViewBag.DeviceTypes = Repository.DeviceTypes;
             ViewBag.PrintKinds = Repository.PrintKinds;
+            //ViewBag.Models = Repository.Models;
         }
         [HttpGet]
         public ActionResult CreatePrinter()
         {
             InitViewBag();
-            var newPaperView = new DeviceView ();
-            return View(newPaperView);
+            var newPrintView = new DeviceView ();
+            return View(newPrintView);
         }
 
 

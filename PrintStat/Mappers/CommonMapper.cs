@@ -42,6 +42,9 @@ namespace PrintStat.Mappers
             Mapper.CreateMap<Department, DepartmentView>();
             Mapper.CreateMap<DepartmentView, Department>();
 
+            Mapper.CreateMap<Employee, EmployeeView>();
+            Mapper.CreateMap<EmployeeView, Employee>();
+
             //Mapper.CreateMap<SettingsView, Setup>();
             //Mapper.CreateMap<Setup, SettingsView>();
         }

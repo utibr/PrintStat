@@ -32,6 +32,18 @@ namespace PrintStat.Models
        // IQueryable<Setup> Setup { get; }
 
 
+        #region Employee
+
+        IQueryable<Employee> Employees { get; }
+
+        bool CreateEmployee(Employee instance);
+
+        bool UpdateEmployee(Employee instance);
+
+        bool RemoveEmployee(Employee instance);
+
+        #endregion 
+        
 
         #region Application
 

@@ -28,6 +28,7 @@ namespace PrintStat.Controllers
             ViewBag.Plotters = Repository.Plotters;
             ViewBag.Applications = Repository.Applications;
             ViewBag.PrinterPaper = Repository.PrinterPaperTypes;
+            ViewBag.SizePaper = Repository.SizePapers;
             ViewBag.PlotterPapertypes = Repository.PlotterPaperTypes;
             ViewBag.AuthorEmployees = Repository.AuthorEmployees;
             ViewBag.UserEmployees = Repository.UserEmployees;

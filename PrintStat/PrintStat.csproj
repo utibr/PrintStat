@@ -214,6 +214,7 @@
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\DeviceTypeController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\PaperTypeController.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Models\ViewModels\BaseView.cs" />
     <Compile Include="Models\ViewModels\CartridgeColorView.cs" />
     <Compile Include="Models\ViewModels\DepartmentView.cs" />
+    <Compile Include="Models\ViewModels\EmployeeView.cs" />
     <Compile Include="Models\ViewModels\PrintKindView.cs" />
     <Compile Include="Models\ViewModels\SizePaperView.cs" />
     <Compile Include="Models\ViewModels\ReportSettingsView .cs" />
@@ -412,6 +414,9 @@
     <Content Include="Views\Department\CreateDepartment.cshtml" />
     <Content Include="Views\Department\EditDepartment.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Employee\CreateEmployee.cshtml" />
+    <Content Include="Views\Employee\EditEmployee.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

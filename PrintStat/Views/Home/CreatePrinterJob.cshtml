@@ -71,7 +71,7 @@
                         </label>
 
                         <div class="controls">
-                            @Html.DropDownList("SizePaperID", new SelectList(ViewBag.PrinterPapertypes, "ID", "Name"))
+                            @Html.DropDownList("SizePaperID", new SelectList(ViewBag.SizePaper, "ID", "Name"))
                             @Html.ValidationMessage("PapertypeID")
                         </div>
                     </td>
