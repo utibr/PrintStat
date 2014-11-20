@@ -54,7 +54,7 @@
 
             {
             <tr>
-                @*<td width="80">
+                <td width="80">
                     @if (@Job.DeviceType.ID == 1)
                     { 
                         <a href="@Url.Action("EditPlotterJob", "Home", new { id = @Job.ID })">●</a>
@@ -64,11 +64,11 @@
                     {
                         <a href="@Url.Action("EditPrinterJob", "Home", new { id = @Job.ID })">●</a>
                     }
-                </td>*@
-                @*<td width="80">
+                </td>
+                <td width="80">
                     <a href="@Url.Action("" +
                                          "ViewJob", "Home", new { id = @Job.ID })"><font color="blue">●</font></a>
-                </td>*@
+                </td>
                 <td width="80">
                     <a href="@Url.Action("DeleteJob", "Home", new { id = @Job.ID })"><font color="red">●</font></a>
                 </td>

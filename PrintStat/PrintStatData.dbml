@@ -71,11 +71,10 @@
       <Association Name="Device_CartridgeDevice" Member="CartridgeDevice" ThisKey="ID" OtherKey="DeviceID" Type="CartridgeDevice" />
       <Association Name="Device_DeviceComponents" Member="DeviceComponents" ThisKey="ID" OtherKey="DeviceID" Type="DeviceComponents" />
       <Association Name="Device_SNMP" Member="SNMP" ThisKey="ID" OtherKey="DeviceID" Type="SNMP" />
-      <Association Name="Device_PaperType" Member="PaperType" ThisKey="ID" OtherKey="DeviceID" Type="PaperType" />
       <Association Name="Device_Job" Member="Job" ThisKey="ID" OtherKey="DeviceID" Type="Job" />
-      <Association Name="Model_Device" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
       <Association Name="PrintKind_Device" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
       <Association Name="PrintKind_Device1" Member="PrintKind1" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
+      <Association Name="Model_Device" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.DeviceComponents" Member="DeviceComponents">
@@ -99,9 +98,9 @@
       <Column Name="TabNumber" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(150) NOT NULL" CanBeNull="false" />
       <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Employee_Settings" Member="Settings" ThisKey="TabNumber" OtherKey="UserTabNumber" Type="Settings" />
       <Association Name="Employee_Job" Member="Job" ThisKey="TabNumber" OtherKey="AuthorTabNumber" Type="Job" />
       <Association Name="Employee_Job1" Member="Job1" ThisKey="TabNumber" OtherKey="UserTabNumber" Type="Job" />
+      <Association Name="Employee_SettingValue" Member="SettingValue" ThisKey="TabNumber" OtherKey="UserTabNumber" Type="SettingValue" />
       <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentID" OtherKey="ID" Type="Department" IsForeignKey="true" />
     </Type>
   </Table>
@@ -121,26 +120,12 @@
       <Association Name="Manufacturer_Model" Member="Model" ThisKey="ID" OtherKey="ManufacturerID" Type="Model" />
     </Type>
   </Table>
-  <Table Name="dbo.Model" Member="Model">
-    <Type Name="Model">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="ManufacturerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="PrintKindID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Model_Device" Member="Device" ThisKey="ID" OtherKey="ModelID" Type="Device" />
-      <Association Name="Model_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="ModelID" Type="ModelTag" />
-      <Association Name="DeviceType_Model" Member="DeviceType" ThisKey="DeviceTypeID" OtherKey="ID" Type="DeviceType" IsForeignKey="true" />
-      <Association Name="Manufacturer_Model" Member="Manufacturer" ThisKey="ManufacturerID" OtherKey="ID" Type="Manufacturer" IsForeignKey="true" />
-      <Association Name="PrintKind_Model" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.ModelTag" Member="ModelTag">
     <Type Name="ModelTag">
       <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Model_ModelTag" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
       <Association Name="Tag_ModelTag" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
+      <Association Name="Model_ModelTag" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PrintKind" Member="PrintKind">
@@ -157,25 +142,6 @@
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
       <Association Name="Profile_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="ProfileID" Type="SettingValue" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Settings" Member="Settings">
-    <Type Name="Settings">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ParameterName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="UserTabNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Association Name="Settings_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="SettingsID" Type="SettingValue" />
-      <Association Name="Employee_Settings" Member="Employee" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.SettingValue" Member="SettingValue">
-    <Type Name="SettingValue">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Value" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="SettingsID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ProfileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Profile_SettingValue" Member="Profile" ThisKey="ProfileID" OtherKey="ID" Type="Profile" IsForeignKey="true" />
-      <Association Name="Settings_SettingValue" Member="Settings" ThisKey="SettingsID" OtherKey="ID" Type="Settings" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.SNMP" Member="SNMP">
@@ -204,8 +170,9 @@
     <Type Name="PaperType">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="DeviceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Device_PaperType" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Column Name="ModelID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="PaperType_Job" Member="Job" ThisKey="ID" OtherKey="PaperTypeID" Type="Job" />
+      <Association Name="Model_PaperType" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
   <Table Name="dbo.Job" Member="Job">
@@ -232,11 +199,13 @@
       <Column Name="IsManual" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ParseDoc" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="ExpForJobID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PaperTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Job_ExpForJob" Member="ExpForJob" ThisKey="ID" OtherKey="JobID" Type="ExpForJob" />
       <Association Name="Application_Job" Member="Application" ThisKey="ApplicationID" OtherKey="ID" Type="Application" IsForeignKey="true" />
       <Association Name="Employee_Job" Member="Employee" ThisKey="AuthorTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
       <Association Name="Device_Job" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
       <Association Name="Employee_Job1" Member="Employee1" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" />
+      <Association Name="PaperType_Job" Member="PaperType" ThisKey="PaperTypeID" OtherKey="ID" Type="PaperType" IsForeignKey="true" />
       <Association Name="SizePaper_Job" Member="SizePaper" ThisKey="SizePaperID" OtherKey="ID" Type="SizePaper" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
@@ -247,6 +216,50 @@
       <Column Name="Width_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Column Name="Height_cm" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
       <Association Name="SizePaper_Job" Member="Job" ThisKey="ID" OtherKey="SizePaperID" Type="Job" />
+      <Association Name="SizePaper_SupportSize" Member="SupportSize" ThisKey="ID" OtherKey="SizePaperID" Type="SupportSize" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Model" Member="Model">
+    <Type Name="Model">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ManufacturerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PrintKindID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Model_Device" Member="Device" ThisKey="ID" OtherKey="ModelID" Type="Device" />
+      <Association Name="Model_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="ModelID" Type="ModelTag" />
+      <Association Name="Model_PaperType" Member="PaperType" ThisKey="ID" OtherKey="ModelID" Type="PaperType" />
+      <Association Name="Model_SupportSize" Member="SupportSize" ThisKey="ID" OtherKey="ModelID" Type="SupportSize" />
+      <Association Name="DeviceType_Model" Member="DeviceType" ThisKey="DeviceTypeID" OtherKey="ID" Type="DeviceType" IsForeignKey="true" />
+      <Association Name="Manufacturer_Model" Member="Manufacturer" ThisKey="ManufacturerID" OtherKey="ID" Type="Manufacturer" IsForeignKey="true" />
+      <Association Name="PrintKind_Model" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SupportSize" Member="SupportSize">
+    <Type Name="SupportSize">
+      <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SizePaperID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Model_SupportSize" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="SizePaper_SupportSize" Member="SizePaper" ThisKey="SizePaperID" OtherKey="ID" Type="SizePaper" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SettingValue" Member="SettingValue">
+    <Type Name="SettingValue">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="SettingsID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ProfileID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserTabNumber" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Employee_SettingValue" Member="Employee" ThisKey="UserTabNumber" OtherKey="TabNumber" Type="Employee" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="Profile_SettingValue" Member="Profile" ThisKey="ProfileID" OtherKey="ID" Type="Profile" IsForeignKey="true" />
+      <Association Name="Settings_SettingValue" Member="Settings" ThisKey="SettingsID" OtherKey="ID" Type="Settings" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Settings" Member="Settings">
+    <Type Name="Settings">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ParameterName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Settings_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="SettingsID" Type="SettingValue" />
     </Type>
   </Table>
 </Database>

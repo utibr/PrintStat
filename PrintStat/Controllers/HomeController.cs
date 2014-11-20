@@ -73,7 +73,7 @@ namespace PrintStat.Controllers
             var anyJob = Repository.Jobs.Any(p => string.Compare(p.Name, JobView.Name) == 0);
             if (anyJob)
             {
-                ModelState.AddModelError("Name", "Тип бумаги с таким наименованием уже существует");
+                ModelState.AddModelError("Name", "Задание с таким наименованием уже существует");
             }
 
             if (ModelState.IsValid)
