@@ -258,7 +258,7 @@
   <Table Name="dbo.Settings" Member="Settings">
     <Type Name="Settings">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ParameterName" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="Settings_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="SettingsID" Type="SettingValue" />
     </Type>
   </Table>

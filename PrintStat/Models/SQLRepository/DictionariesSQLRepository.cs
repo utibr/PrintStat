@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -40,6 +41,38 @@ namespace PrintStat.Models
                 }
         #endregion
 
+        # region FieldSetting
+                [Display(Name = "Поле настройки")]
+                public IQueryable<Settings> FieldSettings
+                {
+                    get
+                    {
+                        return Db.Settings;
+                    } 
+                }
+
+                public bool CreateFieldSetting(Settings instance)
+                {
+                    Db.Settings.InsertOnSubmit(instance);
+                    Db.Settings.Context.SubmitChanges();
+                    return true;
+                }
+
+
+
+                public bool UpdateFieldSetting(Settings instance)
+                {
+                    Db.Settings.Context.SubmitChanges();
+                    return true;
+                }
+
+                public bool RemoveFieldSetting(Settings instance)
+                {
+                    Db.Settings.DeleteOnSubmit(instance);
+                    Db.Settings.Context.SubmitChanges();
+                    return true;
+                }
+         #endregion
 
         #region PaperType
 
@@ -171,6 +204,7 @@ namespace PrintStat.Models
         #endregion
 
         
+
         #region Application definition
                 [Display(Name = "Приложения")]
                 public IQueryable<Application> Applications
@@ -214,7 +248,6 @@ namespace PrintStat.Models
                         return true;
                 }
         #endregion
-
 
         #region CartridgeColor definition
 
@@ -352,7 +385,6 @@ namespace PrintStat.Models
         }
 
         #endregion
-
 
 
 

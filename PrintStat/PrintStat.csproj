@@ -48,6 +48,9 @@
     <Reference Include="DataAnnotationsExtensions">
       <HintPath>..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="IntelliTraceContrib">
+      <HintPath>..\packages\IntelliTraceContrib.1.0.2\lib\IntelliTraceContrib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Ninject">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
@@ -215,6 +218,7 @@
     <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\DeviceTypeController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\FieldSettingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\PaperTypeController.cs" />
@@ -228,6 +232,7 @@
     <Compile Include="Models\Proxy\Application.cs" />
     <Compile Include="Models\Proxy\Employee.cs" />
     <Compile Include="Models\Proxy\Department.cs" />
+    <Compile Include="Models\Proxy\FieldSetting.cs" />
     <Compile Include="Models\Proxy\IBaseObject.cs" />
     <Compile Include="Models\Proxy\Job.cs" />
     <Compile Include="Models\Proxy\SizePaper.cs" />
@@ -239,6 +244,7 @@
     <Compile Include="Models\ViewModels\CartridgeColorView.cs" />
     <Compile Include="Models\ViewModels\DepartmentView.cs" />
     <Compile Include="Models\ViewModels\EmployeeView.cs" />
+    <Compile Include="Models\ViewModels\FieldSettingView.cs" />
     <Compile Include="Models\ViewModels\PrintKindView.cs" />
     <Compile Include="Models\ViewModels\SizePaperView.cs" />
     <Compile Include="Models\ViewModels\ReportSettingsView .cs" />
@@ -418,6 +424,9 @@
     <Content Include="Views\Employee\CreateEmployee.cshtml" />
     <Content Include="Views\Employee\EditEmployee.cshtml" />
     <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\FieldSetting\EditFieldSetting.cshtml" />
+    <Content Include="Views\FieldSetting\CreateFieldSetting.cshtml" />
+    <Content Include="Views\FieldSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

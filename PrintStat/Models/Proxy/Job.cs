@@ -92,7 +92,7 @@ namespace PrintStat
             get
             {
                 return SizePaper != null ? SizePaper.Name : "";
-                return null;
+              //  return null;
             }
         }
 

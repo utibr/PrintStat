@@ -31,6 +31,18 @@ namespace PrintStat.Models
 
        // IQueryable<Setup> Setup { get; }
 
+        #region FieldSettings
+
+        IQueryable<Settings> FieldSettings { get; }
+
+        bool CreateFieldSetting(Settings instance);
+
+        bool UpdateFieldSetting(Settings instance);
+
+        bool RemoveFieldSetting(Settings instance);
+
+        #endregion 
+
 
         #region Employee
 
@@ -70,6 +82,7 @@ namespace PrintStat.Models
 
         #endregion 
         
+
 
         bool CreatePrinter(Device instance);
         bool UpdatePrinter(Device instance);

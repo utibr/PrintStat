@@ -47,6 +47,9 @@ namespace PrintStat.Mappers
 
             //Mapper.CreateMap<SettingsView, Setup>();
             //Mapper.CreateMap<Setup, SettingsView>();
+
+            Mapper.CreateMap<Settings,FieldSettingView>();
+            Mapper.CreateMap<FieldSettingView, Settings>();
         }
 
 
