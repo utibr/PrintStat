@@ -84,6 +84,18 @@ namespace PrintStat.Models
         #endregion 
         
 
+        #region TagType
+
+        IQueryable<TagType> TagTypes { get; }
+
+        bool CreateTagType(TagType instance);
+
+        bool UpdateTagType(TagType instance);
+
+        bool RemoveTagType(TagType instance);
+
+        #endregion 
+        
 
         bool CreatePrinter(Device instance);
         bool UpdatePrinter(Device instance);

@@ -6,10 +6,11 @@ using System.Web;
 
 namespace PrintStat.Models.ViewModels
 {
-    public class TagView :BaseView
+    public class TagTypeView
     {
+        public int ID { get; set; }
         [Display(Name = "Тег")]
-        [Required(ErrorMessage = "Введите тег")]
-        public string Tag1 { get; set; }
+        [Required(ErrorMessage = "Введите тип тега")]
+        public string Type { get; set; }
     }
 }

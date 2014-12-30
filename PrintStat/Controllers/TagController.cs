@@ -11,7 +11,7 @@ namespace PrintStat.Controllers
     public class TagController : BaseController
     {
         //
-        // GET: /CartridgeColor/
+        // GET: /Tag/
 
         public ActionResult Index()
         {
@@ -32,7 +32,12 @@ namespace PrintStat.Controllers
             var anyTag = Repository.Tags.Any(p => string.Compare(p.Name, _TagView.Name) == 0);
             if (anyTag)
             {
-                ModelState.AddModelError("Name", "Tag с таким наименованием уже существует");
+                ModelState.AddModelError("Name", "Тег с таким наименованием уже существует");
+            }
+            anyTag = Repository.Tags.Any(p => string.Compare(p.Tag1, _TagView.Tag1) == 0);
+            if (anyTag)
+            {
+                ModelState.AddModelError("Tag1", "Такой тег уже существует");
             }
 
             if (ModelState.IsValid)

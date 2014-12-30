@@ -57,6 +57,9 @@ namespace PrintStat.Mappers
             Mapper.CreateMap<TagView, Tag>()
                 .ForMember(dest => dest.Tag1, opt => opt.MapFrom(src => src.Tag1))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
+            Mapper.CreateMap<TagType, TagTypeView>();
+            Mapper.CreateMap<TagTypeView, TagType>();
         }
 
 

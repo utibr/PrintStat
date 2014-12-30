@@ -437,6 +437,56 @@ namespace PrintStat.Models
         #endregion
 
 
+        #region TagType
+
+        public IQueryable<TagType> TagTypes
+        {
+            get
+            {
+                return Db.TagType;
+            }
+        }
+
+        public bool CreateTagType(TagType instance)
+        {
+            if (instance.ID == 0)
+            {
+                Db.TagType.InsertOnSubmit(instance);
+                Db.TagType.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateTagType(TagType instance)
+        {
+            TagType cache = Db.TagType.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for TagType
+                Db.TagType.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveTagType(TagType instance)
+        {
+            
+            if (instance != null)
+            {
+                Db.TagType.DeleteOnSubmit(instance);
+                Db.TagType.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+        
 
 
         //public IQueryable<Setup> Setup

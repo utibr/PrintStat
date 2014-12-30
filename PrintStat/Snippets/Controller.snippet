@@ -90,7 +90,7 @@
             var _$Table$ = Repository.$Table$s.FirstOrDefault(p => p.ID == id);
             if (_$Table$ != null)
             {
-                Repository.RemoveCartridgeColor(_$Table$);
+                Repository.Remove$Table$(_$Table$);
             }
             return RedirectToAction("Index");
         }
