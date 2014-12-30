@@ -50,6 +50,13 @@ namespace PrintStat.Mappers
 
             Mapper.CreateMap<Settings,FieldSettingView>();
             Mapper.CreateMap<FieldSettingView, Settings>();
+
+            Mapper.CreateMap<Tag, TagView>()
+                .ForMember(dest => dest.Tag1, opt => opt.MapFrom(src => src.Tag1))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            Mapper.CreateMap<TagView, Tag>()
+                .ForMember(dest => dest.Tag1, opt => opt.MapFrom(src => src.Tag1))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         }
 
 

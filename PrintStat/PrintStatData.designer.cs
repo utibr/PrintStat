@@ -81,9 +81,6 @@ namespace PrintStat
     partial void InsertSNMP(SNMP instance);
     partial void UpdateSNMP(SNMP instance);
     partial void DeleteSNMP(SNMP instance);
-    partial void InsertTag(Tag instance);
-    partial void UpdateTag(Tag instance);
-    partial void DeleteTag(Tag instance);
     partial void InsertPaperType(PaperType instance);
     partial void UpdatePaperType(PaperType instance);
     partial void DeletePaperType(PaperType instance);
@@ -105,6 +102,9 @@ namespace PrintStat
     partial void InsertSettings(Settings instance);
     partial void UpdateSettings(Settings instance);
     partial void DeleteSettings(Settings instance);
+    partial void InsertTag(Tag instance);
+    partial void UpdateTag(Tag instance);
+    partial void DeleteTag(Tag instance);
     #endregion
 		
 		public PrintStatDataDataContext() : 
@@ -273,14 +273,6 @@ namespace PrintStat
 			}
 		}
 		
-		public System.Data.Linq.Table<Tag> Tag
-		{
-			get
-			{
-				return this.GetTable<Tag>();
-			}
-		}
-		
 		public System.Data.Linq.Table<PaperType> PaperType
 		{
 			get
@@ -334,6 +326,14 @@ namespace PrintStat
 			get
 			{
 				return this.GetTable<Settings>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Tag> Tag
+		{
+			get
+			{
+				return this.GetTable<Tag>();
 			}
 		}
 	}
@@ -2721,9 +2721,9 @@ namespace PrintStat
 		
 		private int _ModelID;
 		
-		private EntityRef<Tag> _Tag;
-		
 		private EntityRef<Model> _Model;
+		
+		private EntityRef<Tag> _Tag;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -2737,8 +2737,8 @@ namespace PrintStat
 		
 		public ModelTag()
 		{
-			this._Tag = default(EntityRef<Tag>);
 			this._Model = default(EntityRef<Model>);
+			this._Tag = default(EntityRef<Tag>);
 			OnCreated();
 		}
 		
@@ -2790,40 +2790,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_ModelTag", Storage="_Tag", ThisKey="TagID", OtherKey="ID", IsForeignKey=true)]
-		public Tag Tag
-		{
-			get
-			{
-				return this._Tag.Entity;
-			}
-			set
-			{
-				Tag previousValue = this._Tag.Entity;
-				if (((previousValue != value) 
-							|| (this._Tag.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Tag.Entity = null;
-						previousValue.ModelTag.Remove(this);
-					}
-					this._Tag.Entity = value;
-					if ((value != null))
-					{
-						value.ModelTag.Add(this);
-						this._TagID = value.ID;
-					}
-					else
-					{
-						this._TagID = default(int);
-					}
-					this.SendPropertyChanged("Tag");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelTag", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
 		public Model Model
 		{
@@ -2854,6 +2820,40 @@ namespace PrintStat
 						this._ModelID = default(int);
 					}
 					this.SendPropertyChanged("Model");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_ModelTag", Storage="_Tag", ThisKey="TagID", OtherKey="ID", IsForeignKey=true)]
+		public Tag Tag
+		{
+			get
+			{
+				return this._Tag.Entity;
+			}
+			set
+			{
+				Tag previousValue = this._Tag.Entity;
+				if (((previousValue != value) 
+							|| (this._Tag.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Tag.Entity = null;
+						previousValue.ModelTag.Remove(this);
+					}
+					this._Tag.Entity = value;
+					if ((value != null))
+					{
+						value.ModelTag.Add(this);
+						this._TagID = value.ID;
+					}
+					else
+					{
+						this._TagID = default(int);
+					}
+					this.SendPropertyChanged("Tag");
 				}
 			}
 		}
@@ -3400,237 +3400,6 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tag")]
-	public partial class Tag : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Tag1;
-		
-		private string _Name;
-		
-		private System.Nullable<int> _TagTypeID;
-		
-		private EntitySet<ModelTag> _ModelTag;
-		
-		private EntitySet<SNMP> _SNMP;
-		
-		private EntityRef<TagType> _TagType;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnTag1Changing(string value);
-    partial void OnTag1Changed();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnTagTypeIDChanging(System.Nullable<int> value);
-    partial void OnTagTypeIDChanged();
-    #endregion
-		
-		public Tag()
-		{
-			this._ModelTag = new EntitySet<ModelTag>(new Action<ModelTag>(this.attach_ModelTag), new Action<ModelTag>(this.detach_ModelTag));
-			this._SNMP = new EntitySet<SNMP>(new Action<SNMP>(this.attach_SNMP), new Action<SNMP>(this.detach_SNMP));
-			this._TagType = default(EntityRef<TagType>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Tag", Storage="_Tag1", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
-		public string Tag1
-		{
-			get
-			{
-				return this._Tag1;
-			}
-			set
-			{
-				if ((this._Tag1 != value))
-				{
-					this.OnTag1Changing(value);
-					this.SendPropertyChanging();
-					this._Tag1 = value;
-					this.SendPropertyChanged("Tag1");
-					this.OnTag1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TagTypeID", DbType="Int")]
-		public System.Nullable<int> TagTypeID
-		{
-			get
-			{
-				return this._TagTypeID;
-			}
-			set
-			{
-				if ((this._TagTypeID != value))
-				{
-					if (this._TagType.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnTagTypeIDChanging(value);
-					this.SendPropertyChanging();
-					this._TagTypeID = value;
-					this.SendPropertyChanged("TagTypeID");
-					this.OnTagTypeIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_ModelTag", Storage="_ModelTag", ThisKey="ID", OtherKey="TagID")]
-		public EntitySet<ModelTag> ModelTag
-		{
-			get
-			{
-				return this._ModelTag;
-			}
-			set
-			{
-				this._ModelTag.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_SNMP", Storage="_SNMP", ThisKey="ID", OtherKey="TagID")]
-		public EntitySet<SNMP> SNMP
-		{
-			get
-			{
-				return this._SNMP;
-			}
-			set
-			{
-				this._SNMP.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TagType_Tag", Storage="_TagType", ThisKey="TagTypeID", OtherKey="ID", IsForeignKey=true)]
-		public TagType TagType
-		{
-			get
-			{
-				return this._TagType.Entity;
-			}
-			set
-			{
-				TagType previousValue = this._TagType.Entity;
-				if (((previousValue != value) 
-							|| (this._TagType.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._TagType.Entity = null;
-						previousValue.Tag.Remove(this);
-					}
-					this._TagType.Entity = value;
-					if ((value != null))
-					{
-						value.Tag.Add(this);
-						this._TagTypeID = value.ID;
-					}
-					else
-					{
-						this._TagTypeID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("TagType");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ModelTag(ModelTag entity)
-		{
-			this.SendPropertyChanging();
-			entity.Tag = this;
-		}
-		
-		private void detach_ModelTag(ModelTag entity)
-		{
-			this.SendPropertyChanging();
-			entity.Tag = null;
-		}
-		
-		private void attach_SNMP(SNMP entity)
-		{
-			this.SendPropertyChanging();
-			entity.Tag = this;
-		}
-		
-		private void detach_SNMP(SNMP entity)
-		{
-			this.SendPropertyChanging();
-			entity.Tag = null;
 		}
 	}
 	
@@ -5820,6 +5589,237 @@ namespace PrintStat
 		{
 			this.SendPropertyChanging();
 			entity.Settings = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Tag")]
+	public partial class Tag : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Tag1;
+		
+		private string _Name;
+		
+		private System.Nullable<int> _TagTypeID;
+		
+		private EntitySet<ModelTag> _ModelTag;
+		
+		private EntitySet<SNMP> _SNMP;
+		
+		private EntityRef<TagType> _TagType;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnTag1Changing(string value);
+    partial void OnTag1Changed();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnTagTypeIDChanging(System.Nullable<int> value);
+    partial void OnTagTypeIDChanged();
+    #endregion
+		
+		public Tag()
+		{
+			this._ModelTag = new EntitySet<ModelTag>(new Action<ModelTag>(this.attach_ModelTag), new Action<ModelTag>(this.detach_ModelTag));
+			this._SNMP = new EntitySet<SNMP>(new Action<SNMP>(this.attach_SNMP), new Action<SNMP>(this.detach_SNMP));
+			this._TagType = default(EntityRef<TagType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Tag", Storage="_Tag1", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string Tag1
+		{
+			get
+			{
+				return this._Tag1;
+			}
+			set
+			{
+				if ((this._Tag1 != value))
+				{
+					this.OnTag1Changing(value);
+					this.SendPropertyChanging();
+					this._Tag1 = value;
+					this.SendPropertyChanged("Tag1");
+					this.OnTag1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TagTypeID", DbType="Int")]
+		public System.Nullable<int> TagTypeID
+		{
+			get
+			{
+				return this._TagTypeID;
+			}
+			set
+			{
+				if ((this._TagTypeID != value))
+				{
+					if (this._TagType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnTagTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._TagTypeID = value;
+					this.SendPropertyChanged("TagTypeID");
+					this.OnTagTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_ModelTag", Storage="_ModelTag", ThisKey="ID", OtherKey="TagID")]
+		public EntitySet<ModelTag> ModelTag
+		{
+			get
+			{
+				return this._ModelTag;
+			}
+			set
+			{
+				this._ModelTag.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_SNMP", Storage="_SNMP", ThisKey="ID", OtherKey="TagID")]
+		public EntitySet<SNMP> SNMP
+		{
+			get
+			{
+				return this._SNMP;
+			}
+			set
+			{
+				this._SNMP.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TagType_Tag", Storage="_TagType", ThisKey="TagTypeID", OtherKey="ID", IsForeignKey=true)]
+		public TagType TagType
+		{
+			get
+			{
+				return this._TagType.Entity;
+			}
+			set
+			{
+				TagType previousValue = this._TagType.Entity;
+				if (((previousValue != value) 
+							|| (this._TagType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TagType.Entity = null;
+						previousValue.Tag.Remove(this);
+					}
+					this._TagType.Entity = value;
+					if ((value != null))
+					{
+						value.Tag.Add(this);
+						this._TagTypeID = value.ID;
+					}
+					else
+					{
+						this._TagTypeID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("TagType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ModelTag(ModelTag entity)
+		{
+			this.SendPropertyChanging();
+			entity.Tag = this;
+		}
+		
+		private void detach_ModelTag(ModelTag entity)
+		{
+			this.SendPropertyChanging();
+			entity.Tag = null;
+		}
+		
+		private void attach_SNMP(SNMP entity)
+		{
+			this.SendPropertyChanging();
+			entity.Tag = this;
+		}
+		
+		private void detach_SNMP(SNMP entity)
+		{
+			this.SendPropertyChanging();
+			entity.Tag = null;
 		}
 	}
 }

@@ -124,8 +124,8 @@
     <Type Name="ModelTag">
       <Column Name="TagID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Tag_ModelTag" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
       <Association Name="Model_ModelTag" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
+      <Association Name="Tag_ModelTag" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PrintKind" Member="PrintKind">
@@ -153,17 +153,6 @@
       <Column Name="DeviceID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Device_SNMP" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
       <Association Name="Tag_SNMP" Member="Tag" ThisKey="TagID" OtherKey="ID" Type="Tag" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Tag" Member="Tag">
-    <Type Name="Tag">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Tag" Member="Tag1" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="TagTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Tag_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="TagID" Type="ModelTag" />
-      <Association Name="Tag_SNMP" Member="SNMP" ThisKey="ID" OtherKey="TagID" Type="SNMP" />
-      <Association Name="TagType_Tag" Member="TagType" ThisKey="TagTypeID" OtherKey="ID" Type="TagType" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PaperType" Member="PaperType">
@@ -260,6 +249,17 @@
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="Settings_SettingValue" Member="SettingValue" ThisKey="ID" OtherKey="SettingsID" Type="SettingValue" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Tag" Member="Tag">
+    <Type Name="Tag">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Tag" Member="Tag1" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TagTypeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Tag_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="TagID" Type="ModelTag" />
+      <Association Name="Tag_SNMP" Member="SNMP" ThisKey="ID" OtherKey="TagID" Type="SNMP" />
+      <Association Name="TagType_Tag" Member="TagType" ThisKey="TagTypeID" OtherKey="ID" Type="TagType" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

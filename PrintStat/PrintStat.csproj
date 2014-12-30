@@ -227,6 +227,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\SizePaperController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Mappers\CommonMapper.cs" />
     <Compile Include="Mappers\IMapper.cs" />
     <Compile Include="Models\Proxy\Application.cs" />
@@ -263,6 +264,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ViewModels\TagView.cs" />
     <Compile Include="PrintStatData.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -427,6 +429,11 @@
     <Content Include="Views\FieldSetting\EditFieldSetting.cshtml" />
     <Content Include="Views\FieldSetting\CreateFieldSetting.cshtml" />
     <Content Include="Views\FieldSetting\Index.cshtml" />
+    <Content Include="Snippets\table.snippet" />
+    <Content Include="Snippets\Controller.snippet" />
+    <Content Include="Views\Tag\Index.cshtml" />
+    <Content Include="Views\Tag\CreateTag.cshtml" />
+    <Content Include="Views\Tag\EditTag.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

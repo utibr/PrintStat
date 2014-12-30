@@ -16,7 +16,7 @@ namespace PrintStat.Controllers
         {
             var papersize = Repository.SizePapers.ToList();
             return View(papersize);
-            //return View();
+            
         }
 
         [HttpGet]

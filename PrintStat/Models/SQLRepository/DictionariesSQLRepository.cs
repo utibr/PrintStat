@@ -10,6 +10,56 @@ namespace PrintStat.Models
 {
     public partial class SQLRepository : IRepository
     {
+
+        #region Tag
+
+        public IQueryable<Tag> Tags
+        {
+            get
+            {
+                return Db.Tag;
+            }
+        }
+
+        public bool CreateTag(Tag instance)
+        {
+            if (instance.ID == 0)
+            {
+                Db.Tag.InsertOnSubmit(instance);
+                Db.Tag.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateTag(Tag instance)
+        {
+            Tag cache = Db.Tag.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for Tag
+                Db.Tag.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveTag(Tag instance)
+        {
+            if (instance != null)
+            {
+                Db.Tag.DeleteOnSubmit(instance);
+                Db.Tag.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+    #endregion
+
+
         # region SizePaper
                 [Display(Name = "Типоразмер бумаги")]
                 public IQueryable<SizePaper> SizePapers

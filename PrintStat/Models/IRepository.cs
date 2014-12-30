@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace PrintStat.Models
 {
@@ -118,8 +119,23 @@ namespace PrintStat.Models
         bool RemoveJob(Job instance);
 
        // bool SaveSettings(Setup settings);
+
+
+
+        #region Tag
+
+        IQueryable<Tag> Tags { get; }
+
+        bool CreateTag(Tag instance);
+
+        bool UpdateTag(Tag instance);
+
+        bool RemoveTag(Tag instance);
+
+        #endregion 
         
 
+        
 
     }
 }
