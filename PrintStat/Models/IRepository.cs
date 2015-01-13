@@ -9,6 +9,19 @@ namespace PrintStat.Models
 {
     public interface IRepository
     {
+
+        #region Component
+
+        IQueryable<Component> Components { get; }
+
+        bool CreateComponent(Component instance);
+
+        bool UpdateComponent(Component instance);
+
+        bool RemoveComponent(Component instance);
+
+        #endregion 
+        
         IQueryable<Device> PrintersAndPlotters { get;  }
         IQueryable<Device> Printers { get; }
         IQueryable<Device> Plotters { get; }

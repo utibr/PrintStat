@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +11,9 @@ namespace PrintStat.Models.ViewModels
     {
         //
         // GET: /CartridgeColorView/
+
+        [Display(Name = "Короткое название")]
+        [Required(ErrorMessage = "Введите короткое название")]
         public string ShortName { get; set; }
 
     }

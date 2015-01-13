@@ -60,6 +60,13 @@ namespace PrintStat.Mappers
 
             Mapper.CreateMap<TagType, TagTypeView>();
             Mapper.CreateMap<TagTypeView, TagType>();
+
+            Mapper.CreateMap<Component, ComponentView>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Endurance, opt => opt.MapFrom(src => src.Endurance));
+            Mapper.CreateMap<ComponentView,Component>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Endurance, opt => opt.MapFrom(src => src.Endurance));
         }
 
 

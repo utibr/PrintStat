@@ -43,14 +43,6 @@
       <Association Name="Device_CartridgeDevice" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Components" Member="Components">
-    <Type Name="Components">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Endurance" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Components_DeviceComponents" Member="DeviceComponents" ThisKey="ID" OtherKey="ComponentsID" Type="DeviceComponents" />
-    </Type>
-  </Table>
   <Table Name="dbo.Department" Member="Department">
     <Type Name="Department">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -69,21 +61,12 @@
       <Column Name="InvNumber" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
       <Column Name="StatisticsSupported" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Device_CartridgeDevice" Member="CartridgeDevice" ThisKey="ID" OtherKey="DeviceID" Type="CartridgeDevice" />
-      <Association Name="Device_DeviceComponents" Member="DeviceComponents" ThisKey="ID" OtherKey="DeviceID" Type="DeviceComponents" />
       <Association Name="Device_SNMP" Member="SNMP" ThisKey="ID" OtherKey="DeviceID" Type="SNMP" />
       <Association Name="Device_Job" Member="Job" ThisKey="ID" OtherKey="DeviceID" Type="Job" />
+      <Association Name="Device_DeviceComponent" Member="DeviceComponent" ThisKey="ID" OtherKey="DeviceID" Type="DeviceComponent" />
       <Association Name="PrintKind_Device" Member="PrintKind" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
       <Association Name="PrintKind_Device1" Member="PrintKind1" ThisKey="PrintKindID" OtherKey="ID" Type="PrintKind" IsForeignKey="true" />
       <Association Name="Model_Device" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.DeviceComponents" Member="DeviceComponents">
-    <Type Name="DeviceComponents">
-      <Column Name="ComponentsID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="CurEndurance" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Components_DeviceComponents" Member="Components" ThisKey="ComponentsID" OtherKey="ID" Type="Components" IsForeignKey="true" />
-      <Association Name="Device_DeviceComponents" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.DeviceType" Member="DeviceType">
@@ -260,6 +243,23 @@
       <Association Name="Tag_ModelTag" Member="ModelTag" ThisKey="ID" OtherKey="TagID" Type="ModelTag" />
       <Association Name="Tag_SNMP" Member="SNMP" ThisKey="ID" OtherKey="TagID" Type="SNMP" />
       <Association Name="TagType_Tag" Member="TagType" ThisKey="TagTypeID" OtherKey="ID" Type="TagType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Component" Member="Component">
+    <Type Name="Component">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Endurance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Component_DeviceComponent" Member="DeviceComponent" ThisKey="ID" OtherKey="ComponentsID" Type="DeviceComponent" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DeviceComponent" Member="DeviceComponent">
+    <Type Name="DeviceComponent">
+      <Column Name="ComponentsID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CurEndurance" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Component_DeviceComponent" Member="Component" ThisKey="ComponentsID" OtherKey="ID" Type="Component" IsForeignKey="true" />
+      <Association Name="Device_DeviceComponent" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

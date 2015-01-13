@@ -1,10 +1,12 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace PrintStat.Models
 {
@@ -253,6 +255,55 @@ namespace PrintStat.Models
                 }
         #endregion
 
+
+                #region Componenet
+                [Display(Name = "Комплектующий")]
+                public IQueryable<Component> Components
+                {
+                    get
+                    {
+                        return Db.Component;
+                    }
+                }
+
+                public bool CreateComponent(Component instance)
+                {
+                    if (instance.ID == 0)
+                    {
+                        Db.Component.InsertOnSubmit(instance);
+                        Db.Component.Context.SubmitChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                public bool UpdateComponent(Component instance)
+                {
+                    Component cache = Db.Component.Where(p => p.ID == instance.ID).FirstOrDefault();
+                    if (cache != null)
+                    {
+                        //TODO : Update fields for Component
+                        Db.Component.Context.SubmitChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                public bool RemoveComponent(Component instance)
+                {
+                   // Component instance = Db.Component.Where(p => p.ID == idComponent).FirstOrDefault();
+                    if (instance != null)
+                    {
+                        Db.Component.DeleteOnSubmit(instance);
+                        Db.Component.Context.SubmitChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+                #endregion
         
 
         #region Application definition

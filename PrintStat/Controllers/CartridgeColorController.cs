@@ -34,6 +34,12 @@ namespace PrintStat.Controllers
                 ModelState.AddModelError("Name", "Цвет картриджа с таким наименованием уже существует");
             }
 
+            anycartridgecolor = Repository.CartridgeColors.Any(p => string.Compare(p.ShortName, cartridgecolorView.ShortName) == 0);
+            if (anycartridgecolor)
+            {
+                ModelState.AddModelError("Name", "Цвет картриджа с таким коротким наименованием уже существует");
+            }
+
             if (ModelState.IsValid)
             {
 
