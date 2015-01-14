@@ -33,12 +33,6 @@ namespace PrintStat.Models
                                                         dt => dt.ModelID,
                                                         (d, dt) => dt);
 
-
-                //.Select(arg=> new
-                //                                        {
-                //                                            arg.ID, arg.Name, arg.ModelID, arg.PrintKindID,
-                //                                            arg.SearchString, arg.InvNumber, arg.StatisticsSupported
-                //                                        }))
             }
         }
 
@@ -51,9 +45,9 @@ namespace PrintStat.Models
                                     m => m.DeviceTypeID,
                                     dt => dt.ID,
                                     (m, dt) => m).Join(Db.Device,
-                                                        d => d.ID,
-                                                        dt => dt.ModelID,
-                                                        (d, dt) => dt);
+                                                        m => m.ID,
+                                                        d => d.ModelID,
+                                                        (m, d) => d);
             }
         }
 
@@ -89,6 +83,18 @@ namespace PrintStat.Models
 
             return false;
         }
+
+        //public  IQueryable <DeviceType> DeviceType(int id)
+        //{
+        //    return Db.Model.Join(Db.Device,
+        //        m => m.ID,
+        //        d => d.ModelID,
+        //        (m, d) => m).Join(Db.DeviceType,
+        //            m => m.DeviceTypeID,
+        //            dt => dt.ID,
+        //            (m, dt) => dt);
+
+        //}
 
     }
 }

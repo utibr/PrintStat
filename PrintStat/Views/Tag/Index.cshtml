@@ -9,6 +9,7 @@
 <p>
     <div class="menu">
         <a href="@Url.Action("CreateTag", "Tag")">Добавить тег</a>
+        <a href="@Url.Action("Index","TagType")">Добавить типа тега</a>
     </div>
 
 </p>
@@ -16,13 +17,13 @@
 <p>
     <table>
         <thead>
-            <tr>
-                <th>Тег</th>
-                <th>Наименование</th>
+        <tr>
+            <th>Тег</th>
+            <th>Наименование</th>
 
-                <th>Редакция</th>
-                <th>Удаление</th>
-            </tr>
+            <th>Редакция</th>
+            <th>Удаление</th>
+        </tr>
         </thead>
         @foreach (var tag in Model)
         {
@@ -44,6 +45,7 @@
             </tr>
         }
     </table>
+    
 </p>
 
 

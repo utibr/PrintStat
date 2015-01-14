@@ -23,9 +23,10 @@ namespace PrintStat.Controllers
             ViewBag.DeviceTypes = Repository.DeviceTypes;
             ViewBag.PrintKinds = Repository.PrintKinds;
             //ViewBag.Models = Repository.Models;
+            
         }
         [HttpGet]
-        public ActionResult CreatePrinter()
+        public ActionResult CreateDevice()
         {
             InitViewBag();
             var newPrintView = new DeviceView ();
@@ -34,7 +35,7 @@ namespace PrintStat.Controllers
 
 
         [HttpPost]
-        public ActionResult CreatePrinter(DeviceView  printerView)
+        public ActionResult CreateDevice(DeviceView  printerView)
         {
             var anyPrinter = Repository.PrintersAndPlotters.Any(p => string.Compare(p.Name, printerView.Name)==0);  
             if (anyPrinter)
@@ -54,7 +55,7 @@ namespace PrintStat.Controllers
 
 
         [HttpGet]
-        public ActionResult EditPrinter(int? id)
+        public ActionResult EditDevice(int? id)
         {
             InitViewBag();
             var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == id);
@@ -67,7 +68,7 @@ namespace PrintStat.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPrinter(DeviceView printerView)
+        public ActionResult EditDevice(DeviceView printerView)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +84,7 @@ namespace PrintStat.Controllers
 
 
         [HttpGet]
-        public ActionResult DeletePrinter(int? id)
+        public ActionResult DeleteDevice(int? id)
         {
             var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == id);
             if (printer != null)

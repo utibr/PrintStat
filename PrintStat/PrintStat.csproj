@@ -222,6 +222,7 @@
     <Compile Include="Controllers\FieldSettingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
+    <Compile Include="Controllers\ManufacturerController.cs" />
     <Compile Include="Controllers\PaperTypeController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\PrintKindController.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="Models\Proxy\FieldSetting.cs" />
     <Compile Include="Models\Proxy\IBaseObject.cs" />
     <Compile Include="Models\Proxy\Job.cs" />
+    <Compile Include="Models\Proxy\Manufacturer.cs" />
     <Compile Include="Models\Proxy\SizePaper.cs" />
     <Compile Include="Models\Proxy\TagType.cs" />
     <Compile Include="Models\Proxy\Tag.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="Models\ViewModels\DepartmentView.cs" />
     <Compile Include="Models\ViewModels\EmployeeView.cs" />
     <Compile Include="Models\ViewModels\FieldSettingView.cs" />
+    <Compile Include="Models\ViewModels\ManufacturerView.cs" />
     <Compile Include="Models\ViewModels\PrintKindView.cs" />
     <Compile Include="Models\ViewModels\SizePaperView.cs" />
     <Compile Include="Models\ViewModels\ReportSettingsView .cs" />
@@ -262,7 +265,7 @@
     <Compile Include="Models\ViewModels\JobView.cs" />
     <Compile Include="Models\Proxy\DeviceType.cs" />
     <Compile Include="Models\Proxy\PaperType.cs" />
-    <Compile Include="Models\Proxy\Printer.cs" />
+    <Compile Include="Models\Proxy\Device.cs" />
     <Compile Include="Models\SQLRepository\PrinterSQLRepository.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -411,8 +414,8 @@
     <Content Include="Views\Home\EditPlotterJob.cshtml" />
     <Content Include="Views\Home\EditPrinterJob.cshtml" />
     <Content Include="Views\Device\Index.cshtml" />
-    <Content Include="Views\Device\CreatePrinter.cshtml" />
-    <Content Include="Views\Device\EditPrinter.cshtml" />
+    <Content Include="Views\Device\CreateDevice.cshtml" />
+    <Content Include="Views\Device\EditDevice.cshtml" />
     <Content Include="Views\Settings\Index.cshtml" />
     <Content Include="Views\Report\ExportJobs.cshtml" />
     <Content Include="Views\PaperType\Index.cshtml" />
@@ -447,6 +450,9 @@
     <Content Include="Views\Application\CreateApplication.cshtml" />
     <Content Include="Views\Application\EditApplication.cshtml" />
     <Content Include="Views\Application\Index.cshtml" />
+    <Content Include="Views\Manufacturer\CreateManufacturer.cshtml" />
+    <Content Include="Views\Manufacturer\EditManufacturer.cshtml" />
+    <Content Include="Views\Manufacturer\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,7 +12,7 @@ namespace PrintStat.Models.ViewModels
     public class JobView: BaseView
     {
 
-        public int DeviceID { get; set; } //PrinterID
+        public int DeviceID { get; set; } 
         public int ApplicationID { get; set; }
         public int? Duration { get; set; }
 

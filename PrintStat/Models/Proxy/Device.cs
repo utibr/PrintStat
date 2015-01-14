@@ -13,5 +13,13 @@ namespace PrintStat
         {
             return Name;
         }
+
+        //public DeviceType DeviceType
+        //{
+        //    get
+        //    {
+        //        return DeviceType;//
+        //    }
+        //}
     }
 }

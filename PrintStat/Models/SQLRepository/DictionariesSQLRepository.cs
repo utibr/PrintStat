@@ -255,7 +255,55 @@ namespace PrintStat.Models
                 }
         #endregion
 
+                #region Manufacture
 
+
+                public IQueryable<Manufacturer> Manufacturers
+                {
+                    get
+                    {
+                        return Db.Manufacturer;
+                    }
+                }
+
+                public bool CreateManufacturer(Manufacturer instance)
+                {
+                    if (instance.ID == 0)
+                    {
+                        Db.Manufacturer.InsertOnSubmit(instance);
+                        Db.Manufacturer.Context.SubmitChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                public bool UpdateManufacturer(Manufacturer instance)
+                {
+                    Manufacturer cache = Db.Manufacturer.Where(p => p.ID == instance.ID).FirstOrDefault();
+                    if (cache != null)
+                    {
+                        //TODO : Update fields for Manufacturer
+                        Db.Manufacturer.Context.SubmitChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                public bool RemoveManufacturer(Manufacturer instance)
+                {
+                    if (instance != null)
+                    {
+                        Db.Manufacturer.DeleteOnSubmit(instance);
+                        Db.Manufacturer.Context.SubmitChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+        
+#endregion
                 #region Componenet
                 [Display(Name = "Комплектующий")]
                 public IQueryable<Component> Components

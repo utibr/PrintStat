@@ -11,12 +11,5 @@ namespace PrintStat
         {
             return Name;
         }
-
-
-
-        public int? Endurance1
-        {
-            get { return _Endurance; }
-        }
     }
 }
