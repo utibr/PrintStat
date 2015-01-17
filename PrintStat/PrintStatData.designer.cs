@@ -48,9 +48,6 @@ namespace PrintStat
     partial void InsertDepartment(Department instance);
     partial void UpdateDepartment(Department instance);
     partial void DeleteDepartment(Department instance);
-    partial void InsertDevice(Device instance);
-    partial void UpdateDevice(Device instance);
-    partial void DeleteDevice(Device instance);
     partial void InsertDeviceType(DeviceType instance);
     partial void UpdateDeviceType(DeviceType instance);
     partial void DeleteDeviceType(DeviceType instance);
@@ -75,18 +72,12 @@ namespace PrintStat
     partial void InsertSNMP(SNMP instance);
     partial void UpdateSNMP(SNMP instance);
     partial void DeleteSNMP(SNMP instance);
-    partial void InsertPaperType(PaperType instance);
-    partial void UpdatePaperType(PaperType instance);
-    partial void DeletePaperType(PaperType instance);
     partial void InsertJob(Job instance);
     partial void UpdateJob(Job instance);
     partial void DeleteJob(Job instance);
     partial void InsertSizePaper(SizePaper instance);
     partial void UpdateSizePaper(SizePaper instance);
     partial void DeleteSizePaper(SizePaper instance);
-    partial void InsertModel(Model instance);
-    partial void UpdateModel(Model instance);
-    partial void DeleteModel(Model instance);
     partial void InsertSupportSize(SupportSize instance);
     partial void UpdateSupportSize(SupportSize instance);
     partial void DeleteSupportSize(SupportSize instance);
@@ -105,6 +96,18 @@ namespace PrintStat
     partial void InsertDeviceComponent(DeviceComponent instance);
     partial void UpdateDeviceComponent(DeviceComponent instance);
     partial void DeleteDeviceComponent(DeviceComponent instance);
+    partial void InsertDevice(Device instance);
+    partial void UpdateDevice(Device instance);
+    partial void DeleteDevice(Device instance);
+    partial void InsertModel(Model instance);
+    partial void UpdateModel(Model instance);
+    partial void DeleteModel(Model instance);
+    partial void InsertModelPaperType(ModelPaperType instance);
+    partial void UpdateModelPaperType(ModelPaperType instance);
+    partial void DeleteModelPaperType(ModelPaperType instance);
+    partial void InsertPaperType(PaperType instance);
+    partial void UpdatePaperType(PaperType instance);
+    partial void DeletePaperType(PaperType instance);
     #endregion
 		
 		public PrintStatDataDataContext() : 
@@ -185,14 +188,6 @@ namespace PrintStat
 			}
 		}
 		
-		public System.Data.Linq.Table<Device> Device
-		{
-			get
-			{
-				return this.GetTable<Device>();
-			}
-		}
-		
 		public System.Data.Linq.Table<DeviceType> DeviceType
 		{
 			get
@@ -257,14 +252,6 @@ namespace PrintStat
 			}
 		}
 		
-		public System.Data.Linq.Table<PaperType> PaperType
-		{
-			get
-			{
-				return this.GetTable<PaperType>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Job> Job
 		{
 			get
@@ -278,14 +265,6 @@ namespace PrintStat
 			get
 			{
 				return this.GetTable<SizePaper>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Model> Model
-		{
-			get
-			{
-				return this.GetTable<Model>();
 			}
 		}
 		
@@ -334,6 +313,38 @@ namespace PrintStat
 			get
 			{
 				return this.GetTable<DeviceComponent>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Device> Device
+		{
+			get
+			{
+				return this.GetTable<Device>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Model> Model
+		{
+			get
+			{
+				return this.GetTable<Model>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ModelPaperType> ModelPaperType
+		{
+			get
+			{
+				return this.GetTable<ModelPaperType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PaperType> PaperType
+		{
+			get
+			{
+				return this.GetTable<PaperType>();
 			}
 		}
 	}
@@ -1289,443 +1300,6 @@ namespace PrintStat
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Device")]
-	public partial class Device : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private int _ModelID;
-		
-		private int _PrintKindID;
-		
-		private string _SearchString;
-		
-		private string _InvNumber;
-		
-		private bool _StatisticsSupported;
-		
-		private EntitySet<CartridgeDevice> _CartridgeDevice;
-		
-		private EntitySet<SNMP> _SNMP;
-		
-		private EntitySet<Job> _Job;
-		
-		private EntitySet<DeviceComponent> _DeviceComponent;
-		
-		private EntityRef<PrintKind> _PrintKind;
-		
-		private EntityRef<PrintKind> _PrintKind1;
-		
-		private EntityRef<Model> _Model;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnModelIDChanging(int value);
-    partial void OnModelIDChanged();
-    partial void OnPrintKindIDChanging(int value);
-    partial void OnPrintKindIDChanged();
-    partial void OnSearchStringChanging(string value);
-    partial void OnSearchStringChanged();
-    partial void OnInvNumberChanging(string value);
-    partial void OnInvNumberChanged();
-    partial void OnStatisticsSupportedChanging(bool value);
-    partial void OnStatisticsSupportedChanged();
-    #endregion
-		
-		public Device()
-		{
-			this._CartridgeDevice = new EntitySet<CartridgeDevice>(new Action<CartridgeDevice>(this.attach_CartridgeDevice), new Action<CartridgeDevice>(this.detach_CartridgeDevice));
-			this._SNMP = new EntitySet<SNMP>(new Action<SNMP>(this.attach_SNMP), new Action<SNMP>(this.detach_SNMP));
-			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
-			this._DeviceComponent = new EntitySet<DeviceComponent>(new Action<DeviceComponent>(this.attach_DeviceComponent), new Action<DeviceComponent>(this.detach_DeviceComponent));
-			this._PrintKind = default(EntityRef<PrintKind>);
-			this._PrintKind1 = default(EntityRef<PrintKind>);
-			this._Model = default(EntityRef<Model>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModelID", DbType="Int NOT NULL")]
-		public int ModelID
-		{
-			get
-			{
-				return this._ModelID;
-			}
-			set
-			{
-				if ((this._ModelID != value))
-				{
-					if (this._Model.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnModelIDChanging(value);
-					this.SendPropertyChanging();
-					this._ModelID = value;
-					this.SendPropertyChanged("ModelID");
-					this.OnModelIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrintKindID", DbType="Int NOT NULL")]
-		public int PrintKindID
-		{
-			get
-			{
-				return this._PrintKindID;
-			}
-			set
-			{
-				if ((this._PrintKindID != value))
-				{
-					if ((this._PrintKind.HasLoadedOrAssignedValue || this._PrintKind1.HasLoadedOrAssignedValue))
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPrintKindIDChanging(value);
-					this.SendPropertyChanging();
-					this._PrintKindID = value;
-					this.SendPropertyChanged("PrintKindID");
-					this.OnPrintKindIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SearchString", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string SearchString
-		{
-			get
-			{
-				return this._SearchString;
-			}
-			set
-			{
-				if ((this._SearchString != value))
-				{
-					this.OnSearchStringChanging(value);
-					this.SendPropertyChanging();
-					this._SearchString = value;
-					this.SendPropertyChanged("SearchString");
-					this.OnSearchStringChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InvNumber", DbType="NVarChar(10)")]
-		public string InvNumber
-		{
-			get
-			{
-				return this._InvNumber;
-			}
-			set
-			{
-				if ((this._InvNumber != value))
-				{
-					this.OnInvNumberChanging(value);
-					this.SendPropertyChanging();
-					this._InvNumber = value;
-					this.SendPropertyChanged("InvNumber");
-					this.OnInvNumberChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatisticsSupported", DbType="Bit NOT NULL")]
-		public bool StatisticsSupported
-		{
-			get
-			{
-				return this._StatisticsSupported;
-			}
-			set
-			{
-				if ((this._StatisticsSupported != value))
-				{
-					this.OnStatisticsSupportedChanging(value);
-					this.SendPropertyChanging();
-					this._StatisticsSupported = value;
-					this.SendPropertyChanged("StatisticsSupported");
-					this.OnStatisticsSupportedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_CartridgeDevice", Storage="_CartridgeDevice", ThisKey="ID", OtherKey="DeviceID")]
-		public EntitySet<CartridgeDevice> CartridgeDevice
-		{
-			get
-			{
-				return this._CartridgeDevice;
-			}
-			set
-			{
-				this._CartridgeDevice.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SNMP", Storage="_SNMP", ThisKey="ID", OtherKey="DeviceID")]
-		public EntitySet<SNMP> SNMP
-		{
-			get
-			{
-				return this._SNMP;
-			}
-			set
-			{
-				this._SNMP.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Job", ThisKey="ID", OtherKey="DeviceID")]
-		public EntitySet<Job> Job
-		{
-			get
-			{
-				return this._Job;
-			}
-			set
-			{
-				this._Job.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_DeviceComponent", Storage="_DeviceComponent", ThisKey="ID", OtherKey="DeviceID")]
-		public EntitySet<DeviceComponent> DeviceComponent
-		{
-			get
-			{
-				return this._DeviceComponent;
-			}
-			set
-			{
-				this._DeviceComponent.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Device", Storage="_PrintKind", ThisKey="PrintKindID", OtherKey="ID", IsForeignKey=true)]
-		public PrintKind PrintKind
-		{
-			get
-			{
-				return this._PrintKind.Entity;
-			}
-			set
-			{
-				PrintKind previousValue = this._PrintKind.Entity;
-				if (((previousValue != value) 
-							|| (this._PrintKind.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._PrintKind.Entity = null;
-						previousValue.Device.Remove(this);
-					}
-					this._PrintKind.Entity = value;
-					if ((value != null))
-					{
-						value.Device.Add(this);
-						this._PrintKindID = value.ID;
-					}
-					else
-					{
-						this._PrintKindID = default(int);
-					}
-					this.SendPropertyChanged("PrintKind");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Device1", Storage="_PrintKind1", ThisKey="PrintKindID", OtherKey="ID", IsForeignKey=true)]
-		public PrintKind PrintKind1
-		{
-			get
-			{
-				return this._PrintKind1.Entity;
-			}
-			set
-			{
-				PrintKind previousValue = this._PrintKind1.Entity;
-				if (((previousValue != value) 
-							|| (this._PrintKind1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._PrintKind1.Entity = null;
-						previousValue.Device1.Remove(this);
-					}
-					this._PrintKind1.Entity = value;
-					if ((value != null))
-					{
-						value.Device1.Add(this);
-						this._PrintKindID = value.ID;
-					}
-					else
-					{
-						this._PrintKindID = default(int);
-					}
-					this.SendPropertyChanged("PrintKind1");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_Device", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
-		public Model Model
-		{
-			get
-			{
-				return this._Model.Entity;
-			}
-			set
-			{
-				Model previousValue = this._Model.Entity;
-				if (((previousValue != value) 
-							|| (this._Model.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Model.Entity = null;
-						previousValue.Device.Remove(this);
-					}
-					this._Model.Entity = value;
-					if ((value != null))
-					{
-						value.Device.Add(this);
-						this._ModelID = value.ID;
-					}
-					else
-					{
-						this._ModelID = default(int);
-					}
-					this.SendPropertyChanged("Model");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_CartridgeDevice(CartridgeDevice entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = this;
-		}
-		
-		private void detach_CartridgeDevice(CartridgeDevice entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = null;
-		}
-		
-		private void attach_SNMP(SNMP entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = this;
-		}
-		
-		private void detach_SNMP(SNMP entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = null;
-		}
-		
-		private void attach_Job(Job entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = this;
-		}
-		
-		private void detach_Job(Job entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = null;
-		}
-		
-		private void attach_DeviceComponent(DeviceComponent entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = this;
-		}
-		
-		private void detach_DeviceComponent(DeviceComponent entity)
-		{
-			this.SendPropertyChanging();
-			entity.Device = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceType")]
 	public partial class DeviceType : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2391,9 +1965,9 @@ namespace PrintStat
 		
 		private int _ModelID;
 		
-		private EntityRef<Model> _Model;
-		
 		private EntityRef<Tag> _Tag;
+		
+		private EntityRef<Model> _Model;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -2407,8 +1981,8 @@ namespace PrintStat
 		
 		public ModelTag()
 		{
-			this._Model = default(EntityRef<Model>);
 			this._Tag = default(EntityRef<Tag>);
+			this._Model = default(EntityRef<Model>);
 			OnCreated();
 		}
 		
@@ -2460,40 +2034,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelTag", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
-		public Model Model
-		{
-			get
-			{
-				return this._Model.Entity;
-			}
-			set
-			{
-				Model previousValue = this._Model.Entity;
-				if (((previousValue != value) 
-							|| (this._Model.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Model.Entity = null;
-						previousValue.ModelTag.Remove(this);
-					}
-					this._Model.Entity = value;
-					if ((value != null))
-					{
-						value.ModelTag.Add(this);
-						this._ModelID = value.ID;
-					}
-					else
-					{
-						this._ModelID = default(int);
-					}
-					this.SendPropertyChanged("Model");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_ModelTag", Storage="_Tag", ThisKey="TagID", OtherKey="ID", IsForeignKey=true)]
 		public Tag Tag
 		{
@@ -2524,6 +2064,40 @@ namespace PrintStat
 						this._TagID = default(int);
 					}
 					this.SendPropertyChanged("Tag");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelTag", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
+		public Model Model
+		{
+			get
+			{
+				return this._Model.Entity;
+			}
+			set
+			{
+				Model previousValue = this._Model.Entity;
+				if (((previousValue != value) 
+							|| (this._Model.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Model.Entity = null;
+						previousValue.ModelTag.Remove(this);
+					}
+					this._Model.Entity = value;
+					if ((value != null))
+					{
+						value.ModelTag.Add(this);
+						this._ModelID = value.ID;
+					}
+					else
+					{
+						this._ModelID = default(int);
+					}
+					this.SendPropertyChanged("Model");
 				}
 			}
 		}
@@ -2559,10 +2133,6 @@ namespace PrintStat
 		
 		private string _Name;
 		
-		private EntitySet<Device> _Device;
-		
-		private EntitySet<Device> _Device1;
-		
 		private EntitySet<Model> _Model;
 		
     #region Определения метода расширяемости
@@ -2577,8 +2147,6 @@ namespace PrintStat
 		
 		public PrintKind()
 		{
-			this._Device = new EntitySet<Device>(new Action<Device>(this.attach_Device), new Action<Device>(this.detach_Device));
-			this._Device1 = new EntitySet<Device>(new Action<Device>(this.attach_Device1), new Action<Device>(this.detach_Device1));
 			this._Model = new EntitySet<Model>(new Action<Model>(this.attach_Model), new Action<Model>(this.detach_Model));
 			OnCreated();
 		}
@@ -2623,32 +2191,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Device", Storage="_Device", ThisKey="ID", OtherKey="PrintKindID")]
-		public EntitySet<Device> Device
-		{
-			get
-			{
-				return this._Device;
-			}
-			set
-			{
-				this._Device.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Device1", Storage="_Device1", ThisKey="ID", OtherKey="PrintKindID")]
-		public EntitySet<Device> Device1
-		{
-			get
-			{
-				return this._Device1;
-			}
-			set
-			{
-				this._Device1.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Model", Storage="_Model", ThisKey="ID", OtherKey="PrintKindID")]
 		public EntitySet<Model> Model
 		{
@@ -2680,30 +2222,6 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Device(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.PrintKind = this;
-		}
-		
-		private void detach_Device(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.PrintKind = null;
-		}
-		
-		private void attach_Device1(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.PrintKind1 = this;
-		}
-		
-		private void detach_Device1(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.PrintKind1 = null;
 		}
 		
 		private void attach_Model(Model entity)
@@ -2849,9 +2367,9 @@ namespace PrintStat
 		
 		private System.Nullable<int> _DeviceID;
 		
-		private EntityRef<Device> _Device;
-		
 		private EntityRef<Tag> _Tag;
+		
+		private EntityRef<Device> _Device;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -2871,8 +2389,8 @@ namespace PrintStat
 		
 		public SNMP()
 		{
-			this._Device = default(EntityRef<Device>);
 			this._Tag = default(EntityRef<Tag>);
+			this._Device = default(EntityRef<Device>);
 			OnCreated();
 		}
 		
@@ -2984,40 +2502,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SNMP", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
-		public Device Device
-		{
-			get
-			{
-				return this._Device.Entity;
-			}
-			set
-			{
-				Device previousValue = this._Device.Entity;
-				if (((previousValue != value) 
-							|| (this._Device.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Device.Entity = null;
-						previousValue.SNMP.Remove(this);
-					}
-					this._Device.Entity = value;
-					if ((value != null))
-					{
-						value.SNMP.Add(this);
-						this._DeviceID = value.ID;
-					}
-					else
-					{
-						this._DeviceID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Device");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Tag_SNMP", Storage="_Tag", ThisKey="TagID", OtherKey="ID", IsForeignKey=true)]
 		public Tag Tag
 		{
@@ -3052,169 +2536,36 @@ namespace PrintStat
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PaperType")]
-	public partial class PaperType : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private System.Nullable<int> _ModelID;
-		
-		private EntitySet<Job> _Job;
-		
-		private EntityRef<Model> _Model;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnModelIDChanging(System.Nullable<int> value);
-    partial void OnModelIDChanged();
-    #endregion
-		
-		public PaperType()
-		{
-			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
-			this._Model = default(EntityRef<Model>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SNMP", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
+		public Device Device
 		{
 			get
 			{
-				return this._ID;
+				return this._Device.Entity;
 			}
 			set
 			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModelID", DbType="Int")]
-		public System.Nullable<int> ModelID
-		{
-			get
-			{
-				return this._ModelID;
-			}
-			set
-			{
-				if ((this._ModelID != value))
-				{
-					if (this._Model.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnModelIDChanging(value);
-					this.SendPropertyChanging();
-					this._ModelID = value;
-					this.SendPropertyChanged("ModelID");
-					this.OnModelIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PaperType_Job", Storage="_Job", ThisKey="ID", OtherKey="PaperTypeID")]
-		public EntitySet<Job> Job
-		{
-			get
-			{
-				return this._Job;
-			}
-			set
-			{
-				this._Job.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_PaperType", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true, DeleteRule="CASCADE")]
-		public Model Model
-		{
-			get
-			{
-				return this._Model.Entity;
-			}
-			set
-			{
-				Model previousValue = this._Model.Entity;
+				Device previousValue = this._Device.Entity;
 				if (((previousValue != value) 
-							|| (this._Model.HasLoadedOrAssignedValue == false)))
+							|| (this._Device.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Model.Entity = null;
-						previousValue.PaperType.Remove(this);
+						this._Device.Entity = null;
+						previousValue.SNMP.Remove(this);
 					}
-					this._Model.Entity = value;
+					this._Device.Entity = value;
 					if ((value != null))
 					{
-						value.PaperType.Add(this);
-						this._ModelID = value.ID;
+						value.SNMP.Add(this);
+						this._DeviceID = value.ID;
 					}
 					else
 					{
-						this._ModelID = default(Nullable<int>);
+						this._DeviceID = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("Model");
+					this.SendPropertyChanged("Device");
 				}
 			}
 		}
@@ -3237,18 +2588,6 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Job(Job entity)
-		{
-			this.SendPropertyChanging();
-			entity.PaperType = this;
-		}
-		
-		private void detach_Job(Job entity)
-		{
-			this.SendPropertyChanging();
-			entity.PaperType = null;
 		}
 	}
 	
@@ -3310,13 +2649,13 @@ namespace PrintStat
 		
 		private EntityRef<Employee> _Employee;
 		
-		private EntityRef<Device> _Device;
-		
 		private EntityRef<Employee> _Author;
 		
-		private EntityRef<PaperType> _PaperType;
-		
 		private EntityRef<SizePaper> _SizePaper;
+		
+		private EntityRef<Device> _Device;
+		
+		private EntityRef<PaperType> _PaperType;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -3375,10 +2714,10 @@ namespace PrintStat
 			this._ExpForJob = new EntitySet<ExpForJob>(new Action<ExpForJob>(this.attach_ExpForJob), new Action<ExpForJob>(this.detach_ExpForJob));
 			this._Application = default(EntityRef<Application>);
 			this._Employee = default(EntityRef<Employee>);
-			this._Device = default(EntityRef<Device>);
 			this._Author = default(EntityRef<Employee>);
-			this._PaperType = default(EntityRef<PaperType>);
 			this._SizePaper = default(EntityRef<SizePaper>);
+			this._Device = default(EntityRef<Device>);
+			this._PaperType = default(EntityRef<PaperType>);
 			OnCreated();
 		}
 		
@@ -3947,40 +3286,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
-		public Device Device
-		{
-			get
-			{
-				return this._Device.Entity;
-			}
-			set
-			{
-				Device previousValue = this._Device.Entity;
-				if (((previousValue != value) 
-							|| (this._Device.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Device.Entity = null;
-						previousValue.Job.Remove(this);
-					}
-					this._Device.Entity = value;
-					if ((value != null))
-					{
-						value.Job.Add(this);
-						this._DeviceID = value.ID;
-					}
-					else
-					{
-						this._DeviceID = default(int);
-					}
-					this.SendPropertyChanged("Device");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job1", Storage="_Author", ThisKey="UserTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
 		public Employee Author
 		{
@@ -4015,40 +3320,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PaperType_Job", Storage="_PaperType", ThisKey="PaperTypeID", OtherKey="ID", IsForeignKey=true)]
-		public PaperType PaperType
-		{
-			get
-			{
-				return this._PaperType.Entity;
-			}
-			set
-			{
-				PaperType previousValue = this._PaperType.Entity;
-				if (((previousValue != value) 
-							|| (this._PaperType.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._PaperType.Entity = null;
-						previousValue.Job.Remove(this);
-					}
-					this._PaperType.Entity = value;
-					if ((value != null))
-					{
-						value.Job.Add(this);
-						this._PaperTypeID = value.ID;
-					}
-					else
-					{
-						this._PaperTypeID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("PaperType");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SizePaper_Job", Storage="_SizePaper", ThisKey="SizePaperID", OtherKey="ID", IsForeignKey=true, DeleteRule="CASCADE")]
 		public SizePaper SizePaper
 		{
@@ -4079,6 +3350,74 @@ namespace PrintStat
 						this._SizePaperID = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("SizePaper");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
+		public Device Device
+		{
+			get
+			{
+				return this._Device.Entity;
+			}
+			set
+			{
+				Device previousValue = this._Device.Entity;
+				if (((previousValue != value) 
+							|| (this._Device.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Device.Entity = null;
+						previousValue.Job.Remove(this);
+					}
+					this._Device.Entity = value;
+					if ((value != null))
+					{
+						value.Job.Add(this);
+						this._DeviceID = value.ID;
+					}
+					else
+					{
+						this._DeviceID = default(int);
+					}
+					this.SendPropertyChanged("Device");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PaperType_Job", Storage="_PaperType", ThisKey="PaperTypeID", OtherKey="ID", IsForeignKey=true)]
+		public PaperType PaperType
+		{
+			get
+			{
+				return this._PaperType.Entity;
+			}
+			set
+			{
+				PaperType previousValue = this._PaperType.Entity;
+				if (((previousValue != value) 
+							|| (this._PaperType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._PaperType.Entity = null;
+						previousValue.Job.Remove(this);
+					}
+					this._PaperType.Entity = value;
+					if ((value != null))
+					{
+						value.Job.Add(this);
+						this._PaperTypeID = value.ID;
+					}
+					else
+					{
+						this._PaperTypeID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("PaperType");
 				}
 			}
 		}
@@ -4306,399 +3645,6 @@ namespace PrintStat
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Model")]
-	public partial class Model : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private System.Nullable<int> _ManufacturerID;
-		
-		private System.Nullable<int> _DeviceTypeID;
-		
-		private System.Nullable<int> _PrintKindID;
-		
-		private EntitySet<Device> _Device;
-		
-		private EntitySet<ModelTag> _ModelTag;
-		
-		private EntitySet<PaperType> _PaperType;
-		
-		private EntitySet<SupportSize> _SupportSize;
-		
-		private EntityRef<DeviceType> _DeviceType;
-		
-		private EntityRef<Manufacturer> _Manufacturer;
-		
-		private EntityRef<PrintKind> _PrintKind;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnManufacturerIDChanging(System.Nullable<int> value);
-    partial void OnManufacturerIDChanged();
-    partial void OnDeviceTypeIDChanging(System.Nullable<int> value);
-    partial void OnDeviceTypeIDChanged();
-    partial void OnPrintKindIDChanging(System.Nullable<int> value);
-    partial void OnPrintKindIDChanged();
-    #endregion
-		
-		public Model()
-		{
-			this._Device = new EntitySet<Device>(new Action<Device>(this.attach_Device), new Action<Device>(this.detach_Device));
-			this._ModelTag = new EntitySet<ModelTag>(new Action<ModelTag>(this.attach_ModelTag), new Action<ModelTag>(this.detach_ModelTag));
-			this._PaperType = new EntitySet<PaperType>(new Action<PaperType>(this.attach_PaperType), new Action<PaperType>(this.detach_PaperType));
-			this._SupportSize = new EntitySet<SupportSize>(new Action<SupportSize>(this.attach_SupportSize), new Action<SupportSize>(this.detach_SupportSize));
-			this._DeviceType = default(EntityRef<DeviceType>);
-			this._Manufacturer = default(EntityRef<Manufacturer>);
-			this._PrintKind = default(EntityRef<PrintKind>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManufacturerID", DbType="Int")]
-		public System.Nullable<int> ManufacturerID
-		{
-			get
-			{
-				return this._ManufacturerID;
-			}
-			set
-			{
-				if ((this._ManufacturerID != value))
-				{
-					if (this._Manufacturer.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnManufacturerIDChanging(value);
-					this.SendPropertyChanging();
-					this._ManufacturerID = value;
-					this.SendPropertyChanged("ManufacturerID");
-					this.OnManufacturerIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceTypeID", DbType="Int")]
-		public System.Nullable<int> DeviceTypeID
-		{
-			get
-			{
-				return this._DeviceTypeID;
-			}
-			set
-			{
-				if ((this._DeviceTypeID != value))
-				{
-					if (this._DeviceType.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDeviceTypeIDChanging(value);
-					this.SendPropertyChanging();
-					this._DeviceTypeID = value;
-					this.SendPropertyChanged("DeviceTypeID");
-					this.OnDeviceTypeIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrintKindID", DbType="Int")]
-		public System.Nullable<int> PrintKindID
-		{
-			get
-			{
-				return this._PrintKindID;
-			}
-			set
-			{
-				if ((this._PrintKindID != value))
-				{
-					if (this._PrintKind.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnPrintKindIDChanging(value);
-					this.SendPropertyChanging();
-					this._PrintKindID = value;
-					this.SendPropertyChanged("PrintKindID");
-					this.OnPrintKindIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_Device", Storage="_Device", ThisKey="ID", OtherKey="ModelID")]
-		public EntitySet<Device> Device
-		{
-			get
-			{
-				return this._Device;
-			}
-			set
-			{
-				this._Device.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelTag", Storage="_ModelTag", ThisKey="ID", OtherKey="ModelID")]
-		public EntitySet<ModelTag> ModelTag
-		{
-			get
-			{
-				return this._ModelTag;
-			}
-			set
-			{
-				this._ModelTag.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_PaperType", Storage="_PaperType", ThisKey="ID", OtherKey="ModelID")]
-		public EntitySet<PaperType> PaperType
-		{
-			get
-			{
-				return this._PaperType;
-			}
-			set
-			{
-				this._PaperType.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_SupportSize", Storage="_SupportSize", ThisKey="ID", OtherKey="ModelID")]
-		public EntitySet<SupportSize> SupportSize
-		{
-			get
-			{
-				return this._SupportSize;
-			}
-			set
-			{
-				this._SupportSize.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceType_Model", Storage="_DeviceType", ThisKey="DeviceTypeID", OtherKey="ID", IsForeignKey=true)]
-		public DeviceType DeviceType
-		{
-			get
-			{
-				return this._DeviceType.Entity;
-			}
-			set
-			{
-				DeviceType previousValue = this._DeviceType.Entity;
-				if (((previousValue != value) 
-							|| (this._DeviceType.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DeviceType.Entity = null;
-						previousValue.Model.Remove(this);
-					}
-					this._DeviceType.Entity = value;
-					if ((value != null))
-					{
-						value.Model.Add(this);
-						this._DeviceTypeID = value.ID;
-					}
-					else
-					{
-						this._DeviceTypeID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("DeviceType");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Manufacturer_Model", Storage="_Manufacturer", ThisKey="ManufacturerID", OtherKey="ID", IsForeignKey=true)]
-		public Manufacturer Manufacturer
-		{
-			get
-			{
-				return this._Manufacturer.Entity;
-			}
-			set
-			{
-				Manufacturer previousValue = this._Manufacturer.Entity;
-				if (((previousValue != value) 
-							|| (this._Manufacturer.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Manufacturer.Entity = null;
-						previousValue.Model.Remove(this);
-					}
-					this._Manufacturer.Entity = value;
-					if ((value != null))
-					{
-						value.Model.Add(this);
-						this._ManufacturerID = value.ID;
-					}
-					else
-					{
-						this._ManufacturerID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Manufacturer");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Model", Storage="_PrintKind", ThisKey="PrintKindID", OtherKey="ID", IsForeignKey=true)]
-		public PrintKind PrintKind
-		{
-			get
-			{
-				return this._PrintKind.Entity;
-			}
-			set
-			{
-				PrintKind previousValue = this._PrintKind.Entity;
-				if (((previousValue != value) 
-							|| (this._PrintKind.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._PrintKind.Entity = null;
-						previousValue.Model.Remove(this);
-					}
-					this._PrintKind.Entity = value;
-					if ((value != null))
-					{
-						value.Model.Add(this);
-						this._PrintKindID = value.ID;
-					}
-					else
-					{
-						this._PrintKindID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("PrintKind");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Device(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = this;
-		}
-		
-		private void detach_Device(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = null;
-		}
-		
-		private void attach_ModelTag(ModelTag entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = this;
-		}
-		
-		private void detach_ModelTag(ModelTag entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = null;
-		}
-		
-		private void attach_PaperType(PaperType entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = this;
-		}
-		
-		private void detach_PaperType(PaperType entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = null;
-		}
-		
-		private void attach_SupportSize(SupportSize entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = this;
-		}
-		
-		private void detach_SupportSize(SupportSize entity)
-		{
-			this.SendPropertyChanging();
-			entity.Model = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SupportSize")]
 	public partial class SupportSize : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4709,9 +3655,9 @@ namespace PrintStat
 		
 		private int _SizePaperID;
 		
-		private EntityRef<Model> _Model;
-		
 		private EntityRef<SizePaper> _SizePaper;
+		
+		private EntityRef<Model> _Model;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
@@ -4725,8 +3671,8 @@ namespace PrintStat
 		
 		public SupportSize()
 		{
-			this._Model = default(EntityRef<Model>);
 			this._SizePaper = default(EntityRef<SizePaper>);
+			this._Model = default(EntityRef<Model>);
 			OnCreated();
 		}
 		
@@ -4778,40 +3724,6 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_SupportSize", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
-		public Model Model
-		{
-			get
-			{
-				return this._Model.Entity;
-			}
-			set
-			{
-				Model previousValue = this._Model.Entity;
-				if (((previousValue != value) 
-							|| (this._Model.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Model.Entity = null;
-						previousValue.SupportSize.Remove(this);
-					}
-					this._Model.Entity = value;
-					if ((value != null))
-					{
-						value.SupportSize.Add(this);
-						this._ModelID = value.ID;
-					}
-					else
-					{
-						this._ModelID = default(int);
-					}
-					this.SendPropertyChanged("Model");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SizePaper_SupportSize", Storage="_SizePaper", ThisKey="SizePaperID", OtherKey="ID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public SizePaper SizePaper
 		{
@@ -4842,6 +3754,40 @@ namespace PrintStat
 						this._SizePaperID = default(int);
 					}
 					this.SendPropertyChanged("SizePaper");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_SupportSize", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
+		public Model Model
+		{
+			get
+			{
+				return this._Model.Entity;
+			}
+			set
+			{
+				Model previousValue = this._Model.Entity;
+				if (((previousValue != value) 
+							|| (this._Model.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Model.Entity = null;
+						previousValue.SupportSize.Remove(this);
+					}
+					this._Model.Entity = value;
+					if ((value != null))
+					{
+						value.SupportSize.Add(this);
+						this._ModelID = value.ID;
+					}
+					else
+					{
+						this._ModelID = default(int);
+					}
+					this.SendPropertyChanged("Model");
 				}
 			}
 		}
@@ -5820,6 +4766,1092 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Device")]
+	public partial class Device : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private string _Sn;
+		
+		private int _ModelID;
+		
+		private string _Version;
+		
+		private string _SearchString;
+		
+		private string _InvNumber;
+		
+		private bool _StatisticsSupported;
+		
+		private EntitySet<CartridgeDevice> _CartridgeDevice;
+		
+		private EntitySet<SNMP> _SNMP;
+		
+		private EntitySet<Job> _Job;
+		
+		private EntitySet<DeviceComponent> _DeviceComponent;
+		
+		private EntityRef<Model> _Model;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnSnChanging(string value);
+    partial void OnSnChanged();
+    partial void OnModelIDChanging(int value);
+    partial void OnModelIDChanged();
+    partial void OnVersionChanging(string value);
+    partial void OnVersionChanged();
+    partial void OnSearchStringChanging(string value);
+    partial void OnSearchStringChanged();
+    partial void OnInvNumberChanging(string value);
+    partial void OnInvNumberChanged();
+    partial void OnStatisticsSupportedChanging(bool value);
+    partial void OnStatisticsSupportedChanged();
+    #endregion
+		
+		public Device()
+		{
+			this._CartridgeDevice = new EntitySet<CartridgeDevice>(new Action<CartridgeDevice>(this.attach_CartridgeDevice), new Action<CartridgeDevice>(this.detach_CartridgeDevice));
+			this._SNMP = new EntitySet<SNMP>(new Action<SNMP>(this.attach_SNMP), new Action<SNMP>(this.detach_SNMP));
+			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
+			this._DeviceComponent = new EntitySet<DeviceComponent>(new Action<DeviceComponent>(this.attach_DeviceComponent), new Action<DeviceComponent>(this.detach_DeviceComponent));
+			this._Model = default(EntityRef<Model>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sn", DbType="NVarChar(30) NOT NULL", CanBeNull=false)]
+		public string Sn
+		{
+			get
+			{
+				return this._Sn;
+			}
+			set
+			{
+				if ((this._Sn != value))
+				{
+					this.OnSnChanging(value);
+					this.SendPropertyChanging();
+					this._Sn = value;
+					this.SendPropertyChanged("Sn");
+					this.OnSnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModelID", DbType="Int NOT NULL")]
+		public int ModelID
+		{
+			get
+			{
+				return this._ModelID;
+			}
+			set
+			{
+				if ((this._ModelID != value))
+				{
+					if (this._Model.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnModelIDChanging(value);
+					this.SendPropertyChanging();
+					this._ModelID = value;
+					this.SendPropertyChanged("ModelID");
+					this.OnModelIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Version", DbType="NVarChar(5)")]
+		public string Version
+		{
+			get
+			{
+				return this._Version;
+			}
+			set
+			{
+				if ((this._Version != value))
+				{
+					this.OnVersionChanging(value);
+					this.SendPropertyChanging();
+					this._Version = value;
+					this.SendPropertyChanged("Version");
+					this.OnVersionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SearchString", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string SearchString
+		{
+			get
+			{
+				return this._SearchString;
+			}
+			set
+			{
+				if ((this._SearchString != value))
+				{
+					this.OnSearchStringChanging(value);
+					this.SendPropertyChanging();
+					this._SearchString = value;
+					this.SendPropertyChanged("SearchString");
+					this.OnSearchStringChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InvNumber", DbType="NVarChar(10)")]
+		public string InvNumber
+		{
+			get
+			{
+				return this._InvNumber;
+			}
+			set
+			{
+				if ((this._InvNumber != value))
+				{
+					this.OnInvNumberChanging(value);
+					this.SendPropertyChanging();
+					this._InvNumber = value;
+					this.SendPropertyChanged("InvNumber");
+					this.OnInvNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatisticsSupported", DbType="Bit NOT NULL")]
+		public bool StatisticsSupported
+		{
+			get
+			{
+				return this._StatisticsSupported;
+			}
+			set
+			{
+				if ((this._StatisticsSupported != value))
+				{
+					this.OnStatisticsSupportedChanging(value);
+					this.SendPropertyChanging();
+					this._StatisticsSupported = value;
+					this.SendPropertyChanged("StatisticsSupported");
+					this.OnStatisticsSupportedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_CartridgeDevice", Storage="_CartridgeDevice", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<CartridgeDevice> CartridgeDevice
+		{
+			get
+			{
+				return this._CartridgeDevice;
+			}
+			set
+			{
+				this._CartridgeDevice.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SNMP", Storage="_SNMP", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<SNMP> SNMP
+		{
+			get
+			{
+				return this._SNMP;
+			}
+			set
+			{
+				this._SNMP.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_Job", Storage="_Job", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<Job> Job
+		{
+			get
+			{
+				return this._Job;
+			}
+			set
+			{
+				this._Job.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_DeviceComponent", Storage="_DeviceComponent", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<DeviceComponent> DeviceComponent
+		{
+			get
+			{
+				return this._DeviceComponent;
+			}
+			set
+			{
+				this._DeviceComponent.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_Device", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
+		public Model Model
+		{
+			get
+			{
+				return this._Model.Entity;
+			}
+			set
+			{
+				Model previousValue = this._Model.Entity;
+				if (((previousValue != value) 
+							|| (this._Model.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Model.Entity = null;
+						previousValue.Device.Remove(this);
+					}
+					this._Model.Entity = value;
+					if ((value != null))
+					{
+						value.Device.Add(this);
+						this._ModelID = value.ID;
+					}
+					else
+					{
+						this._ModelID = default(int);
+					}
+					this.SendPropertyChanged("Model");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_CartridgeDevice(CartridgeDevice entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_CartridgeDevice(CartridgeDevice entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+		
+		private void attach_SNMP(SNMP entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_SNMP(SNMP entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+		
+		private void attach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+		
+		private void attach_DeviceComponent(DeviceComponent entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_DeviceComponent(DeviceComponent entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Model")]
+	public partial class Model : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private System.Nullable<int> _ManufacturerID;
+		
+		private System.Nullable<int> _DeviceTypeID;
+		
+		private System.Nullable<int> _PrintKindID;
+		
+		private EntitySet<ModelTag> _ModelTag;
+		
+		private EntitySet<SupportSize> _SupportSize;
+		
+		private EntitySet<Device> _Device;
+		
+		private EntitySet<ModelPaperType> _ModelPaperType;
+		
+		private EntityRef<DeviceType> _DeviceType;
+		
+		private EntityRef<Manufacturer> _Manufacturer;
+		
+		private EntityRef<PrintKind> _PrintKind;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnManufacturerIDChanging(System.Nullable<int> value);
+    partial void OnManufacturerIDChanged();
+    partial void OnDeviceTypeIDChanging(System.Nullable<int> value);
+    partial void OnDeviceTypeIDChanged();
+    partial void OnPrintKindIDChanging(System.Nullable<int> value);
+    partial void OnPrintKindIDChanged();
+    #endregion
+		
+		public Model()
+		{
+			this._ModelTag = new EntitySet<ModelTag>(new Action<ModelTag>(this.attach_ModelTag), new Action<ModelTag>(this.detach_ModelTag));
+			this._SupportSize = new EntitySet<SupportSize>(new Action<SupportSize>(this.attach_SupportSize), new Action<SupportSize>(this.detach_SupportSize));
+			this._Device = new EntitySet<Device>(new Action<Device>(this.attach_Device), new Action<Device>(this.detach_Device));
+			this._ModelPaperType = new EntitySet<ModelPaperType>(new Action<ModelPaperType>(this.attach_ModelPaperType), new Action<ModelPaperType>(this.detach_ModelPaperType));
+			this._DeviceType = default(EntityRef<DeviceType>);
+			this._Manufacturer = default(EntityRef<Manufacturer>);
+			this._PrintKind = default(EntityRef<PrintKind>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManufacturerID", DbType="Int")]
+		public System.Nullable<int> ManufacturerID
+		{
+			get
+			{
+				return this._ManufacturerID;
+			}
+			set
+			{
+				if ((this._ManufacturerID != value))
+				{
+					if (this._Manufacturer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnManufacturerIDChanging(value);
+					this.SendPropertyChanging();
+					this._ManufacturerID = value;
+					this.SendPropertyChanged("ManufacturerID");
+					this.OnManufacturerIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceTypeID", DbType="Int")]
+		public System.Nullable<int> DeviceTypeID
+		{
+			get
+			{
+				return this._DeviceTypeID;
+			}
+			set
+			{
+				if ((this._DeviceTypeID != value))
+				{
+					if (this._DeviceType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDeviceTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceTypeID = value;
+					this.SendPropertyChanged("DeviceTypeID");
+					this.OnDeviceTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrintKindID", DbType="Int")]
+		public System.Nullable<int> PrintKindID
+		{
+			get
+			{
+				return this._PrintKindID;
+			}
+			set
+			{
+				if ((this._PrintKindID != value))
+				{
+					if (this._PrintKind.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPrintKindIDChanging(value);
+					this.SendPropertyChanging();
+					this._PrintKindID = value;
+					this.SendPropertyChanged("PrintKindID");
+					this.OnPrintKindIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelTag", Storage="_ModelTag", ThisKey="ID", OtherKey="ModelID")]
+		public EntitySet<ModelTag> ModelTag
+		{
+			get
+			{
+				return this._ModelTag;
+			}
+			set
+			{
+				this._ModelTag.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_SupportSize", Storage="_SupportSize", ThisKey="ID", OtherKey="ModelID")]
+		public EntitySet<SupportSize> SupportSize
+		{
+			get
+			{
+				return this._SupportSize;
+			}
+			set
+			{
+				this._SupportSize.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_Device", Storage="_Device", ThisKey="ID", OtherKey="ModelID")]
+		public EntitySet<Device> Device
+		{
+			get
+			{
+				return this._Device;
+			}
+			set
+			{
+				this._Device.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelPaperType", Storage="_ModelPaperType", ThisKey="ID", OtherKey="ModelID")]
+		public EntitySet<ModelPaperType> ModelPaperType
+		{
+			get
+			{
+				return this._ModelPaperType;
+			}
+			set
+			{
+				this._ModelPaperType.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceType_Model", Storage="_DeviceType", ThisKey="DeviceTypeID", OtherKey="ID", IsForeignKey=true)]
+		public DeviceType DeviceType
+		{
+			get
+			{
+				return this._DeviceType.Entity;
+			}
+			set
+			{
+				DeviceType previousValue = this._DeviceType.Entity;
+				if (((previousValue != value) 
+							|| (this._DeviceType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DeviceType.Entity = null;
+						previousValue.Model.Remove(this);
+					}
+					this._DeviceType.Entity = value;
+					if ((value != null))
+					{
+						value.Model.Add(this);
+						this._DeviceTypeID = value.ID;
+					}
+					else
+					{
+						this._DeviceTypeID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("DeviceType");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Manufacturer_Model", Storage="_Manufacturer", ThisKey="ManufacturerID", OtherKey="ID", IsForeignKey=true)]
+		public Manufacturer Manufacturer
+		{
+			get
+			{
+				return this._Manufacturer.Entity;
+			}
+			set
+			{
+				Manufacturer previousValue = this._Manufacturer.Entity;
+				if (((previousValue != value) 
+							|| (this._Manufacturer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Manufacturer.Entity = null;
+						previousValue.Model.Remove(this);
+					}
+					this._Manufacturer.Entity = value;
+					if ((value != null))
+					{
+						value.Model.Add(this);
+						this._ManufacturerID = value.ID;
+					}
+					else
+					{
+						this._ManufacturerID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Manufacturer");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PrintKind_Model", Storage="_PrintKind", ThisKey="PrintKindID", OtherKey="ID", IsForeignKey=true)]
+		public PrintKind PrintKind
+		{
+			get
+			{
+				return this._PrintKind.Entity;
+			}
+			set
+			{
+				PrintKind previousValue = this._PrintKind.Entity;
+				if (((previousValue != value) 
+							|| (this._PrintKind.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._PrintKind.Entity = null;
+						previousValue.Model.Remove(this);
+					}
+					this._PrintKind.Entity = value;
+					if ((value != null))
+					{
+						value.Model.Add(this);
+						this._PrintKindID = value.ID;
+					}
+					else
+					{
+						this._PrintKindID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("PrintKind");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ModelTag(ModelTag entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = this;
+		}
+		
+		private void detach_ModelTag(ModelTag entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = null;
+		}
+		
+		private void attach_SupportSize(SupportSize entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = this;
+		}
+		
+		private void detach_SupportSize(SupportSize entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = null;
+		}
+		
+		private void attach_Device(Device entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = this;
+		}
+		
+		private void detach_Device(Device entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = null;
+		}
+		
+		private void attach_ModelPaperType(ModelPaperType entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = this;
+		}
+		
+		private void detach_ModelPaperType(ModelPaperType entity)
+		{
+			this.SendPropertyChanging();
+			entity.Model = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ModelPaperType")]
+	public partial class ModelPaperType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ModelID;
+		
+		private int _PaperTypeID;
+		
+		private EntityRef<Model> _Model;
+		
+		private EntityRef<PaperType> _PaperType;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnModelIDChanging(int value);
+    partial void OnModelIDChanged();
+    partial void OnPaperTypeIDChanging(int value);
+    partial void OnPaperTypeIDChanged();
+    #endregion
+		
+		public ModelPaperType()
+		{
+			this._Model = default(EntityRef<Model>);
+			this._PaperType = default(EntityRef<PaperType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModelID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ModelID
+		{
+			get
+			{
+				return this._ModelID;
+			}
+			set
+			{
+				if ((this._ModelID != value))
+				{
+					if (this._Model.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnModelIDChanging(value);
+					this.SendPropertyChanging();
+					this._ModelID = value;
+					this.SendPropertyChanged("ModelID");
+					this.OnModelIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PaperTypeID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int PaperTypeID
+		{
+			get
+			{
+				return this._PaperTypeID;
+			}
+			set
+			{
+				if ((this._PaperTypeID != value))
+				{
+					if (this._PaperType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPaperTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._PaperTypeID = value;
+					this.SendPropertyChanged("PaperTypeID");
+					this.OnPaperTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Model_ModelPaperType", Storage="_Model", ThisKey="ModelID", OtherKey="ID", IsForeignKey=true)]
+		public Model Model
+		{
+			get
+			{
+				return this._Model.Entity;
+			}
+			set
+			{
+				Model previousValue = this._Model.Entity;
+				if (((previousValue != value) 
+							|| (this._Model.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Model.Entity = null;
+						previousValue.ModelPaperType.Remove(this);
+					}
+					this._Model.Entity = value;
+					if ((value != null))
+					{
+						value.ModelPaperType.Add(this);
+						this._ModelID = value.ID;
+					}
+					else
+					{
+						this._ModelID = default(int);
+					}
+					this.SendPropertyChanged("Model");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PaperType_ModelPaperType", Storage="_PaperType", ThisKey="PaperTypeID", OtherKey="ID", IsForeignKey=true)]
+		public PaperType PaperType
+		{
+			get
+			{
+				return this._PaperType.Entity;
+			}
+			set
+			{
+				PaperType previousValue = this._PaperType.Entity;
+				if (((previousValue != value) 
+							|| (this._PaperType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._PaperType.Entity = null;
+						previousValue.ModelPaperType.Remove(this);
+					}
+					this._PaperType.Entity = value;
+					if ((value != null))
+					{
+						value.ModelPaperType.Add(this);
+						this._PaperTypeID = value.ID;
+					}
+					else
+					{
+						this._PaperTypeID = default(int);
+					}
+					this.SendPropertyChanged("PaperType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PaperType")]
+	public partial class PaperType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private EntitySet<Job> _Job;
+		
+		private EntitySet<ModelPaperType> _ModelPaperType;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public PaperType()
+		{
+			this._Job = new EntitySet<Job>(new Action<Job>(this.attach_Job), new Action<Job>(this.detach_Job));
+			this._ModelPaperType = new EntitySet<ModelPaperType>(new Action<ModelPaperType>(this.attach_ModelPaperType), new Action<ModelPaperType>(this.detach_ModelPaperType));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PaperType_Job", Storage="_Job", ThisKey="ID", OtherKey="PaperTypeID")]
+		public EntitySet<Job> Job
+		{
+			get
+			{
+				return this._Job;
+			}
+			set
+			{
+				this._Job.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PaperType_ModelPaperType", Storage="_ModelPaperType", ThisKey="ID", OtherKey="PaperTypeID")]
+		public EntitySet<ModelPaperType> ModelPaperType
+		{
+			get
+			{
+				return this._ModelPaperType;
+			}
+			set
+			{
+				this._ModelPaperType.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.PaperType = this;
+		}
+		
+		private void detach_Job(Job entity)
+		{
+			this.SendPropertyChanging();
+			entity.PaperType = null;
+		}
+		
+		private void attach_ModelPaperType(ModelPaperType entity)
+		{
+			this.SendPropertyChanging();
+			entity.PaperType = this;
+		}
+		
+		private void detach_ModelPaperType(ModelPaperType entity)
+		{
+			this.SendPropertyChanging();
+			entity.PaperType = null;
 		}
 	}
 }

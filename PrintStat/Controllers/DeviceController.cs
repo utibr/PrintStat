@@ -20,9 +20,7 @@ namespace PrintStat.Controllers
 
         private void InitViewBag()
         {
-            ViewBag.DeviceTypes = Repository.DeviceTypes;
-            ViewBag.PrintKinds = Repository.PrintKinds;
-            //ViewBag.Models = Repository.Models;
+            ViewBag.Models = Repository.Models;
             
         }
         [HttpGet]

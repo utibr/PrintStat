@@ -12,7 +12,10 @@ namespace PrintStat.Controllers
     {
         //
         // GET: /Tag/
-
+        private void InitViewBag()
+        {
+            ViewBag.TagTypes = Repository.TagTypes;
+        }
         public ActionResult Index()
         {
             var _Tag = Repository.Tags.ToList();
@@ -22,6 +25,7 @@ namespace PrintStat.Controllers
         [HttpGet]
         public ActionResult CreateTag()
         {
+            InitViewBag();
             var newTagView = new TagView();
             return View(newTagView);
         }
@@ -54,6 +58,7 @@ namespace PrintStat.Controllers
         [HttpGet]
         public ActionResult EditTag(int? id)
         {
+            InitViewBag();
             var _Tag = Repository.Tags.FirstOrDefault(p => p.ID == id);
             if (_Tag != null)
             {

@@ -66,6 +66,9 @@ namespace PrintStat.Mappers
 
             Mapper.CreateMap<Manufacturer, ManufacturerView>();
             Mapper.CreateMap<ManufacturerView, Manufacturer>();
+
+            Mapper.CreateMap<Model, ModelView>();
+            Mapper.CreateMap<ModelView, Model>();
         }
 
 

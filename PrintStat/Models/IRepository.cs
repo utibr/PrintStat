@@ -10,6 +10,18 @@ namespace PrintStat.Models
     public interface IRepository
     {
 
+        #region Model
+
+        IQueryable<Model> Models { get; }
+
+        bool CreateModel(Model instance);
+
+        bool UpdateModel(Model instance);
+
+        bool RemoveModel(Model instance);
+
+        #endregion 
+        
 
         #region Manufacturer
 

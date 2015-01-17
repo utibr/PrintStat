@@ -84,17 +84,55 @@ namespace PrintStat.Models
             return false;
         }
 
-        //public  IQueryable <DeviceType> DeviceType(int id)
-        //{
-        //    return Db.Model.Join(Db.Device,
-        //        m => m.ID,
-        //        d => d.ModelID,
-        //        (m, d) => m).Join(Db.DeviceType,
-        //            m => m.DeviceTypeID,
-        //            dt => dt.ID,
-        //            (m, dt) => dt);
 
-        //}
+        #region Model
 
+        public IQueryable<Model> Models
+        {
+            get
+            {
+                return Db.Model;
+            }
+        }
+
+        public bool CreateModel(Model instance)
+        {
+            if (instance.ID == 0)
+            {
+                Db.Model.InsertOnSubmit(instance);
+                Db.Model.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateModel(Model instance)
+        {
+            Model cache = Db.Model.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for Model
+                Db.Model.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveModel(Model instance)
+        {
+            
+            if (instance != null)
+            {
+                Db.Model.DeleteOnSubmit(instance);
+                Db.Model.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+        
+        #endregion
     }
 }

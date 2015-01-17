@@ -223,6 +223,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\ManufacturerController.cs" />
+    <Compile Include="Controllers\ModelController.cs" />
     <Compile Include="Controllers\PaperTypeController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\PrintKindController.cs" />
@@ -241,6 +242,7 @@
     <Compile Include="Models\Proxy\IBaseObject.cs" />
     <Compile Include="Models\Proxy\Job.cs" />
     <Compile Include="Models\Proxy\Manufacturer.cs" />
+    <Compile Include="Models\Proxy\Model.cs" />
     <Compile Include="Models\Proxy\SizePaper.cs" />
     <Compile Include="Models\Proxy\TagType.cs" />
     <Compile Include="Models\Proxy\Tag.cs" />
@@ -255,6 +257,7 @@
     <Compile Include="Models\ViewModels\EmployeeView.cs" />
     <Compile Include="Models\ViewModels\FieldSettingView.cs" />
     <Compile Include="Models\ViewModels\ManufacturerView.cs" />
+    <Compile Include="Models\ViewModels\ModelView.cs" />
     <Compile Include="Models\ViewModels\PrintKindView.cs" />
     <Compile Include="Models\ViewModels\SizePaperView.cs" />
     <Compile Include="Models\ViewModels\ReportSettingsView .cs" />
@@ -453,6 +456,9 @@
     <Content Include="Views\Manufacturer\CreateManufacturer.cshtml" />
     <Content Include="Views\Manufacturer\EditManufacturer.cshtml" />
     <Content Include="Views\Manufacturer\Index.cshtml" />
+    <Content Include="Views\Model\CreateModel.cshtml" />
+    <Content Include="Views\Model\EditModel.cshtml" />
+    <Content Include="Views\Model\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
