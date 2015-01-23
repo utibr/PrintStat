@@ -27,7 +27,7 @@ namespace PrintStat.Models
         {
             if (instance.ID == 0)
             {
-                Db.Tag.InsertOnSubmit(instance);
+                Db.Tag.InsertOnSubmit(instance); 
                 Db.Tag.Context.SubmitChanges();
                 return true;
             }

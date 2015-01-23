@@ -85,6 +85,125 @@ namespace PrintStat.Models
         }
 
 
+        #region ModelRelation
+        public IQueryable<ModelTag> ModelTags
+        {
+            get
+            {
+                return Db.ModelTag;
+            }
+        }
+
+        public IQueryable<SupportSize> ModelSizePapers
+        {
+            get
+            {
+                return Db.SupportSize;
+            }
+        }
+
+        public IQueryable<ModelPaperType> ModelPaperTypes
+        {
+            get
+            {
+                return Db.ModelPaperType;
+            }
+        }
+
+
+        public bool CreateModelTag(int[] ChosenTagIds, int idModel)
+        {
+            if (ChosenTagIds != null)
+            {
+                Db.ModelTag.InsertAllOnSubmit(
+                    ChosenTagIds.Select(id =>
+                        new ModelTag
+                        {
+                            TagID = id,
+                            ModelID = idModel
+                        })
+                    );
+                Db.ModelTag.Context.SubmitChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool CreateModelSizePaper(int[] ChosenSizePaperIds, int idModel)
+        {
+            if (ChosenSizePaperIds != null)
+            {
+                Db.SupportSize.InsertAllOnSubmit(
+                    ChosenSizePaperIds.Select(id =>
+                        new SupportSize
+                        {
+                            SizePaperID = id,
+                            ModelID = idModel
+                        })
+                    );
+                Db.SupportSize.Context.SubmitChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool CreateModelPaperType(int[] ChosenPaperTypeIds, int idModel)
+        {
+            if (ChosenPaperTypeIds != null)
+            {
+                Db.ModelPaperType.InsertAllOnSubmit(
+                    ChosenPaperTypeIds.Select(id =>
+                        new ModelPaperType
+                        {
+                            PaperTypeID = id,
+                            ModelID = idModel
+                        })
+                    );
+                Db.ModelPaperType.Context.SubmitChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveModelTag(IQueryable<ModelTag> instance)
+        {
+
+            if (instance != null)
+            {
+                Db.ModelTag.DeleteAllOnSubmit(instance);
+                Db.ModelTag.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveModelSizePaper(IQueryable<SupportSize> instance)
+        {
+
+            if (instance != null)
+            {
+                Db.SupportSize.DeleteAllOnSubmit(instance);
+                Db.ModelTag.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveModelPaperType(IQueryable<ModelPaperType> instance)
+        {
+
+            if (instance != null)
+            {
+                Db.ModelPaperType.DeleteAllOnSubmit(instance);
+                Db.ModelTag.Context.SubmitChanges();
+                return true;
+            }
+            return false;
+        }
+#endregion
+
         #region Model
 
         public IQueryable<Model> Models

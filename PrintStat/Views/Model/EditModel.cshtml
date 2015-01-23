@@ -1,4 +1,5 @@
-﻿@model PrintStat.Models.ViewModels.ModelView
+﻿@using PrintStat
+@model PrintStat.Models.ViewModels.ModelView
 
 @using (Html.BeginForm("EditModel", "Model", FormMethod.Post, new { @class = "form-horizontal" }))
 {
@@ -33,12 +34,110 @@
             <div class="styled-select">
                 @Html.DropDownList("PrintKindID", new SelectList(ViewBag.PrintKinds, "ID", "Name"))
             </div>
+
+            <div class="editor-field">
+                @{
+                    var i = 0;
+                    foreach (var testCollection in ViewBag.Tags)
+                    {
+
+                        if ( Model.Tags.Contains(testCollection)) // проверка на принадлежность
+                        {
+                            <input type="checkbox"
+                                   id="[@i]"
+                                   name="ChosenTagIds"
+                                   value="@testCollection.ID" 
+                                   checked="checked"/>
+                            <span>@testCollection.Name</span>
+                            <br />
+                            i++;
+                        }
+                        else
+                        {
+
+
+                            <input type="checkbox"
+                                   id="[@i]"
+                                   name="ChosenTagIds"
+                                   value="@testCollection.ID"/>
+                    
+                            <span>@testCollection.Name</span>
+                            <br/>
+                            i++;
+                        }
+                    }
+                }
+            </div>
+
+            <div class="editor-field">
+                @{
+                    var j = 0;
+                    foreach (var testCollection in ViewBag.SizePapers)
+                    {
+                        if (Model.SizePapers.Contains(testCollection))
+                        {
+                            <input type="checkbox"
+                                   id="[@j]"
+                                   name="ChosenSizePaperIds"
+                                   value="@testCollection.ID"
+                                   checked="checked"/>
+                            <span>@testCollection.Name</span>
+                            <br/>
+                            j++;
+                        }
+                        else
+                        {
+                            <input type="checkbox"
+                                   id="[@j]"
+                                   name="ChosenSizePaperIds"
+                                   value="@testCollection.ID"/>
+                            <span>@testCollection.Name</span>
+                            <br />
+                            j++;
+                        }
+                    }
+}
+            </div>
+
+            <div class="editor-field">
+                @{
+                    var k = 0;
+                    foreach (var testCollection in ViewBag.PaperTypes)
+                    {
+                        if (Model.PaperTypes.Contains(testCollection))
+                        {
+                            <input type="checkbox" id="[@k]" name="ChosenPaperTypeIds" value="@testCollection.ID" checked="checked"/>
+                            <span>@testCollection.Name</span>
+                            <br/>
+                            k++;
+                        }
+                        else
+                        {
+                            <input type="checkbox" id="[@k]" name="ChosenPaperTypeIds" value="@testCollection.ID" />
+                            <span>@testCollection.Name</span>
+                            <br />
+                            k++;
+                        }
+                    }
+}
+            </div>
+
+
+            @*/////////////////////////////////////////////////*@
+
+                @*@{ Html.RenderPartial("partialTagView"); 
+
+            @*/////////////////////////////////////////////////*@
         </div>
-      
+
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                Изменить
+                Ok
             </button>
+
+            <script type="text/javascript">
+
+            </script>
             @Html.ActionLink("Отмена", "Index", null, null, new { @class = "btn" })
         </div>
     </fieldset>

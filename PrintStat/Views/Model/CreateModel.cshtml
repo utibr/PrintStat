@@ -33,13 +33,153 @@
             <div class="styled-select">
                 @Html.DropDownList("PrintKindID", new SelectList(ViewBag.PrintKinds, "ID", "Name"))
             </div>
+
+            <div class="editor-field">
+                @{
+                var i = 0;
+                foreach (var testCollection in ViewBag.Tags)
+                {
+                    <input type="checkbox" id="[@i]" name="ChosenTagIds" value="@testCollection.ID" />
+                                            <span>@testCollection.Name</span>
+                                            <br />
+                    i++;
+                }
+                }
+            </div>
+
+            <div class="editor-field">
+                @{
+                    var j = 0;
+                    foreach (var testCollection in ViewBag.SizePapers)
+                    {
+                        <input type="checkbox" id="[@j]" name="ChosenSizePaperIds" value="@testCollection.ID"/>
+                        <span>@testCollection.Name</span>
+                        <br/>
+                        j++;
+                    }
+                }
+            </div>
+
+            <div class="editor-field">
+                @{
+                    var k = 0;
+                    foreach (var testCollection in ViewBag.PaperTypes)
+                    {
+                        <input type="checkbox" id="[@k]" name="ChosenPaperTypeIds" value="@testCollection.ID" />
+                        <span>@testCollection.Name</span>
+                        <br />
+                        k++;
+                    }
+                }
+            </div>
+
+
+            @*/////////////////////////////////////////////////*@
+
+            <div class="text_container">
+                <span class="ui-icon-help" onclick=" toggle_visibility('viewTag') ">
+                    Выбирите относящиеся к модели теги
+                </span>
+                <br/>
+
+                <div id="viewTag" style="display: none">
+
+                    <div id="listTag">
+                        <section class=""></section>
+                        @foreach (var tag in ViewBag.Tags)
+                        {
+                            <span >
+                                <input id="TagID" type="checkbox" name="selectedObject" value="@tag.ID" />
+                                @tag.Name
+                            </span>
+                            <br />
+
+                        }
+                        
+
+                    </div>
+                    @*<div>
+                        <button id="toRight" type="button" class="btn btn-primary" onclick=" AllCheked() ">
+                            all
+                        </button>
+
+                        <button id="toLeft" type="button" class="btn btn-primary" onclick=" AllNoCheked() ">
+                            noAll
+                        </button>
+                        <br/>
+                        <button id="toLeft" type="button" class="btn btn-primary" onclick="GetParametrs() ">
+                            Get
+                        </button>
+                    </div>*@
+                    <div class="choiceTag">
+
+                    </div><script type="text/javascript">
+
+    function AllNoCheked() {
+        $('#listTag input:checkbox').each(function () {
+            this.checked = false;
+        });
+    }
+
+    function AllCheked() {
+        $('#listTag input:checkbox').each(function () {
+            this.checked = true;
+        });
+    }
+
+    function GetParametrs() {
+        var myTagID = new Array();
+        @*var myModelID = @model.ID;*@
+        $('#viewTag input:checked').each(function () {
+            myTagID.push($(this).val());
+        }
+        );
+        var dataObject = JSON.stringify({
+            TagID: myTagID
+            //ModelID: myModelID
+
+        });
+    }
+</script>
+<script type="text/javascript">
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        if (e.style.display == 'block') {
+            e.style.display = 'none';
+
+        }
+        else {
+            e.style.display = 'block';
+        }
+    }
+
+</script>
+
+                </div>
+
+                @*@{ Html.RenderPartial("partialTagView"); }*@
+               
+
+            </div>
             
+            @*/////////////////////////////////////////////////*@
         </div>
       
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                Создать
+                Ok
             </button>
+            
+                @*<button id="btnNext" type="button" class="btn btn-primary" onclick="btnNextClick()">
+                    Применить
+                </button>*@
+            <script type="text/javascript">
+
+
+    function btnNextClick() {
+        window.location.href ='@Url.Action("Index", "Model")';
+    };
+            </script>
             @Html.ActionLink("Отмена", "Index", null, null, new { @class = "btn" })
         </div>
     </fieldset>

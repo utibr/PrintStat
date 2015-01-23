@@ -249,23 +249,6 @@
     <Compile Include="Models\SQLRepository\JobSQLRepository.cs" />
     <Compile Include="Models\SQLRepository\DictionariesSQLRepository.cs" />
     <Compile Include="Models\Validation\IsNumericAttribute.cs" />
-    <Compile Include="Models\ViewModels\ApplicationView.cs" />
-    <Compile Include="Models\ViewModels\BaseView.cs" />
-    <Compile Include="Models\ViewModels\CartridgeColorView.cs" />
-    <Compile Include="Models\ViewModels\ComponentView.cs" />
-    <Compile Include="Models\ViewModels\DepartmentView.cs" />
-    <Compile Include="Models\ViewModels\EmployeeView.cs" />
-    <Compile Include="Models\ViewModels\FieldSettingView.cs" />
-    <Compile Include="Models\ViewModels\ManufacturerView.cs" />
-    <Compile Include="Models\ViewModels\ModelView.cs" />
-    <Compile Include="Models\ViewModels\PrintKindView.cs" />
-    <Compile Include="Models\ViewModels\SizePaperView.cs" />
-    <Compile Include="Models\ViewModels\ReportSettingsView .cs" />
-    <Compile Include="Models\ViewModels\SettingsView.cs" />
-    <Compile Include="Models\ViewModels\DeviceView.cs" />
-    <Compile Include="Models\ViewModels\DeviceTypeView.cs" />
-    <Compile Include="Models\ViewModels\PaperTypeView.cs" />
-    <Compile Include="Models\ViewModels\JobView.cs" />
     <Compile Include="Models\Proxy\DeviceType.cs" />
     <Compile Include="Models\Proxy\PaperType.cs" />
     <Compile Include="Models\Proxy\Device.cs" />
@@ -276,8 +259,63 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\ViewModels\TagTypeView.cs" />
-    <Compile Include="Models\ViewModels\TagView.cs" />
+    <Compile Include="Models\ViewModels\ApplicationView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\BaseView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\CartridgeColorView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\ComponentView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\DepartmentView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\DeviceTypeView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\DeviceView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\EmployeeView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\FieldSettingView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\JobView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\ManufacturerView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\ModelView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\PaperTypeView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\PrintKindView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\ReportSettingsView .cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\SettingsView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\SizePaperView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\TagTypeView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\ViewModels\TagView.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PrintStatData.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -459,6 +497,7 @@
     <Content Include="Views\Model\CreateModel.cshtml" />
     <Content Include="Views\Model\EditModel.cshtml" />
     <Content Include="Views\Model\Index.cshtml" />
+    <Content Include="Views\Model\partialTagView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

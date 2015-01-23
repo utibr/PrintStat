@@ -69,6 +69,17 @@ namespace PrintStat.Mappers
 
             Mapper.CreateMap<Model, ModelView>();
             Mapper.CreateMap<ModelView, Model>();
+            ////////////////////////////////////
+            /// modelView 
+            /// 
+            //Mapper.CreateMap<Tag, ModelView>()
+            //    .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            //Mapper.CreateMap<ModelView,Tag>()
+            //    .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID))
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            ///////////////////////////////////
+
         }
 
 

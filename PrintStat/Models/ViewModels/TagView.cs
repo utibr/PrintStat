@@ -11,5 +11,8 @@ namespace PrintStat.Models.ViewModels
         [Display(Name = "Тег")]
         [Required(ErrorMessage = "Введите тег")]
         public string Tag1 { get; set; }
+
+        public int TagTypeID { get; set; }
+
     }
 }

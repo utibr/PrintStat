@@ -23,6 +23,27 @@ namespace PrintStat.Models
         #endregion 
         
 
+        #region ModelRelation
+
+        IQueryable<ModelTag> ModelTags { get; }
+        IQueryable<SupportSize> ModelSizePapers { get; }
+        IQueryable<ModelPaperType> ModelPaperTypes { get; }
+
+        //bool CheckAsignTag(int modelId, int tagId);
+
+        bool CreateModelTag(int[] ChosenTagIds, int idModel);
+        bool CreateModelPaperType(int[] ChosenPaperTypeIds, int idModel);
+        bool CreateModelSizePaper(int[] ChosenSizePaperIds, int idModel);
+
+        bool RemoveModelTag(IQueryable<ModelTag> instance);
+
+        bool RemoveModelSizePaper(IQueryable<SupportSize> instance);
+
+        bool RemoveModelPaperType(IQueryable<ModelPaperType> instance);
+
+        #endregion 
+        
+
         #region Manufacturer
 
         IQueryable<Manufacturer> Manufacturers { get; }
