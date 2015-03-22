@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Ninject;
 using System.Data.Linq;
+using System.Web.Mvc;
 
 
 namespace PrintStat.Models
@@ -84,6 +85,12 @@ namespace PrintStat.Models
             return false;
         }
 
+
+        public List<Model> SerchModels(string name)
+        {
+            var temp = Db.Model.Where(m => m.Manufacturer.Name.ToLower() == name.ToLower()).ToList();
+            return temp;
+        }
 
         #region ModelRelation
         public IQueryable<ModelTag> ModelTags

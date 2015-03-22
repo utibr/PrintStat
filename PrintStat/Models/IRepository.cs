@@ -20,6 +20,7 @@ namespace PrintStat.Models
 
         bool RemoveModel(Model instance);
 
+        List<Model> SerchModels(string name);
         #endregion 
         
 
@@ -54,6 +55,9 @@ namespace PrintStat.Models
 
         bool RemoveManufacturer(Manufacturer instance);
 
+        List<string> SearchManufacturer(string term);
+
+        int? CheckManufacturer(string name);
         #endregion 
         
 

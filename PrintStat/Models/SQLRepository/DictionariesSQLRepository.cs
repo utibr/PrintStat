@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
+using System.Web.Mvc;
 
 
 namespace PrintStat.Models
@@ -277,6 +279,17 @@ namespace PrintStat.Models
 
                     return false;
                 }
+        //автокомплит вывод списка
+        public List<string> SearchManufacturer(string term)
+        {
+            return Db.Manufacturer.Where(m => m.Name.ToLower().Contains(term.ToLower())).Select(m => m.Name).ToList();
+            
+        }
+        //проверка
+        public int? CheckManufacturer(string name)
+        {
+            return Db.Manufacturer.Where(m => m.Name.ToLower() == name.ToLower()).Select(m => m.ID).SingleOrDefault();
+        }
 
                 public bool UpdateManufacturer(Manufacturer instance)
                 {
