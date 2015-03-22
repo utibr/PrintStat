@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using PrintStat.Models.ViewModels;
 
 namespace PrintStat.Controllers
@@ -31,14 +32,15 @@ namespace PrintStat.Controllers
 
                 //ViewBag.AsignTags = Repository.ModelTags;
             }
-            [HttpGet]
-            public ActionResult CreateModel()
-            {
-                InitViewBag();
-                var newModelView = new ModelView();
-                int t = 5;
-                return View(newModelView);
-            }
+            //  [HttpGet]
+            //public ActionResult CreateModel()
+            //{
+            //    InitViewBag();
+
+            //    var newModelView = TempData["ModelView"] != null ? ((ModelView) TempData["ModelView"]): new ModelView();
+            //    return View(newModelView);
+            //}
+
 
             [HttpPost]
             public ActionResult CreateModel(ModelView modelView)
@@ -51,7 +53,6 @@ namespace PrintStat.Controllers
 
                 if (ModelState.IsValid)
                 {
-
                     var model = (Model)ModelMapper.Map(modelView, typeof(ModelView), typeof(Model));
                     Repository.CreateModel(model);
                     var modelId = model.ID;
@@ -62,6 +63,12 @@ namespace PrintStat.Controllers
                 }
 
                 return View(modelView);
+            }
+
+            public ActionResult PartialCreateModel()
+            {
+                InitViewBag();
+                return PartialView("PartialCreateModel");
             }
 
             [HttpGet]
@@ -135,7 +142,60 @@ namespace PrintStat.Controllers
                 return RedirectToAction("Index");
             }
 
+            struct _model
+            {
+                public int ID;
+                public string Name;
+            }
+            public string GetModelForManufacturer(string id)
+            {
+
+                
+                var models = new List<Model>();
+                models = Repository.SerchModels(id);
+                _model tempModel = new _model();
+                var _models = new List<_model>();
+                foreach (var m in models)
+                {
+                    tempModel.ID = m.ID;
+                    tempModel.Name = m.Name;
+                    _models.Add(tempModel);
+                }
+                return new JavaScriptSerializer().Serialize(_models);
+
+                //var temp = Json(models, JsonRequestBehavior.AllowGet);
+                //return temp;
+
+            }
+
+
+
+
+            //public int? CreateModel(string modelView)
+            //{
+            //    var anyModel = Repository.Models.Any(p => String.Compare(p.Name, modelView.Name) == 0);
+            //    if (anyModel)
+            //    {
+            //        ModelState.AddModelError("Name", "Модель с таким наименованием уже существует");
+            //    }
+
+            //    if (ModelState.IsValid)
+            //    {
+
+            //        var model = (Model)ModelMapper.Map(modelView, typeof(ModelView), typeof(Model));
+            //        Repository.CreateModel(model);
+            //        var modelId = model.ID;
+            //        Repository.CreateModelTag(modelView.ChosenTagIds, modelId);
+            //        Repository.CreateModelPaperType(modelView.ChosenPaperTypeIds, modelId);
+            //        Repository.CreateModelSizePaper(modelView.ChosenSizePaperIds, modelId);
+            //        return RedirectToAction("Index");
+            //    }
+
+            //    return View(modelView);
+            //}
         }
+
+
         
     }
 

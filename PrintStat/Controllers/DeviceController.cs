@@ -11,17 +11,19 @@ namespace PrintStat.Controllers
     {
         //
 
+
+
         public ActionResult Index()
         {
-            var printers = Repository.PrintersAndPlotters.ToList();
-            return View(printers);
+                var printers = Repository.PrintersAndPlotters.ToList();
+                return View(printers);
         }
 
 
         private void InitViewBag()
         {
             ViewBag.Models = Repository.Models;
-            
+
         }
         [HttpGet]
         public ActionResult CreateDevice()
@@ -31,18 +33,36 @@ namespace PrintStat.Controllers
             return View(newPrintView);
         }
 
+        public int? AddManufacturer(string name)
+        {
+            if (name == null) return null;
+            int? id = Repository.CheckManufacturer(name);
+            if (id == 0)
+            {
+                Manufacturer insence = new Manufacturer()
+                {
+                    Name = name
+                };
+                Repository.CreateManufacturer(insence);
+                id = insence.ID;
+            }
+            return id;
+        }
 
         [HttpPost]
         public ActionResult CreateDevice(DeviceView  printerView)
         {
+            InitViewBag();
             var anyPrinter = Repository.PrintersAndPlotters.Any(p => string.Compare(p.Name, printerView.Name)==0);  
             if (anyPrinter)
             {
                 ModelState.AddModelError("Name", "Принтер с таким наименованием уже существует");
             }
 
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
+                AddManufacturer(printerView.Manufacturer);
+
                 var printer = (Device)ModelMapper.Map(printerView, typeof(DeviceView), typeof(Device));
                 Repository.CreatePrinter(printer);
                 return RedirectToAction("Index");
