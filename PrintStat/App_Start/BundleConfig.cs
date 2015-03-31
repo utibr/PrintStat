@@ -25,20 +25,35 @@ namespace PrintStat
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
-                        "~/Content/themes/base/jquery.ui.core.css",
-                        "~/Content/themes/base/jquery.ui.resizable.css",
-                        "~/Content/themes/base/jquery.ui.selectable.css",
-                        "~/Content/themes/base/jquery.ui.accordion.css",
-                        "~/Content/themes/base/jquery.ui.autocomplete.css",
-                        "~/Content/themes/base/jquery.ui.button.css",
-                        "~/Content/themes/base/jquery.ui.dialog.css",
-                        "~/Content/themes/base/jquery.ui.slider.css",
-                        "~/Content/themes/base/jquery.ui.tabs.css",
-                        "~/Content/themes/base/jquery.ui.datepicker.css",
-                        "~/Content/themes/base/jquery.ui.progressbar.css",
-                        "~/Content/themes/base/jquery.ui.theme.css"));
+            bundles.Add(new StyleBundle("~/Content/themes/base/images/css").Include(
+                        "~/Content/themes/base/images/core.css",
+                        "~/Content/themes/base/images/resizable.css",
+                        "~/Content/themes/base/images/selectable.css",
+                        "~/Content/themes/base/images/accordion.css",
+                        "~/Content/themes/base/images/autocomplete.css",
+                        "~/Content/themes/base/images/button.css",
+                        "~/Content/themes/base/images/dialog.css",
+                        "~/Content/themes/base/images/slider.css",
+                        "~/Content/themes/base/images/tabs.css",
+                        "~/Content/themes/base/images/datepicker.css",
+                        "~/Content/themes/base/images/progressbar.css",
+                        "~/Content/themes/base/images/theme.css",
+                        "~/Content/themes/base/images/all.css",
+                        "~/Content/themes/base/images/base.css",
+                        "~/Content/themes/base/images/draggable.css",
+                        "~/Content/themes/base/images/menu.css",
+                        "~/Content/themes/base/images/selectmenu.css",
+                        "~/Content/themes/base/images/sortable.css",
+                        "~/Content/themes/base/images/spinner.css",
+                        "~/Content/themes/base/images/tooltip.css"
+                       
+                        ));
+            bundles.Add(new StyleBundle("~/Content/DialogCSS").Include(
+                        "~/Content/themes/jquery-ui.css"
+                ));
 
+            bundles.Add(new ScriptBundle("~/bundles/Dialog").Include(
+                        "~/Script/openDialog.js" ));
         }
     }
 }

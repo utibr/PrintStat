@@ -1,0 +1,60 @@
+﻿@model PrintStat.Models.ViewModels.СonsumableView
+
+
+@using (Html.BeginForm("CreateСonsumable", "Сonsumable", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="TypeСonsumableID">
+                Тип комплектующего
+            </label>
+
+            <div class="styled-select">
+                @Html.DropDownList("TypeСonsumableID", new SelectList(ViewBag.TypeConsumable, "ID", "Name"))
+                @Html.ValidationMessage("TypeConsumableID")
+            </div>
+
+            <label class="control-label" for="Name">
+                Наименование
+            </label>
+
+            <div class="controls">
+                @Html.TextBox("Name", Model.Name)
+                @Html.ValidationMessage("Name")
+            </div>
+
+            <div hidden="true">
+                <label class="control-label" for="Name">
+                    Цвет картриджа
+                </label>
+
+                <div class="styled-select">
+                    @Html.DropDownList("CartridgeColorID", new SelectList(ViewBag.CartridgeColor, "ID", "Name"))
+                </div>
+            </div>
+
+            <label class="control-label" for="Endurance">
+                Рабочий ресурс
+            </label>
+            <div class="controls">
+                @Html.TextBox("Endurance", Model.Endurance)
+
+            </div>
+
+            <label class="control-label" for="ShortName">
+                Краткое название
+            </label>
+            <div class="controls">
+                @Html.TextBox("ShortName", Model.ShortName)
+
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                Создать
+            </button>
+            @Html.ActionLink("Отмена", "Index", null, null, new { @class = "btn" })
+        </div>
+    </fieldset>
+}

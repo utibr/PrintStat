@@ -15,6 +15,56 @@ namespace PrintStat.Models
     public partial class SQLRepository : IRepository
     {
 
+        #region typeComponenet
+        [Display(Name = "Тип комрдектующего")]
+        public IQueryable<TypeConsumable> TypeConsumables
+        {
+            get
+            {
+                return Db.TypeConsumable;
+            }
+        }
+
+        public bool CreateTypeConsumable(TypeConsumable instance)
+        {
+            if (instance.ID == 0)
+            {
+                Db.TypeConsumable.InsertOnSubmit(instance);
+                Db.TypeConsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateTypeConsumable(TypeConsumable instance)
+        {
+            TypeConsumable cache = Db.TypeConsumable.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for Component
+                Db.TypeConsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveTypeConsumable(TypeConsumable instance)
+        {
+            // Component instance = Db.Component.Where(p => p.ID == idComponent).FirstOrDefault();
+            if (instance != null)
+            {
+                Db.TypeConsumable.DeleteOnSubmit(instance);
+                Db.TypeConsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+        #endregion
+        
+
         #region Tag
 
         public IQueryable<Tag> Tags

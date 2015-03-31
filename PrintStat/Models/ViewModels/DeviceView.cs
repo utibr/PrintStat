@@ -9,7 +9,7 @@ namespace PrintStat.Models.ViewModels
 {
     public class DeviceView: BaseView
     {
-        private  List<Model> _model =new List<Model>();
+        private List<Model> _model = new List<Model>();
 
         public List<Model> models
         {

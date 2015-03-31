@@ -95,6 +95,23 @@ namespace PrintStat.Controllers
 
         }
 
+        [AcceptVerbs(HttpVerbs.Post)]
+        public int? AddManufacturer(string name)
+        {
+            if (name == null) return null;
+            int? id = Repository.CheckManufacturer(name);
+            if (id == 0)
+            {
+                Manufacturer insence = new Manufacturer()
+                {
+                    Name = name
+                };
+                Repository.CreateManufacturer(insence);
+                id = insence.ID;
+            }
+            return id;
+        }
+
 
 
 

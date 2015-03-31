@@ -72,6 +72,32 @@ namespace PrintStat.Models
         bool RemoveComponent(Component instance);
 
         #endregion 
+
+        #region TypeConsumable
+
+        IQueryable<TypeConsumable> TypeConsumables { get; }
+
+        bool CreateTypeConsumable(TypeConsumable instance);
+
+        bool UpdateTypeConsumable(TypeConsumable instance);
+
+        bool RemoveTypeConsumable(TypeConsumable instance);
+
+        #endregion 
+        
+
+
+        #region Сonsumable
+
+        IQueryable<Сonsumable> Сonsumables { get; }
+
+        bool CreateСonsumable(Сonsumable instance);
+
+        bool UpdateСonsumable(Сonsumable instance);
+
+        bool RemoveСonsumable(Сonsumable instance);
+
+        #endregion 
         
         IQueryable<Device> PrintersAndPlotters { get;  }
         IQueryable<Device> Printers { get; }

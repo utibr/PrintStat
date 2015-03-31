@@ -30,7 +30,7 @@ namespace PrintStat.Controllers
                 ViewBag.PaperTypes = Repository.PaperTypes;
                 ViewBag.SizePapers = Repository.SizePapers;
 
-                //ViewBag.AsignTags = Repository.ModelTags;
+
             }
             //  [HttpGet]
             //public ActionResult CreateModel()
@@ -149,27 +149,70 @@ namespace PrintStat.Controllers
             }
             public string GetModelForManufacturer(string id)
             {
-
                 
-                var models = new List<Model>();
-                models = Repository.SerchModels(id);
                 _model tempModel = new _model();
                 var _models = new List<_model>();
-                foreach (var m in models)
+                if (id!=null)
                 {
-                    tempModel.ID = m.ID;
-                    tempModel.Name = m.Name;
-                    _models.Add(tempModel);
-                }
-                return new JavaScriptSerializer().Serialize(_models);
+                    var models = new List<Model>();
+                    models = Repository.SerchModels(id);
 
+                    if (models.Count!=0)
+                    {
+                        foreach (var m in models)
+                        {
+                            tempModel.ID = m.ID;
+                            tempModel.Name = m.Name;
+                            _models.Add(tempModel);
+                        }
+                    }
+                    else
+                    {
+                        tempModel.ID = 0;
+                        tempModel.Name = "Моделей нет";
+                        _models.Add(tempModel);
+                    }
+                    
+                    
+                }
+                    else
+                    {
+                        tempModel.ID = 0;
+                        tempModel.Name = "Моделей нет";
+                        _models.Add(tempModel);
+                    }
+
+                    return new JavaScriptSerializer().Serialize(_models);
                 //var temp = Json(models, JsonRequestBehavior.AllowGet);
                 //return temp;
 
             }
 
 
+            [HttpPost]
+            public bool AddModel(ModelView objModelView)
+            {
+                var anyModel = Repository.Models.Any(p => String.Compare(p.Name,objModelView.Name)==0);
+                if (!anyModel)
+                {
+                    var _model = new Model()
+                    {
+                        Name = objModelView.Name,
+                        ManufacturerID = objModelView.ManufacturerID,
+                        DeviceTypeID = objModelView.DeviceTypeID,
+                        PrintKindID = objModelView.PrintKindID
+                    };
+                    Repository.CreateModel(_model);
+                    var modelId = _model.ID;
 
+                    Repository.CreateModelTag(objModelView.ChosenTagIds, modelId);
+                    Repository.CreateModelPaperType(objModelView.ChosenPaperTypeIds, modelId);
+                    Repository.CreateModelSizePaper(objModelView.ChosenSizePaperIds, modelId);
+                    return true;
+                }
+
+                return false;
+            }
 
             //public int? CreateModel(string modelView)
             //{

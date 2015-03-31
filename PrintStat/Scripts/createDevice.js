@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
 
-    $("#Manufacturer").change(function () {
+    $("#Manufacturer").keyup(function () {
         $.get(('/Model/GetModelForManufacturer/' + $(this).val()), function (data) {
             var models = $.parseJSON(data);
             var ddlSelectedModels = $("#ModelID");
@@ -28,7 +28,7 @@ $(document).ready(function () {
             else
             {
                 $("#ModelID > option").remove();
-                ddlSelectedModels.append($("<option />").placeholder("Модели для выбора отсутствуют"));
+                //ddlSelectedModels.append($("<option />").placeholder("Модели для выбора отсутствуют"));
             }
         });
     });

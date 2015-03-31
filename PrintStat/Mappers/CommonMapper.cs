@@ -27,8 +27,20 @@ namespace PrintStat.Mappers
             Mapper.CreateMap<Job, JobView>();
             Mapper.CreateMap<JobView, Job>();
 
-            Mapper.CreateMap<Device, DeviceView>();
-            Mapper.CreateMap<DeviceView, Device>();
+            Mapper.CreateMap<Device, DeviceView>()
+                .ForMember(dest=>dest.InvNumber,opt=>opt.MapFrom(src=>src.InvNumber))
+                .ForMember(dest => dest.ModelID, opt => opt.MapFrom(src => src.ModelID))
+                .ForMember(dest => dest.SearchString, opt => opt.MapFrom(src => src.SearchString))
+                .ForMember(dest => dest.Sn, opt => opt.MapFrom(src => src.Sn))
+                .ForMember(dest => dest.StatisticsSupported, opt => opt.MapFrom(src => src.StatisticsSupported))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            Mapper.CreateMap<DeviceView, Device>()
+                .ForMember(dest=>dest.InvNumber,opt=>opt.MapFrom(src=>src.InvNumber))
+                .ForMember(dest => dest.ModelID, opt => opt.MapFrom(src => src.ModelID))
+                .ForMember(dest => dest.SearchString, opt => opt.MapFrom(src => src.SearchString))
+                .ForMember(dest => dest.Sn, opt => opt.MapFrom(src => src.Sn))
+                .ForMember(dest => dest.StatisticsSupported, opt => opt.MapFrom(src => src.StatisticsSupported))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             Mapper.CreateMap<PaperType, PaperTypeView>();
             Mapper.CreateMap<PaperTypeView,PaperType>();
@@ -63,6 +75,12 @@ namespace PrintStat.Mappers
 
             Mapper.CreateMap<Component, ComponentView>();
             Mapper.CreateMap<ComponentView,Component>();
+
+            Mapper.CreateMap<TypeConsumable, TypeConsumableView>();
+            Mapper.CreateMap<TypeConsumableView, TypeConsumable>();
+
+            Mapper.CreateMap<Сonsumable, СonsumableView>();
+            Mapper.CreateMap<СonsumableView, Сonsumable>();
 
             Mapper.CreateMap<Manufacturer, ManufacturerView>();
             Mapper.CreateMap<ManufacturerView, Manufacturer>();

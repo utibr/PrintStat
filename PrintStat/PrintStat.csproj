@@ -214,6 +214,8 @@
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartridgeColorController.cs" />
+    <Compile Include="Controllers\ConsumableController.cs" />
+    <Compile Include="Controllers\TypeConsumableController.cs" />
     <Compile Include="Controllers\ComponentController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\DictionaryController.cs" />
@@ -268,7 +270,9 @@
     <Compile Include="Models\ViewModels\CartridgeColorView.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\ViewModels\ComponentView.cs">
+    <Compile Include="Models\ViewModels\ComponentView.cs" />
+    <Compile Include="Models\ViewModels\TypeConsumableView.cs" />
+    <Compile Include="Models\ViewModels\СonsumableView.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\ViewModels\DepartmentView.cs">
@@ -357,6 +361,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\themes\jquery-ui.css" />
     <Content Include="DB\DB.sql" />
     <Content Include="DB\script.sql" />
     <Content Include="favicon.ico" />
@@ -482,6 +487,12 @@
     <Content Include="Views\Model\partialTagView.cshtml" />
     <Content Include="Views\Model\PartialCreateModel.cshtml" />
     <Content Include="Scripts\partialCreateModel.js" />
+    <Content Include="Views\TypeConsumable\CreateTypeConsumable.cshtml" />
+    <Content Include="Views\TypeConsumable\EditTypeConsumable.cshtml" />
+    <Content Include="Views\TypeConsumable\Index.cshtml" />
+    <Content Include="Views\Сonsumable\CreateСonsumable.cshtml" />
+    <Content Include="Views\Сonsumable\EditСonsumable.cshtml" />
+    <Content Include="Views\Сonsumable\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

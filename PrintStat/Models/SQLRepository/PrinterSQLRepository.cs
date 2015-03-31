@@ -88,8 +88,11 @@ namespace PrintStat.Models
 
         public List<Model> SerchModels(string name)
         {
-            var temp = Db.Model.Where(m => m.Manufacturer.Name.ToLower() == name.ToLower()).ToList();
-            return temp;
+            if (name!=null)
+            {
+                return  Db.Model.Where(m => m.Manufacturer.Name.ToLower() == name.ToLower()).ToList();
+            }
+            return null;
         }
 
         #region ModelRelation
@@ -260,5 +263,67 @@ namespace PrintStat.Models
         }
         
         #endregion
+
+
+        #region Сonsumable
+        public IQueryable<Сonsumable> Сonsumables  
+        {
+            get
+            {
+                return Db.Сonsumable;
+            }
+        }
+
+        public bool CreateСonsumable(Сonsumable instance)    
+        {
+            if (instance.ID == 0)
+            {
+                Db.Сonsumable.InsertOnSubmit(instance);
+                Db.Сonsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UpdateСonsumable(Сonsumable instance)    
+        {
+            if (instance.ID == 0)
+            {
+                Db.Сonsumable.InsertOnSubmit(instance);
+                Db.Сonsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveСonsumable(Сonsumable instance)
+        {
+            Сonsumable cache = Db.Сonsumable.Where(p => p.ID == instance.ID).FirstOrDefault();
+            if (cache != null)
+            {
+                //TODO : Update fields for Consumable
+                Db.Сonsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool RemoveConsumable(Сonsumable instance)
+        {
+            
+            if (instance != null)
+            {
+                Db.Сonsumable.DeleteOnSubmit(instance);
+                Db.Сonsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
+#endregion
+
     }
 }

@@ -33,21 +33,7 @@ namespace PrintStat.Controllers
             return View(newPrintView);
         }
 
-        public int? AddManufacturer(string name)
-        {
-            if (name == null) return null;
-            int? id = Repository.CheckManufacturer(name);
-            if (id == 0)
-            {
-                Manufacturer insence = new Manufacturer()
-                {
-                    Name = name
-                };
-                Repository.CreateManufacturer(insence);
-                id = insence.ID;
-            }
-            return id;
-        }
+
 
         [HttpPost]
         public ActionResult CreateDevice(DeviceView  printerView)
@@ -58,10 +44,14 @@ namespace PrintStat.Controllers
             {
                 ModelState.AddModelError("Name", "Принтер с таким наименованием уже существует");
             }
+            if (printerView.ModelID == 0)
+            {
+                ModelState.AddModelError("ModelID","Выберите модель");
+            }
 
             if (ModelState.IsValid)
             {
-                AddManufacturer(printerView.Manufacturer);
+                
 
                 var printer = (Device)ModelMapper.Map(printerView, typeof(DeviceView), typeof(Device));
                 Repository.CreatePrinter(printer);
