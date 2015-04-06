@@ -137,7 +137,20 @@ namespace PrintStat.Controllers
                 var model = Repository.Models.FirstOrDefault(p => p.ID == id);
                 if (model != null)
                 {
-                    Repository.RemoveModel(model);
+                    if(Repository.RemoveModel(model))
+                    { 
+                        var modelPaperType = Repository.ModelPaperTypes.Where(mt => mt.ModelID == id);
+                        Repository.RemoveModelPaperType(modelPaperType);
+                       
+                        var modelPaperSizePaper = Repository.ModelSizePapers.Where(mt => mt.ModelID == id);
+                        Repository.RemoveModelSizePaper(modelPaperSizePaper);
+                       
+                        var modelPaperTag = Repository.ModelTags.Where(mt => mt.ModelID == id);
+                        Repository.RemoveModelTag(modelPaperTag);
+                        
+                        var modelConsumable = Repository.ModelConsumables.Where(mt => mt.ModelID == id);
+                        Repository.RemoveModelConsumable(modelConsumable);
+                    }
                 }
                 return RedirectToAction("Index");
             }
@@ -146,6 +159,12 @@ namespace PrintStat.Controllers
             {
                 public int ID;
                 public string Name;
+            }
+            struct __model
+            {
+                public string i;
+                public string value;
+                public string text;
             }
             public string GetModelForManufacturer(string id)
             {
@@ -188,7 +207,63 @@ namespace PrintStat.Controllers
 
             }
 
+           
+            public JsonResult GetModels(string search)
+            {
 
+
+                __model tempModel = new __model();
+                var _models = new List<__model>();
+                var models = new List<Model>();
+                models = Repository.Models.ToList();
+                if (models.Count != 0)
+                {
+                    int i = 1;
+                    foreach (var m in models)
+                    {
+                        tempModel.i = i.ToString();
+                        tempModel.value = m.ID.ToString();
+                        tempModel.text = m.Name;
+                        _models.Add(tempModel);
+                        i++;
+                    }
+                }
+                return Json(_models, JsonRequestBehavior.AllowGet);
+                 
+            }
+
+
+            public JsonResult _GetModels(string search)
+            {
+                var models = new List<Model>();
+                models = Repository.SearchModel(search);
+
+                __model tempModel = new __model();
+                var _models = new List<__model>();
+                if (models.Count != 0)
+                {
+                    int i = 1;
+                    foreach (var m in models)
+                    {
+                        tempModel.i = i.ToString();
+                        tempModel.value = m.ID.ToString();
+                        tempModel.text = m.Name;
+                        _models.Add(tempModel);
+                        i++;
+                    }
+                }
+                return Json(_models, JsonRequestBehavior.AllowGet);
+                 
+
+
+            }
+            public JsonResult AutocompleteManufacturer(string term)
+            {
+
+                return Json(Repository.SearchManufacturer(term), JsonRequestBehavior.AllowGet);
+
+            }
+  
             [HttpPost]
             public bool AddModel(ModelView objModelView)
             {

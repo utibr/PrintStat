@@ -79,8 +79,8 @@ namespace PrintStat.Mappers
             Mapper.CreateMap<TypeConsumable, TypeConsumableView>();
             Mapper.CreateMap<TypeConsumableView, TypeConsumable>();
 
-            Mapper.CreateMap<Сonsumable, СonsumableView>();
-            Mapper.CreateMap<СonsumableView, Сonsumable>();
+            Mapper.CreateMap<Consumable, ConsumableView>();
+            Mapper.CreateMap<ConsumableView, Consumable>();
 
             Mapper.CreateMap<Manufacturer, ManufacturerView>();
             Mapper.CreateMap<ManufacturerView, Manufacturer>();

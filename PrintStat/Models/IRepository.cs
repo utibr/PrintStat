@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using System.Web.UI.WebControls;
 
 namespace PrintStat.Models
@@ -25,6 +26,9 @@ namespace PrintStat.Models
         
 
         #region ModelRelation
+        //комплектующие
+        bool RemoveModelConsumable(IQueryable<ModelConsumable> instance);
+        bool CreateModelComsumable(int[] comIDs, int modelID);
 
         IQueryable<ModelTag> ModelTags { get; }
         IQueryable<SupportSize> ModelSizePapers { get; }
@@ -56,6 +60,7 @@ namespace PrintStat.Models
         bool RemoveManufacturer(Manufacturer instance);
 
         List<string> SearchManufacturer(string term);
+        List<Model> SearchModel(string term);
 
         int? CheckManufacturer(string name);
         #endregion 
@@ -87,18 +92,35 @@ namespace PrintStat.Models
         
 
 
-        #region Сonsumable
+        #region Consumable
 
-        IQueryable<Сonsumable> Сonsumables { get; }
 
-        bool CreateСonsumable(Сonsumable instance);
+        int? CheckCartridge(string temp);
+        IQueryable<Consumable> Consumables { get; }
 
-        bool UpdateСonsumable(Сonsumable instance);
+        bool CreateConsumable(Consumable instance);
 
-        bool RemoveСonsumable(Сonsumable instance);
+        bool UpdateConsumable(Consumable instance);
+
+        bool RemoveConsumable(Consumable instance);
+
+        
+
+        #endregion 
+
+
+        #region ModelConsumable
+
+        IQueryable<ModelConsumable> ModelConsumables { get; }
+
+
 
         #endregion 
         
+
+        
+
+
         IQueryable<Device> PrintersAndPlotters { get;  }
         IQueryable<Device> Printers { get; }
         IQueryable<Device> Plotters { get; }

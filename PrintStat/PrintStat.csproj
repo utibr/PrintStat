@@ -272,7 +272,7 @@
     </Compile>
     <Compile Include="Models\ViewModels\ComponentView.cs" />
     <Compile Include="Models\ViewModels\TypeConsumableView.cs" />
-    <Compile Include="Models\ViewModels\СonsumableView.cs">
+    <Compile Include="Models\ViewModels\ConsumableView.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\ViewModels\DepartmentView.cs">
@@ -350,6 +350,7 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\jquery.tokenize.css" />
     <Content Include="Content\themes\base\menu.css" />
     <Content Include="Content\themes\base\progressbar.css" />
     <Content Include="Content\themes\base\resizable.css" />
@@ -379,6 +380,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.tokenize.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -490,9 +492,10 @@
     <Content Include="Views\TypeConsumable\CreateTypeConsumable.cshtml" />
     <Content Include="Views\TypeConsumable\EditTypeConsumable.cshtml" />
     <Content Include="Views\TypeConsumable\Index.cshtml" />
-    <Content Include="Views\Сonsumable\CreateСonsumable.cshtml" />
-    <Content Include="Views\Сonsumable\EditСonsumable.cshtml" />
-    <Content Include="Views\Сonsumable\Index.cshtml" />
+    <Content Include="Views\Сonsumable\CreateConsumable.cshtml" />
+    <Content Include="Views\Consumable\EditConsumable.cshtml" />
+    <Content Include="Views\Consumable\Index.cshtml" />
+    <Content Include="Views\Consumable\CreateConsumable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

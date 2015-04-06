@@ -1,4 +1,4 @@
-﻿@model IList<PrintStat.Сonsumable>
+﻿@model IList<PrintStat.Consumable>
 @{
     ViewBag.Title = "Заменяемые комплектующие";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,7 +10,7 @@
 
 <p>
     <div class="menu">
-        <a href="@Url.Action("CreateСonsumable", "Сonsumable")">Добавить комплектующий</a>
+        <a href="@Url.Action("CreateConsumable", "Consumable")">Добавить комплектующий</a>
     </div>
 
 </p>
@@ -41,10 +41,10 @@
                     @component.Endurance
                 </td>
                 <td width="80">
-                    <a href="@Url.Action("EditСonsumable", "Сonsumable", new { id = @component.ID })">●</a>
+                    <a href="@Url.Action("EditConsumable", "Consumable", new { id = @component.ID })">●</a>
                 </td>
                 <td width="80">
-                    <a href="@Url.Action("DeleteСonsumable", "Сonsumable", new { id = @component.ID })"><font color="red">●</font></a>
+                    <a href="@Url.Action("DeleteConsumable", "Consumable", new { id = @component.ID })"><font color="red">●</font></a>
                 </td>
             </tr>
         }

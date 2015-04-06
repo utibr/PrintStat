@@ -7,7 +7,7 @@ using PrintStat.Models.ViewModels;
 
 namespace PrintStat.Controllers
 {
-    public class СonsumableController : BaseController
+    public class ConsumableController : BaseController
     {
         //
         // GET: /CartridgeColor/
@@ -17,34 +17,47 @@ namespace PrintStat.Controllers
             ViewBag.TypeConsumable = Repository.TypeConsumables;
             ViewBag.CartridgeColor = Repository.CartridgeColors;
         }
+
+        public int? checkCartridge(string TypeName)
+        {
+            return Repository.CheckCartridge(TypeName);
+        }
         public ActionResult Index()
         {
-            var _Component = Repository.Сonsumables.ToList();
+            var _Component = Repository.Consumables.ToList();
             return View(_Component);
         }
 
         [HttpGet]
-        public ActionResult CreateСonsumable()
+        public ActionResult CreateConsumable()
         {
             initViewBag();
-            var newComponentView = new СonsumableView();
+            var newComponentView = new ConsumableView();
             return View(newComponentView);
         }
 
         [HttpPost]
-        public ActionResult CreateСonsumable(СonsumableView _ComponentView)
+        public ActionResult CreateConsumable(ConsumableView _ComponentView)
         {
-            var anyComponent = Repository.Сonsumables.Any(p => string.Compare(p.Name, _ComponentView.Name) == 0);
+            initViewBag();
+            var anyComponent = Repository.Consumables.Any(p => string.Compare(p.Name, _ComponentView.Name) == 0);
             if (anyComponent)
             {
-                ModelState.AddModelError("Name", "Component с таким наименованием уже существует");
+                ModelState.AddModelError("Name", "Component с" +
+                                                 " таким наименованием уже существует");
             }
 
             if (ModelState.IsValid)
             {
 
-                var _Component = (Сonsumable)ModelMapper.Map(_ComponentView, typeof(СonsumableView), typeof(Сonsumable));
-                Repository.CreateСonsumable(_Component);
+                var _Component = (Consumable)ModelMapper.Map(_ComponentView, typeof(ConsumableView), typeof(Consumable));
+                
+                Repository.CreateConsumable(_Component);
+                
+                if (_ComponentView.ChosenModelIds!=null)
+                {
+                    Repository.CreateModelComsumable(_ComponentView.ChosenModelIds, _Component.ID);
+                }
                 return RedirectToAction("Index");
             }
 
@@ -52,27 +65,36 @@ namespace PrintStat.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditСonsumable(int? id)
+        public ActionResult EditConsumable(int? id)
         {
             initViewBag();
-            var _Component = Repository.Сonsumables.FirstOrDefault(p => p.ID == id);
+            var _Component = Repository.Consumables.FirstOrDefault(p => p.ID == id);
             if (_Component != null)
             {
-                var _ComponentView =
-                    (СonsumableView)ModelMapper.Map(_Component, typeof(Сonsumable), typeof(СonsumableView));
+                var _ComponentView =(ConsumableView)ModelMapper.Map(_Component, typeof(Consumable), typeof(ConsumableView));
+
+                var choosModelConsumable =  Repository.ModelConsumables.Where(m => m.ConsumableID == id);
+                
+                //хрень!!!!!
+                int i = 0;
+                foreach (var item in choosModelConsumable)
+                {
+                    _ComponentView.Models.Add(Repository.Models.First(t => t.ID == item.ModelID));
+                }
+                
                 return View(_ComponentView);
             }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult EditСonsumable(СonsumableView _ComponentView)
+        public ActionResult EditConsumable(ConsumableView _ComponentView)
         {
             if (ModelState.IsValid)
             {
-                var _Component = Repository.Сonsumables.FirstOrDefault(p => p.ID == _ComponentView.ID);
-                ModelMapper.Map(_ComponentView, _Component, typeof(СonsumableView), typeof(Сonsumable));
-                Repository.UpdateСonsumable(_Component);
+                var _Component = Repository.Consumables.FirstOrDefault(p => p.ID == _ComponentView.ID);
+                ModelMapper.Map(_ComponentView, _Component, typeof(ConsumableView), typeof(Consumable));
+                Repository.UpdateConsumable(_Component);
 
                 return RedirectToAction("Index");
             }
@@ -82,12 +104,12 @@ namespace PrintStat.Controllers
 
 
         [HttpGet]
-        public ActionResult DeleteСonsumable(int? id)
+        public ActionResult DeleteConsumable(int? id)
         {
-            var _Component = Repository.Сonsumables.FirstOrDefault(p => p.ID == id);
+            var _Component = Repository.Consumables.FirstOrDefault(p => p.ID == id);
             if (_Component != null)
             {
-                Repository.RemoveСonsumable(_Component);
+                Repository.RemoveConsumable(_Component);
             }
             return RedirectToAction("Index");
         }

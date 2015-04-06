@@ -85,7 +85,16 @@ namespace PrintStat.Models
             return false;
         }
 
+        public List<Model> SearchModel(string term)
+        {
+            if (term != "")
+            {
+                return
+                    Db.Model.Where(m => m.Name.ToLower().Contains(term.ToLower())).ToList();
 
+            }
+            return Db.Model.ToList();
+        }
         public List<Model> SerchModels(string name)
         {
             if (name!=null)
@@ -96,6 +105,51 @@ namespace PrintStat.Models
         }
 
         #region ModelRelation
+
+
+
+        public bool RemoveModelConsumable(IQueryable<ModelConsumable> instance)
+        {
+            try
+            {
+                if (instance != null)
+                {
+                    Db.ModelConsumable.DeleteAllOnSubmit(instance);
+                    Db.ModelConsumable.Context.SubmitChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public bool CreateModelComsumable(int[] comIDs, int conId)//поменять местами
+        {
+            try
+            {
+                Db.ModelConsumable.InsertAllOnSubmit(comIDs.Select(id =>
+            new ModelConsumable()
+            {
+                ConsumableID = conId,
+                ModelID = id
+            })
+        );
+                Db.ModelConsumable.Context.SubmitChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                
+                return false;
+            }
+
+        }
+
+
         public IQueryable<ModelTag> ModelTags
         {
             get
@@ -263,67 +317,94 @@ namespace PrintStat.Models
         }
         
         #endregion
+        
 
-
-        #region Сonsumable
-        public IQueryable<Сonsumable> Сonsumables  
+        public int? CheckCartridge(string temp)
+        {
+            try
+            {
+                return Db.TypeConsumable.Where(m => m.Name.ToLower().Contains(temp.ToLower())).Select(m => m.ID).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                
+               return 0; 
+            }
+        }
+        #region Consumable
+        public IQueryable<Consumable> Consumables  
         {
             get
             {
-                return Db.Сonsumable;
+                return Db.Consumable;
             }
         }
 
-        public bool CreateСonsumable(Сonsumable instance)    
+        public bool CreateConsumable(Consumable instance)    
         {
             if (instance.ID == 0)
             {
-                Db.Сonsumable.InsertOnSubmit(instance);
-                Db.Сonsumable.Context.SubmitChanges();
+                Db.Consumable.InsertOnSubmit(instance);
+                Db.Consumable.Context.SubmitChanges();
                 return true;
             }
 
             return false;
         }
 
-        public bool UpdateСonsumable(Сonsumable instance)    
+        public bool UpdateConsumable(Consumable instance)    
         {
             if (instance.ID == 0)
             {
-                Db.Сonsumable.InsertOnSubmit(instance);
-                Db.Сonsumable.Context.SubmitChanges();
+                Db.Consumable.InsertOnSubmit(instance);
+                Db.Consumable.Context.SubmitChanges();
                 return true;
             }
 
             return false;
         }
 
-        public bool RemoveСonsumable(Сonsumable instance)
+
+
+        public bool RemoveConsumable(Consumable instance)
         {
-            Сonsumable cache = Db.Сonsumable.Where(p => p.ID == instance.ID).FirstOrDefault();
-            if (cache != null)
+            try
             {
-                //TODO : Update fields for Consumable
-                Db.Сonsumable.Context.SubmitChanges();
-                return true;
+                if (instance != null)
+                {
+                    Db.Consumable.DeleteOnSubmit(instance);
+                    Db.Consumable.Context.SubmitChanges();
+                    return true;
+                }
+
+                return false;
             }
+            catch (Exception)
+            {
 
-            return false;
-        }
-
-        public bool RemoveConsumable(Сonsumable instance)
-        {
+                return false;
+            }
             
-            if (instance != null)
-            {
-                Db.Сonsumable.DeleteOnSubmit(instance);
-                Db.Сonsumable.Context.SubmitChanges();
-                return true;
-            }
-
-            return false;
         }
+
+
+
 #endregion
+
+        #region ModelConsumable
+
+
+        public IQueryable<ModelConsumable> ModelConsumables
+        {
+            get
+            {
+                return Db.ModelConsumable;
+            }
+        }
+
+        
+
+        #endregion
 
     }
 }
