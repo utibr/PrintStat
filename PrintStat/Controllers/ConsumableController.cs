@@ -75,8 +75,7 @@ namespace PrintStat.Controllers
 
                 var choosModelConsumable =  Repository.ModelConsumables.Where(m => m.ConsumableID == id);
                 
-                //хрень!!!!!
-                int i = 0;
+
                 foreach (var item in choosModelConsumable)
                 {
                     _ComponentView.Models.Add(Repository.Models.First(t => t.ID == item.ModelID));

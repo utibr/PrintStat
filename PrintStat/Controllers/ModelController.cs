@@ -26,20 +26,21 @@ namespace PrintStat.Controllers
                 ViewBag.DeviceTypes = Repository.DeviceTypes;
                 ViewBag.PrintKinds = Repository.PrintKinds;
                 ViewBag.Manufacturers = Repository.Manufacturers;
+                ViewBag.Consumables = Repository.Consumables;
                 
                 ViewBag.PaperTypes = Repository.PaperTypes;
                 ViewBag.SizePapers = Repository.SizePapers;
 
 
             }
-            //  [HttpGet]
-            //public ActionResult CreateModel()
-            //{
-            //    InitViewBag();
+            [HttpGet]
+            public ActionResult CreateModel()
+            {
+                InitViewBag();
 
-            //    var newModelView = TempData["ModelView"] != null ? ((ModelView) TempData["ModelView"]): new ModelView();
-            //    return View(newModelView);
-            //}
+                var newModelView =  new ModelView();
+                return View(newModelView);
+            }
 
 
             [HttpPost]
@@ -56,6 +57,7 @@ namespace PrintStat.Controllers
                     var model = (Model)ModelMapper.Map(modelView, typeof(ModelView), typeof(Model));
                     Repository.CreateModel(model);
                     var modelId = model.ID;
+                    Repository.CreateModelComsumable(modelView.ChosenConsIds, modelId);
                     Repository.CreateModelTag(modelView.ChosenTagIds, modelId);
                     Repository.CreateModelPaperType(modelView.ChosenPaperTypeIds, modelId);
                     Repository.CreateModelSizePaper(modelView.ChosenSizePaperIds, modelId);
@@ -79,6 +81,11 @@ namespace PrintStat.Controllers
                 if (model != null)
                 {
                     var modelView = (ModelView)ModelMapper.Map(model, typeof(Model), typeof(ModelView));
+                    var choosModelCons = Repository.ModelConsumables.Where(p => p.ModelID == id);
+                    foreach (var item in choosModelCons)
+                    {
+                        modelView.Consumables.Add(Repository.Consumables.First(c=>c.ID == item.ConsumableID));
+                    }
                     var choosModelTag = Repository.ModelTags.Where(p => p.ModelID == id);
                     foreach (var item in choosModelTag)
                     {
@@ -123,6 +130,10 @@ namespace PrintStat.Controllers
                     var modelPaperType = Repository.ModelPaperTypes.Where(mt => mt.ModelID == modelId);
                     Repository.RemoveModelPaperType(modelPaperType);
                     Repository.CreateModelPaperType(modelView.ChosenPaperTypeIds, modelId);
+
+                    var modelCons = Repository.ModelConsumables.Where(mc => mc.ModelID == modelId);
+                    Repository.RemoveModelConsumable(modelCons);
+                    Repository.CreateModelComsumable(modelView.ChosenConsIds, modelId);
 
                     return RedirectToAction("Index");
                 }

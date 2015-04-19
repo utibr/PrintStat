@@ -11,6 +11,16 @@ namespace PrintStat.Models.ViewModels
         public int ManufacturerID { get; set; }
         public int DeviceTypeID { get; set; }
         public int PrintKindID { get; set; }
+        
+        private List<Consumable>_Consumables = new List<Consumable>();
+
+        public List<Consumable> Consumables
+        {
+            get { return _Consumables;}
+            set { _Consumables = value; }
+        }
+        public int[] ChosenConsIds { get; set; }
+
 
         private List<Tag> _Tags = new List<Tag>();
         public List<Tag> Tags

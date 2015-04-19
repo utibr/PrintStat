@@ -4,13 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PrintStat.Models.ViewModels;
+using PagedList;
+using PagedList.Mvc;
 
 namespace PrintStat.Controllers
 {
     public class JobController : BaseController
     {
-        //
-        // GET: /Paper/
+
+
 
         public ActionResult Index()
         {
@@ -84,5 +86,17 @@ namespace PrintStat.Controllers
             }
             return RedirectToAction("Index");
         }
+
+
+        public ActionResult partialJobPaginator(int? page)
+        {
+            var Jobs = Repository.Jobs; //returns IQueryable<Product> representing an unknown number of products. a thousand maybe?
+
+            var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
+            return PartialView("partialJobPaginator", Jobs.ToPagedList(pageNumber, 1));
+        }
+
+
+
     }
 }

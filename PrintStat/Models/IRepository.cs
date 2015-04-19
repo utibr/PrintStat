@@ -137,13 +137,57 @@ namespace PrintStat.Models
 
         IQueryable<PrintKind> PrintKinds { get;  }
         IQueryable<Job> Jobs { get;  }
-
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="page"></param>
+       /// <returns></returns>
+        IQueryable<Job> JobPaginators(int page);
 
         IQueryable<Employee> AuthorEmployees { get;  }
         IQueryable<Employee> UserEmployees { get; }
 
        // IQueryable<Setup> Setup { get; }
+//Setting
+        #region Profile
 
+        IQueryable<Profile> Profiles { get; }
+
+        bool CreateProfile(Profile instance);
+
+        bool UpdateProfile(Profile instance);
+
+        bool RemoveProfile(Profile instance);
+
+        #endregion 
+
+        #region Settings
+
+        IQueryable<Settings> Settingses { get; }
+
+        bool CreateSettings(Settings instance);
+
+        bool UpdateSettings(Settings instance);
+
+        bool RemoveSettings(Settings instance);
+
+        #endregion 
+        
+        #region SettingsValue
+
+        IQueryable<SettingValue> SettingValues { get; }
+
+        bool CreateSettingValue(SettingValue instance);
+
+        bool UpdateSettingValue(SettingValue instance);
+
+        bool RemoveSettingValue(SettingValue instance);
+
+        #endregion 
+ /// <summary>
+ /// ///
+ /// </summary>
+       
         #region FieldSettings
 
         IQueryable<Settings> FieldSettings { get; }

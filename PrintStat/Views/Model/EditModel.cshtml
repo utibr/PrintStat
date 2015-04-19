@@ -36,6 +36,44 @@
 
             <div class="editor-field">
                 @{
+    var z = 0;
+    foreach (var testCollection in ViewBag.Consumables)
+    {
+
+        if (Model.Consumables.Contains(testCollection)) // проверка на принадлежность
+        {
+            <input type="checkbox"
+                   id="[@z]"
+                   name="ChosenConsIds"
+                   value="@testCollection.ID"
+                   checked="checked" />
+                    <span>@testCollection.Name</span>
+                    <br />
+            z++;
+        }
+        else
+        {
+
+
+            <input type="checkbox"
+                   id="[@z]"
+                   name="ChosenTagIds"
+                   value="@testCollection.ID" />
+
+                    <span>@testCollection.Name</span>
+                    <br />
+            z++;
+        }
+    }
+                }
+            </div>
+
+
+
+
+
+            <div class="editor-field">
+                @{
                     var i = 0;
                     foreach (var testCollection in ViewBag.Tags)
                     {

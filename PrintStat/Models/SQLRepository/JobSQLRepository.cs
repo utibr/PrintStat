@@ -18,6 +18,15 @@ namespace PrintStat.Models
                 return Db.Job.OrderBy(p=>p.StartTime);
             }
         }
+/// <summary>
+/// 
+/// </summary>
+/// <param name="page"></param>
+/// <returns></returns>
+        public IQueryable<Job> JobPaginators(int page)
+        {
+            return Db.Job.Skip(1).Take(1).OrderByDescending(s => s.EndTime);
+        }
 
         public bool CreateJob(Job instance)
         {

@@ -64,6 +64,12 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.1.0\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -215,6 +221,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CartridgeColorController.cs" />
     <Compile Include="Controllers\ConsumableController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\TypeConsumableController.cs" />
     <Compile Include="Controllers\ComponentController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
@@ -250,6 +257,7 @@
     <Compile Include="Models\Proxy\Tag.cs" />
     <Compile Include="Models\SQLRepository\JobSQLRepository.cs" />
     <Compile Include="Models\SQLRepository\DictionariesSQLRepository.cs" />
+    <Compile Include="Models\SQLRepository\SettingsSQLRepository.cs" />
     <Compile Include="Models\Validation\IsNumericAttribute.cs" />
     <Compile Include="Models\Proxy\DeviceType.cs" />
     <Compile Include="Models\Proxy\PaperType.cs" />
@@ -271,6 +279,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\ViewModels\ComponentView.cs" />
+    <Compile Include="Models\ViewModels\ProfileView.cs" />
     <Compile Include="Models\ViewModels\TypeConsumableView.cs" />
     <Compile Include="Models\ViewModels\ConsumableView.cs">
       <SubType>Code</SubType>
@@ -328,6 +337,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -446,7 +456,7 @@
     <Content Include="Views\Device\Index.cshtml" />
     <Content Include="Views\Device\CreateDevice.cshtml" />
     <Content Include="Views\Device\EditDevice.cshtml" />
-    <Content Include="Views\Settings\Index.cshtml" />
+    <Content Include="Views\Profile\CreateSettings.cshtml" />
     <Content Include="Views\Report\ExportJobs.cshtml" />
     <Content Include="Views\PaperType\Index.cshtml" />
     <Content Include="Views\PaperType\EditPaperType.cshtml" />
@@ -492,10 +502,11 @@
     <Content Include="Views\TypeConsumable\CreateTypeConsumable.cshtml" />
     <Content Include="Views\TypeConsumable\EditTypeConsumable.cshtml" />
     <Content Include="Views\TypeConsumable\Index.cshtml" />
-    <Content Include="Views\Сonsumable\CreateConsumable.cshtml" />
     <Content Include="Views\Consumable\EditConsumable.cshtml" />
     <Content Include="Views\Consumable\Index.cshtml" />
     <Content Include="Views\Consumable\CreateConsumable.cshtml" />
+    <Content Include="Views\Job\partialJobPaginator.cshtml" />
+    <Content Include="Views\Profile\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

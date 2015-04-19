@@ -13,12 +13,11 @@ namespace PrintStat.Controllers
 {
     public class HomeController : BaseController
     {
-        // GET: /Paper/
-
 
         public ActionResult Index()
         {
-            var Jobs = Repository.Jobs.OrderByDescending(s => s.EndTime).ToList();
+           // var Jobs = Repository.Jobs.OrderByDescending(s => s.EndTime).ToList();
+            var Jobs = Repository.JobPaginators(1).ToList();
             return View(Jobs);
         }
 
