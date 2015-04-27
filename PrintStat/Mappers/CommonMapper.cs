@@ -11,6 +11,21 @@ namespace PrintStat.Mappers
     {
         static CommonMapper()
         {
+            Mapper.CreateMap<ProfileView, Profile>();
+         //       .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            //Mapper.CreateMap<ProfileView, Settings>()
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.NameParametr));
+            //Mapper.CreateMap<ProfileView, SettingValue>()
+            //    .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value));
+
+            Mapper.CreateMap< Profile,ProfileView>();
+            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            //Mapper.CreateMap<Settings, ProfileView>()
+            //    .ForMember(dest => dest.NameParametr, opt => opt.MapFrom(src => src.Name));
+            //Mapper.CreateMap<SettingValue, ProfileView>()
+            //    .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.Value));
+
+                
             Mapper.CreateMap<SizePaperView, SizePaper>()
                .ForMember(dest => dest.Height_cm, opt => opt.MapFrom(src => src.Height_cm))
                .ForMember(dest => dest.Width_cm, opt => opt.MapFrom(src => src.Width_cm));

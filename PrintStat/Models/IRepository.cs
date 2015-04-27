@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using PrintStat.Models.ViewModels;
 
 namespace PrintStat.Models
 {
@@ -179,7 +180,7 @@ namespace PrintStat.Models
 
         bool CreateSettingValue(SettingValue instance);
 
-        bool UpdateSettingValue(SettingValue instance);
+        bool UpdateSettingValue(List<ProfileView.setval> sv);
 
         bool RemoveSettingValue(SettingValue instance);
 

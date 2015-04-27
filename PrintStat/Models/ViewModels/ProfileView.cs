@@ -12,7 +12,22 @@ namespace PrintStat.Models.ViewModels
         //
         // GET: /CartridgeColorView/
 
-        public string NameParametr { get; set; }
-        public string Value { get; set; }
+        public class setval
+        {
+            public int idValue { get; set; }
+
+            [Display(Name = "Значение")]
+            public string value { get; set; }
+            public string setting { get; set; }
+        }
+
+       
+        private List<setval> _setval = new List<setval>();
+        public List<setval> SettingVals
+        {
+            get { return _setval; }
+            set { _setval = value; }
+        }
+        public IEnumerable<SelectListItem> Values { get; set; }
     }
 }

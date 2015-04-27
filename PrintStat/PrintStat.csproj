@@ -456,7 +456,7 @@
     <Content Include="Views\Device\Index.cshtml" />
     <Content Include="Views\Device\CreateDevice.cshtml" />
     <Content Include="Views\Device\EditDevice.cshtml" />
-    <Content Include="Views\Profile\CreateSettings.cshtml" />
+    <Content Include="Views\Profile\EditProfile.cshtml" />
     <Content Include="Views\Report\ExportJobs.cshtml" />
     <Content Include="Views\PaperType\Index.cshtml" />
     <Content Include="Views\PaperType\EditPaperType.cshtml" />

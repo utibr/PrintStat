@@ -9,13 +9,13 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Microsoft.SqlServer.Server;
+using PrintStat.Models.ViewModels;
 
 
 namespace PrintStat.Models
 {
     public partial class SQLRepository : IRepository
     {
-
 
         public IQueryable<Profile> Profiles
         {
@@ -133,17 +133,19 @@ namespace PrintStat.Models
             return false;
         }
 
-        public bool UpdateSettingValue(SettingValue instance)
+        public bool UpdateSettingValue(List<ProfileView.setval> sv)
         {
-            SettingValue cache = Db.SettingValue.Where(p => p.ID == instance.ID).FirstOrDefault();
-            if (cache != null)
+           // SettingValue cache1 = Db.SettingValue.Where(p => p.ProfileID == idProfile &&).FirstOrDefault();
+
+            foreach (var item in sv)
             {
-                //TODO : Update fields for SettingValue
+                SettingValue cache = Db.SettingValue.First(p => p.ID == item.idValue);
+                cache.Value = item.value;
                 Db.SettingValue.Context.SubmitChanges();
-                return true;
+                
             }
 
-            return false;
+            return true;
         }
 
         public bool RemoveSettingValue(SettingValue instance)
