@@ -106,9 +106,15 @@ namespace PrintStat.Controllers
         public ActionResult DeleteConsumable(int? id)
         {
             var _Component = Repository.Consumables.FirstOrDefault(p => p.ID == id);
-            if (_Component != null)
+            if (_Component != null && (Repository.CountUsesConsumble(id)==0))
             {
                 Repository.RemoveConsumable(_Component);
+            }
+            else
+            {
+                
+                ViewBag.Message = "Невозможно удалить комплектующий, т.к. он используется";
+                return View("~/Views/Shared/ErrorView.cshtml");
             }
             return RedirectToAction("Index");
         }

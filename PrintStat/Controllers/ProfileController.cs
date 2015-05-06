@@ -82,7 +82,7 @@ namespace PrintStat.Controllers
                 Repository.UpdateSettingValue(profileView.SettingVals);
                 return RedirectToAction("Index");    
             }
-            return View(profileView);
+           
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Web;
 using Ninject;
 using System.Data.Linq;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 
 namespace PrintStat.Models
@@ -51,7 +52,7 @@ namespace PrintStat.Models
                                                         (m, d) => d);
             }
         }
-
+        #region device
         public bool CreatePrinter(Device instance)
         {
              Db.Device.InsertOnSubmit(instance);
@@ -84,6 +85,191 @@ namespace PrintStat.Models
 
             return false;
         }
+
+        public List<ModelConsumable> GetModelConsumables(int idDevice)
+        {
+           IQueryable<ModelConsumable> ids= Db.Device.Where(d => d.ID == idDevice).Join(
+                Db.Model,
+                d => d.ModelID,
+                m => m.ID,
+                (d, m) => m).Join(
+                    Db.ModelConsumable,
+                    m => m.ID,
+                    mc => mc.ModelID,
+                    (m, mc) => mc);
+            return ids.ToList();
+
+        }
+
+
+        public IQueryable<DeviceConsumable> DeviceConsumables
+        {
+            get
+            {
+                return Db.DeviceConsumable;
+            }
+        }
+        public class devCons
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public DateTime? DateInstalled { get; set; }
+            public DateTime? DateEnd { get; set; }
+            public string Type { get; set; }
+            public bool? Uses { get; set; }
+            public int Count { get; set; }
+            public int CountSnmp { get; set; }
+        }
+
+        public int GetCountSnmp(int? idDevice,DateTime? start,DateTime? end)
+        {
+
+            //TODO сейчас идет только подсчет листов неважно какого формата
+            //TODO привести к одному эквиваленту
+            if (Db.Device.First(p => p.ID == idDevice).StatisticsSupported != true && end!=null)
+            {
+                
+                return Convert.ToInt32((from d in Db.Device.Where(p => p.ID == idDevice)
+                    join snmp in Db.SNMP.Where(l => l.Date >= start && l.Date <= end) on d.ID equals snmp.DeviceID
+                    select snmp.Value).Sum());
+
+
+            }
+            else return 0;
+        }
+
+        public int GetCountPaper(int? idDevice, DateTime? start, DateTime? end)
+        {
+
+          //  TODO сделать подсчет как в страницах так и в погонных метрах
+
+          // return (int)
+            var i =
+                (from d in Db.Device.Where(p => p.ID == idDevice)
+                    join jb in Db.Job on d.ID equals jb.DeviceID
+                    select new
+                    {
+                        jb.Copies,
+                        jb.Pages,
+                        RealHeight_m = jb.RealHeight_cm*10,
+                        RealWidth_m = jb.RealWidth_cm*10
+
+                    });
+            if (Db.Device.First(p=>p.ID==idDevice).Model.DeviceType.Name=="Принтер")
+            {
+                return Convert.ToInt32(i.Select(p => p.Copies*p.Pages).Sum());
+            }
+            else
+            {
+                return Convert.ToInt32(i.Select(p => p.RealHeight_m).Sum());
+            }
+        }
+
+        public List<devCons> GetDevConses(int? idDevice)
+        {
+            var devCon =
+                from d in Db.Device.Where(p => p.ID == idDevice)
+                join dc in Db.DeviceConsumable on d.ID equals dc.DeviceID
+                join mc in Db.ModelConsumable on dc.ModelConsumableID equals mc.ID
+                join c in Db.Consumable on mc.ConsumableID equals c.ID
+                join tc in Db.TypeConsumable on c.TypeConsumableID equals tc.ID
+
+                select new 
+                {
+                    deviceId=d.ID,
+                    dc.Uses,
+                    dc.ID,
+                    c.Name,
+                    dc.DateInstalled,
+                    dc.DateEnd,
+                    Type=tc.Name
+
+                };
+            List<devCons> listdc = new List<devCons>();
+            foreach (var item in devCon)
+            {
+                var buf = new devCons();
+                buf.ID = item.ID;
+                buf.Name = item.Name;
+                buf.DateInstalled = item.DateInstalled;
+                buf.DateEnd = item.DateEnd;
+                buf.Type = item.Type;
+                buf.Uses = item.Uses;
+                buf.Count = GetCountPaper(item.deviceId, item.DateInstalled, item.DateEnd);
+                buf.CountSnmp = GetCountSnmp(item.deviceId, item.DateInstalled, item.DateEnd);
+
+                listdc.Add(buf);
+            }
+            return listdc ;
+        }
+        public bool CreateDeviceConsumable(int idDevice,int idModelConsumable,DateTime time)
+        {
+            try
+            {
+                if (time == DateTime.MinValue) time = DateTime.Now;
+                var t = DateTime.Now;
+                var t1 = DateTime.Today;
+                var instance = new DeviceConsumable()
+                {
+                    DeviceID = idDevice,
+                    ModelConsumableID = idModelConsumable,
+                    DateInstalled = time,
+                    Uses = true
+                };
+                Db.DeviceConsumable.InsertOnSubmit(instance);
+                Db.DeviceConsumable.Context.SubmitChanges();
+                return true;
+                
+            }
+            catch (Exception)
+            {
+                
+                return false;
+            }
+        }
+
+        //1 option
+        public bool SetDateEnd(int devConId, DateTime dateEnd)
+        {
+            DeviceConsumable devcon = Db.DeviceConsumable.First(p => p.ID == devConId);
+            if (dateEnd == DateTime.MinValue)
+            {
+                devcon.DateEnd = DateTime.Now;
+            }
+            else
+            {
+                devcon.DateEnd = dateEnd;
+            }
+            Db.DeviceConsumable.Context.SubmitChanges();
+
+            return true;
+        }
+        //2 option
+        public bool SetUseOffAndAddNewCons(int idDevCon)
+        {
+            //прекращаем использование
+            DeviceConsumable temp = Db.DeviceConsumable.First(p => p.ID == idDevCon);
+            temp.Uses = false;
+            Db.DeviceConsumable.Context.SubmitChanges();
+            //Заменяем на новую такую же?
+            //TODO уточнить на такую же или на другую?
+            CreateDeviceConsumable(temp.DeviceID, temp.ModelConsumableID, DateTime.MinValue);
+
+            return true;
+        }
+
+        public bool RemoveDeviceConsumable(int idDevice)
+        {
+            IEnumerable<DeviceConsumable> instance = Db.DeviceConsumable.Where(p => p.DeviceID == idDevice);
+            if (instance != null)
+            {
+                Db.DeviceConsumable.DeleteAllOnSubmit(instance);
+                Db.DeviceConsumable.Context.SubmitChanges();
+                return true;
+            }
+            return false;
+        }
+#endregion
 
         public List<Model> SearchModel(string term)
         {
@@ -364,6 +550,19 @@ namespace PrintStat.Models
             return false;
         }
 
+        public int CountUsesConsumble(int? idConsumble)
+        {
+           return  Db.Consumable.Where(p => p.ID == idConsumble)
+                .Join(Db.ModelConsumable,
+                    c => c.ID,
+                    mc => mc.ConsumableID,
+                    (c, mc) => mc)
+                .Join(Db.DeviceConsumable,
+                    mc => mc.ID,
+                    dc => dc.ModelConsumableID,
+                    (mc, dc) => dc)
+                .Count();
+        }
 
 
         public bool RemoveConsumable(Consumable instance)

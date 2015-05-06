@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using PrintStat.Models.ViewModels;
@@ -55,6 +57,13 @@ namespace PrintStat.Controllers
 
                 var printer = (Device)ModelMapper.Map(printerView, typeof(DeviceView), typeof(Device));
                 Repository.CreatePrinter(printer);
+                var idDevice = printer.ID;
+                var consumableModel = Repository.GetModelConsumables(idDevice);
+                foreach (var item in consumableModel)
+                {
+                    Repository.CreateDeviceConsumable(idDevice,item.ID,DateTime.MinValue);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -97,10 +106,59 @@ namespace PrintStat.Controllers
             var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == id);
             if (printer != null)
             {
+                Repository.RemoveDeviceConsumable((int)id);
                 Repository.RemovePrinter(printer);
             }
             return RedirectToAction("Index");
         }
+
+
+
+        [HttpGet]
+        public ActionResult EditDeviceConsumable(int? id)
+        {
+            var device = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == id);
+            if (device != null)
+            {
+                ViewBag.DeviceName = device.Name;
+                var deviceConsumble = new DeviceConsumableView();
+                deviceConsumble.deviceID = (int) id;
+                deviceConsumble.AllDevCons = Repository.GetDevConses(id);
+                return View(deviceConsumble);
+
+
+            }
+            return View("Index");
+        }
+
+
+
+        //option 1 прекратить использование
+        //       2 заменить
+        [HttpGet]
+#pragma warning disable 1998
+        public async Task<ActionResult> GetDeviceConsumble(int deviceId, int id, int option )
+#pragma warning restore 1998
+        {
+            if (option == 1)
+            {
+                Repository.SetDateEnd(id, DateTime.MinValue);
+            }
+            else
+            {
+                Repository.SetUseOffAndAddNewCons(id);
+            }
+
+            var deviceConsumble = new DeviceConsumableView
+            {
+                AllDevCons = Repository.GetDevConses(deviceId),
+                deviceID = deviceId
+            };
+
+            return PartialView("partialDeviceConsumable", deviceConsumble);
+        }
+
+
     }
 
 }

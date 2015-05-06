@@ -60,12 +60,12 @@ namespace PrintStat
     partial void InsertDeviceComponent(DeviceComponent instance);
     partial void UpdateDeviceComponent(DeviceComponent instance);
     partial void DeleteDeviceComponent(DeviceComponent instance);
-    partial void InsertDeviceType(DeviceType instance);
-    partial void UpdateDeviceType(DeviceType instance);
-    partial void DeleteDeviceType(DeviceType instance);
     partial void InsertDeviceConsumable(DeviceConsumable instance);
     partial void UpdateDeviceConsumable(DeviceConsumable instance);
     partial void DeleteDeviceConsumable(DeviceConsumable instance);
+    partial void InsertDeviceType(DeviceType instance);
+    partial void UpdateDeviceType(DeviceType instance);
+    partial void DeleteDeviceType(DeviceType instance);
     partial void InsertEmployee(Employee instance);
     partial void UpdateEmployee(Employee instance);
     partial void DeleteEmployee(Employee instance);
@@ -235,19 +235,19 @@ namespace PrintStat
 			}
 		}
 		
-		public System.Data.Linq.Table<DeviceType> DeviceType
-		{
-			get
-			{
-				return this.GetTable<DeviceType>();
-			}
-		}
-		
 		public System.Data.Linq.Table<DeviceConsumable> DeviceConsumable
 		{
 			get
 			{
 				return this.GetTable<DeviceConsumable>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DeviceType> DeviceType
+		{
+			get
+			{
+				return this.GetTable<DeviceType>();
 			}
 		}
 		
@@ -2184,6 +2184,8 @@ namespace PrintStat
 		
 		private System.Nullable<int> _CurEndurance;
 		
+		private System.Nullable<bool> _Uses;
+		
 		private EntityRef<Component> _Component;
 		
 		private EntityRef<Device> _Device;
@@ -2198,6 +2200,8 @@ namespace PrintStat
     partial void OnDeviceIDChanged();
     partial void OnCurEnduranceChanging(System.Nullable<int> value);
     partial void OnCurEnduranceChanged();
+    partial void OnUsesChanging(System.Nullable<bool> value);
+    partial void OnUsesChanged();
     #endregion
 		
 		public DeviceComponent()
@@ -2271,6 +2275,26 @@ namespace PrintStat
 					this._CurEndurance = value;
 					this.SendPropertyChanged("CurEndurance");
 					this.OnCurEnduranceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uses", DbType="Bit")]
+		public System.Nullable<bool> Uses
+		{
+			get
+			{
+				return this._Uses;
+			}
+			set
+			{
+				if ((this._Uses != value))
+				{
+					this.OnUsesChanging(value);
+					this.SendPropertyChanging();
+					this._Uses = value;
+					this.SendPropertyChanged("Uses");
+					this.OnUsesChanged();
 				}
 			}
 		}
@@ -2361,6 +2385,322 @@ namespace PrintStat
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceConsumable")]
+	public partial class DeviceConsumable : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private int _DeviceID;
+		
+		private int _ModelConsumableID;
+		
+		private string _Sn;
+		
+		private System.Nullable<System.DateTime> _DateInstalled;
+		
+		private System.Nullable<System.DateTime> _DateEnd;
+		
+		private System.Nullable<bool> _Uses;
+		
+		private EntitySet<TonerJob> _TonerJob;
+		
+		private EntityRef<Device> _Device;
+		
+		private EntityRef<ModelConsumable> _ModelConsumable;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnDeviceIDChanging(int value);
+    partial void OnDeviceIDChanged();
+    partial void OnModelConsumableIDChanging(int value);
+    partial void OnModelConsumableIDChanged();
+    partial void OnSnChanging(string value);
+    partial void OnSnChanged();
+    partial void OnDateInstalledChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateInstalledChanged();
+    partial void OnDateEndChanging(System.Nullable<System.DateTime> value);
+    partial void OnDateEndChanged();
+    partial void OnUsesChanging(System.Nullable<bool> value);
+    partial void OnUsesChanged();
+    #endregion
+		
+		public DeviceConsumable()
+		{
+			this._TonerJob = new EntitySet<TonerJob>(new Action<TonerJob>(this.attach_TonerJob), new Action<TonerJob>(this.detach_TonerJob));
+			this._Device = default(EntityRef<Device>);
+			this._ModelConsumable = default(EntityRef<ModelConsumable>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
+		public int DeviceID
+		{
+			get
+			{
+				return this._DeviceID;
+			}
+			set
+			{
+				if ((this._DeviceID != value))
+				{
+					if (this._Device.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDeviceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceID = value;
+					this.SendPropertyChanged("DeviceID");
+					this.OnDeviceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModelConsumableID", DbType="Int NOT NULL")]
+		public int ModelConsumableID
+		{
+			get
+			{
+				return this._ModelConsumableID;
+			}
+			set
+			{
+				if ((this._ModelConsumableID != value))
+				{
+					if (this._ModelConsumable.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnModelConsumableIDChanging(value);
+					this.SendPropertyChanging();
+					this._ModelConsumableID = value;
+					this.SendPropertyChanged("ModelConsumableID");
+					this.OnModelConsumableIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sn", DbType="NVarChar(30)")]
+		public string Sn
+		{
+			get
+			{
+				return this._Sn;
+			}
+			set
+			{
+				if ((this._Sn != value))
+				{
+					this.OnSnChanging(value);
+					this.SendPropertyChanging();
+					this._Sn = value;
+					this.SendPropertyChanged("Sn");
+					this.OnSnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateInstalled", DbType="DateTime2")]
+		public System.Nullable<System.DateTime> DateInstalled
+		{
+			get
+			{
+				return this._DateInstalled;
+			}
+			set
+			{
+				if ((this._DateInstalled != value))
+				{
+					this.OnDateInstalledChanging(value);
+					this.SendPropertyChanging();
+					this._DateInstalled = value;
+					this.SendPropertyChanged("DateInstalled");
+					this.OnDateInstalledChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateEnd", DbType="DateTime2")]
+		public System.Nullable<System.DateTime> DateEnd
+		{
+			get
+			{
+				return this._DateEnd;
+			}
+			set
+			{
+				if ((this._DateEnd != value))
+				{
+					this.OnDateEndChanging(value);
+					this.SendPropertyChanging();
+					this._DateEnd = value;
+					this.SendPropertyChanged("DateEnd");
+					this.OnDateEndChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Uses", DbType="Bit")]
+		public System.Nullable<bool> Uses
+		{
+			get
+			{
+				return this._Uses;
+			}
+			set
+			{
+				if ((this._Uses != value))
+				{
+					this.OnUsesChanging(value);
+					this.SendPropertyChanging();
+					this._Uses = value;
+					this.SendPropertyChanged("Uses");
+					this.OnUsesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceConsumable_TonerJob", Storage="_TonerJob", ThisKey="ID", OtherKey="DeviceСonsumableID")]
+		public EntitySet<TonerJob> TonerJob
+		{
+			get
+			{
+				return this._TonerJob;
+			}
+			set
+			{
+				this._TonerJob.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_DeviceConsumable", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
+		public Device Device
+		{
+			get
+			{
+				return this._Device.Entity;
+			}
+			set
+			{
+				Device previousValue = this._Device.Entity;
+				if (((previousValue != value) 
+							|| (this._Device.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Device.Entity = null;
+						previousValue.DeviceConsumable.Remove(this);
+					}
+					this._Device.Entity = value;
+					if ((value != null))
+					{
+						value.DeviceConsumable.Add(this);
+						this._DeviceID = value.ID;
+					}
+					else
+					{
+						this._DeviceID = default(int);
+					}
+					this.SendPropertyChanged("Device");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ModelConsumable_DeviceConsumable", Storage="_ModelConsumable", ThisKey="ModelConsumableID", OtherKey="ID", IsForeignKey=true)]
+		public ModelConsumable ModelConsumable
+		{
+			get
+			{
+				return this._ModelConsumable.Entity;
+			}
+			set
+			{
+				ModelConsumable previousValue = this._ModelConsumable.Entity;
+				if (((previousValue != value) 
+							|| (this._ModelConsumable.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ModelConsumable.Entity = null;
+						previousValue.DeviceConsumable.Remove(this);
+					}
+					this._ModelConsumable.Entity = value;
+					if ((value != null))
+					{
+						value.DeviceConsumable.Add(this);
+						this._ModelConsumableID = value.ID;
+					}
+					else
+					{
+						this._ModelConsumableID = default(int);
+					}
+					this.SendPropertyChanged("ModelConsumable");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_TonerJob(TonerJob entity)
+		{
+			this.SendPropertyChanging();
+			entity.DeviceConsumable = this;
+		}
+		
+		private void detach_TonerJob(TonerJob entity)
+		{
+			this.SendPropertyChanging();
+			entity.DeviceConsumable = null;
 		}
 	}
 	
@@ -2475,298 +2815,6 @@ namespace PrintStat
 		{
 			this.SendPropertyChanging();
 			entity.DeviceType = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceConsumable")]
-	public partial class DeviceConsumable : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private int _DeviceID;
-		
-		private int _ModelConsumableID;
-		
-		private string _Sn;
-		
-		private System.DateTime _DateInstalled;
-		
-		private System.Nullable<System.DateTime> _DateEnd;
-		
-		private EntitySet<TonerJob> _TonerJob;
-		
-		private EntityRef<Device> _Device;
-		
-		private EntityRef<ModelConsumable> _ModelConsumable;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnDeviceIDChanging(int value);
-    partial void OnDeviceIDChanged();
-    partial void OnModelConsumableIDChanging(int value);
-    partial void OnModelConsumableIDChanged();
-    partial void OnSnChanging(string value);
-    partial void OnSnChanged();
-    partial void OnDateInstalledChanging(System.DateTime value);
-    partial void OnDateInstalledChanged();
-    partial void OnDateEndChanging(System.Nullable<System.DateTime> value);
-    partial void OnDateEndChanged();
-    #endregion
-		
-		public DeviceConsumable()
-		{
-			this._TonerJob = new EntitySet<TonerJob>(new Action<TonerJob>(this.attach_TonerJob), new Action<TonerJob>(this.detach_TonerJob));
-			this._Device = default(EntityRef<Device>);
-			this._ModelConsumable = default(EntityRef<ModelConsumable>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
-		public int DeviceID
-		{
-			get
-			{
-				return this._DeviceID;
-			}
-			set
-			{
-				if ((this._DeviceID != value))
-				{
-					if (this._Device.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnDeviceIDChanging(value);
-					this.SendPropertyChanging();
-					this._DeviceID = value;
-					this.SendPropertyChanged("DeviceID");
-					this.OnDeviceIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModelConsumableID", DbType="Int NOT NULL")]
-		public int ModelConsumableID
-		{
-			get
-			{
-				return this._ModelConsumableID;
-			}
-			set
-			{
-				if ((this._ModelConsumableID != value))
-				{
-					if (this._ModelConsumable.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnModelConsumableIDChanging(value);
-					this.SendPropertyChanging();
-					this._ModelConsumableID = value;
-					this.SendPropertyChanged("ModelConsumableID");
-					this.OnModelConsumableIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sn", DbType="NVarChar(30)")]
-		public string Sn
-		{
-			get
-			{
-				return this._Sn;
-			}
-			set
-			{
-				if ((this._Sn != value))
-				{
-					this.OnSnChanging(value);
-					this.SendPropertyChanging();
-					this._Sn = value;
-					this.SendPropertyChanged("Sn");
-					this.OnSnChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateInstalled", DbType="Date NOT NULL")]
-		public System.DateTime DateInstalled
-		{
-			get
-			{
-				return this._DateInstalled;
-			}
-			set
-			{
-				if ((this._DateInstalled != value))
-				{
-					this.OnDateInstalledChanging(value);
-					this.SendPropertyChanging();
-					this._DateInstalled = value;
-					this.SendPropertyChanged("DateInstalled");
-					this.OnDateInstalledChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DateEnd", DbType="Date")]
-		public System.Nullable<System.DateTime> DateEnd
-		{
-			get
-			{
-				return this._DateEnd;
-			}
-			set
-			{
-				if ((this._DateEnd != value))
-				{
-					this.OnDateEndChanging(value);
-					this.SendPropertyChanging();
-					this._DateEnd = value;
-					this.SendPropertyChanged("DateEnd");
-					this.OnDateEndChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceConsumable_TonerJob", Storage="_TonerJob", ThisKey="ID", OtherKey="DeviceConsumableID")]
-		public EntitySet<TonerJob> TonerJob
-		{
-			get
-			{
-				return this._TonerJob;
-			}
-			set
-			{
-				this._TonerJob.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_DeviceConsumable", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
-		public Device Device
-		{
-			get
-			{
-				return this._Device.Entity;
-			}
-			set
-			{
-				Device previousValue = this._Device.Entity;
-				if (((previousValue != value) 
-							|| (this._Device.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Device.Entity = null;
-						previousValue.DeviceConsumable.Remove(this);
-					}
-					this._Device.Entity = value;
-					if ((value != null))
-					{
-						value.DeviceConsumable.Add(this);
-						this._DeviceID = value.ID;
-					}
-					else
-					{
-						this._DeviceID = default(int);
-					}
-					this.SendPropertyChanged("Device");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ModelConsumable_DeviceConsumable", Storage="_ModelConsumable", ThisKey="ModelConsumableID", OtherKey="ID", IsForeignKey=true)]
-		public ModelConsumable ModelConsumable
-		{
-			get
-			{
-				return this._ModelConsumable.Entity;
-			}
-			set
-			{
-				ModelConsumable previousValue = this._ModelConsumable.Entity;
-				if (((previousValue != value) 
-							|| (this._ModelConsumable.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ModelConsumable.Entity = null;
-						previousValue.DeviceConsumable.Remove(this);
-					}
-					this._ModelConsumable.Entity = value;
-					if ((value != null))
-					{
-						value.DeviceConsumable.Add(this);
-						this._ModelConsumableID = value.ID;
-					}
-					else
-					{
-						this._ModelConsumableID = default(int);
-					}
-					this.SendPropertyChanged("ModelConsumable");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_TonerJob(TonerJob entity)
-		{
-			this.SendPropertyChanging();
-			entity.DeviceConsumable = this;
-		}
-		
-		private void detach_TonerJob(TonerJob entity)
-		{
-			this.SendPropertyChanging();
-			entity.DeviceConsumable = null;
 		}
 	}
 	
@@ -3438,7 +3486,7 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime2")]
 		public System.Nullable<System.DateTime> StartTime
 		{
 			get
@@ -3458,7 +3506,7 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime2")]
 		public System.Nullable<System.DateTime> EndTime
 		{
 			get
@@ -6175,7 +6223,7 @@ namespace PrintStat
 		
 		private int _ID;
 		
-		private System.DateTime _Date;
+		private System.Nullable<System.DateTime> _Date;
 		
 		private System.Nullable<int> _Value;
 		
@@ -6193,7 +6241,7 @@ namespace PrintStat
     partial void OnCreated();
     partial void OnIDChanging(int value);
     partial void OnIDChanged();
-    partial void OnDateChanging(System.DateTime value);
+    partial void OnDateChanging(System.Nullable<System.DateTime> value);
     partial void OnDateChanged();
     partial void OnValueChanging(System.Nullable<int> value);
     partial void OnValueChanged();
@@ -6230,8 +6278,8 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="Date NOT NULL")]
-		public System.DateTime Date
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="DateTime2")]
+		public System.Nullable<System.DateTime> Date
 		{
 			get
 			{
@@ -6928,7 +6976,7 @@ namespace PrintStat
 		
 		private int _JobID;
 		
-		private int _DeviceConsumableID;
+		private int _DeviceСonsumableID;
 		
 		private int _Amount;
 		
@@ -6942,8 +6990,8 @@ namespace PrintStat
     partial void OnCreated();
     partial void OnJobIDChanging(int value);
     partial void OnJobIDChanged();
-    partial void OnDeviceConsumableIDChanging(int value);
-    partial void OnDeviceConsumableIDChanged();
+    partial void OnDeviceСonsumableIDChanging(int value);
+    partial void OnDeviceСonsumableIDChanged();
     partial void OnAmountChanging(int value);
     partial void OnAmountChanged();
     #endregion
@@ -6979,26 +7027,26 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceConsumableID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int DeviceConsumableID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceСonsumableID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int DeviceСonsumableID
 		{
 			get
 			{
-				return this._DeviceConsumableID;
+				return this._DeviceСonsumableID;
 			}
 			set
 			{
-				if ((this._DeviceConsumableID != value))
+				if ((this._DeviceСonsumableID != value))
 				{
 					if (this._DeviceConsumable.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnDeviceConsumableIDChanging(value);
+					this.OnDeviceСonsumableIDChanging(value);
 					this.SendPropertyChanging();
-					this._DeviceConsumableID = value;
-					this.SendPropertyChanged("DeviceConsumableID");
-					this.OnDeviceConsumableIDChanged();
+					this._DeviceСonsumableID = value;
+					this.SendPropertyChanged("DeviceСonsumableID");
+					this.OnDeviceСonsumableIDChanged();
 				}
 			}
 		}
@@ -7023,7 +7071,7 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceConsumable_TonerJob", Storage="_DeviceConsumable", ThisKey="DeviceConsumableID", OtherKey="ID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceConsumable_TonerJob", Storage="_DeviceConsumable", ThisKey="DeviceСonsumableID", OtherKey="ID", IsForeignKey=true)]
 		public DeviceConsumable DeviceConsumable
 		{
 			get
@@ -7046,11 +7094,11 @@ namespace PrintStat
 					if ((value != null))
 					{
 						value.TonerJob.Add(this);
-						this._DeviceConsumableID = value.ID;
+						this._DeviceСonsumableID = value.ID;
 					}
 					else
 					{
-						this._DeviceConsumableID = default(int);
+						this._DeviceСonsumableID = default(int);
 					}
 					this.SendPropertyChanged("DeviceConsumable");
 				}

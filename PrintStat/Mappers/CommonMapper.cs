@@ -11,6 +11,8 @@ namespace PrintStat.Mappers
     {
         static CommonMapper()
         {
+            Mapper.CreateMap<DeviceConsumableView, Device>();
+            Mapper.CreateMap<Device, DeviceConsumableView>();
             Mapper.CreateMap<ProfileView, Profile>();
          //       .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
             //Mapper.CreateMap<ProfileView, Settings>()

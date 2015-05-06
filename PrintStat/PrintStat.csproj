@@ -279,6 +279,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\ViewModels\ComponentView.cs" />
+    <Compile Include="Models\ViewModels\DeviceConsumableView.cs" />
     <Compile Include="Models\ViewModels\ProfileView.cs" />
     <Compile Include="Models\ViewModels\TypeConsumableView.cs" />
     <Compile Include="Models\ViewModels\ConsumableView.cs">
@@ -507,6 +508,9 @@
     <Content Include="Views\Consumable\CreateConsumable.cshtml" />
     <Content Include="Views\Job\partialJobPaginator.cshtml" />
     <Content Include="Views\Profile\index.cshtml" />
+    <Content Include="Views\Device\EditDeviceConsumable.cshtml" />
+    <Content Include="Views\Shared\ErrorView.cshtml" />
+    <Content Include="Views\Device\partialDeviceConsumable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

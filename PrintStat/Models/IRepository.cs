@@ -104,9 +104,13 @@ namespace PrintStat.Models
         bool UpdateConsumable(Consumable instance);
 
         bool RemoveConsumable(Consumable instance);
+        int CountUsesConsumble(int? idConsumble);
 
-        
+        List<SQLRepository.devCons> GetDevConses(int? idDevice);
 
+        bool SetDateEnd(int devConId, DateTime dateEnd);
+        bool SetUseOffAndAddNewCons(int idDevCon);
+       // int GetCountSnmp(int? idDevice, DateTime start, DateTime? end);
         #endregion 
 
 
@@ -253,10 +257,27 @@ namespace PrintStat.Models
 
         #endregion 
         
-
+        #region Device
         bool CreatePrinter(Device instance);
         bool UpdatePrinter(Device instance);
         bool RemovePrinter(Device instance);
+
+
+
+        List<ModelConsumable> GetModelConsumables(int idDevice);
+
+
+        #region DeviceConsumable
+
+        IQueryable<DeviceConsumable> DeviceConsumables { get; }
+
+        bool CreateDeviceConsumable(int idDevice, int idModelConsumable, DateTime time);
+
+        bool RemoveDeviceConsumable(int idDevice);
+
+        #endregion 
+        
+#endregion
 
 
         bool CreatePapertype(PaperType instance);

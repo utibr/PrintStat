@@ -15,8 +15,7 @@
     <table>
         <thead>
             <tr>
-                <th>Редакция</th>
-                <th>Удаление</th>
+               
 
                 <th>Модель устройства</th>
                 <th>Наименование</th>
@@ -24,18 +23,17 @@
                 <th>Поисковая строка</th>
                 <th>Инв. номер</th>
                 <th>Поддержка статистики</th>
+
+                <th>Комплектующие</th>
+                <th>Редакция</th>
+                <th>Удаление</th>
             </tr>
         </thead>
         @foreach (var device in Model)
         {
             <tr>
 
-                <td width="80">
-                    <a href="@Url.Action("EditDevice", "Device", new { id = @device.ID })">●</a>
-                </td>
-                <td width="80">
-                    <a href="@Url.Action("DeleteDevice", "Device", new { id = @device.ID })"><font color="red">●</font></a>
-                </td>
+            
 
                 <td width="200">
                     @device.Model.Manufacturer.Name @device.Model.Name
@@ -61,9 +59,18 @@
                     else
                     {
                         <b>-</b>
-                        ;
+                        
                     }
-                    </td>
+                </td>
+                <td width="80">
+                    <a href="@Url.Action("EditDeviceConsumable", "Device", new { id = @device.ID })"><font color="green">●</font></a>
+                </td>
+                <td width="80">
+                    <a href="@Url.Action("EditDevice", "Device", new { id = @device.ID })">●</a>
+                </td>
+                <td width="80">
+                    <a href="@Url.Action("DeleteDevice", "Device", new { id = @device.ID })"><font color="red">●</font></a>
+                </td>
             </tr>
         }
         </table>
