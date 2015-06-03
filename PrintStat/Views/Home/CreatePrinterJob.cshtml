@@ -4,6 +4,9 @@
 {
     <fieldset>
         <div class="control-group">
+            @Html.HiddenFor(p => p.EndTime)
+            @Html.HiddenFor(p=>p.StartTime)
+            @Html.HiddenFor(p=>p.IsManual)
             <table class="tdnoborder" cellpadding="6" cellspacing="8">
                 <tr>
                     <td colspan="2" class="tdnoborder">
@@ -12,7 +15,7 @@
                         </label>
 
                         <div class="controls">
-                            @Html.TextBox("Name", Model.Name)
+                            @Html.TextBox("Name", Model.Name, new { style = "width:640px" })
                             @Html.ValidationMessage("Name")
                         </div>
 
@@ -42,12 +45,12 @@
 
                 <tr>
                     <td class="tdnoborder">
-                        <label class="control-label" for="PrinterID">
+                        <label class="control-label" for="DeviceID">
                             Принтер
                         </label>
 
                         <div class="styled-select">
-                            @Html.DropDownList("PrinterID", new SelectList(ViewBag.Printers, "ID", "Name"))
+                            @Html.DropDownList("DeviceID", new SelectList(ViewBag.Printers, "ID", "Name"))
                         </div>
                     </td>
                     <td class="tdnoborder">
@@ -65,19 +68,19 @@
                 <tr></tr>
 
                 <tr>
-                    <td class="tdnoborder">
-                        <label class="control-label" for="SizePaperID"> @*SizePaperID*@
-                            Типоразмер бумаги
-                        </label>
+                <td class="tdnoborder">
+                    <label class="control-label" for="SizePaperID"> @*SizePaperID*@
+                        Типоразмер бумаги
+                    </label>
 
-                        <div class="controls">
-                            @Html.DropDownList("SizePaperID", new SelectList(ViewBag.SizePaper, "ID", "Name"))
-                            @Html.ValidationMessage("PapertypeID")
-                        </div>
-                    </td>
-                    <td class="tdnoborder">
-                    
-                    </td>
+                    <div class="controls">
+                        @Html.DropDownList("SizePaperID", new SelectList(ViewBag.SizePaper, "ID", "Name"))
+                        @Html.ValidationMessage("PapertypeID")
+                    </div>
+                </td>
+                <td class="tdnoborder">
+
+                </td>
                 <tr>
                     <td class="tdnoborder">
 
@@ -105,7 +108,7 @@
 
 
             </table>
-         </div>
+        </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
                 Создать

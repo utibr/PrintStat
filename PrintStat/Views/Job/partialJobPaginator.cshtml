@@ -1,7 +1,7 @@
 ﻿@using PagedList.Mvc
 @model  PagedList.IPagedList<PrintStat.Job>
 
-@Html.PagedListPager(Model, page => Url.Action("Index","Home", new { page = page }),
+@Html.PagedListPager(Model, page => Url.Action("Index", "Home", new { page = page, countJob = ViewBag.pageCount }),
 
 PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
 {
@@ -12,6 +12,12 @@ PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
 }
 
 , new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "CurrentContent" }))
+
+
+
+@*@Html.DropDownList("Count",new SelectList(new Dictionary<int, string> { { 1, "По умолчанию (30)" }, { 10, "10 заданий" }, { 15, "15 заданий" },{50,"50 заданий"} }, "Key", "Value", ViewBag.pageCount))*@
+
+
 <p>
     <table width="1200">
         <thead>
@@ -76,7 +82,7 @@ PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
                             <a href="@Url.Action("EditPrinterJob", "Home", new { id = @Job.ID })">●</a>
                         }
                     </td>
-                    @*          <td width="80">
+                    @*        <td width="80">
                             <a href="@Url.Action("ViewJob", "Home", new { id = @Job.ID })"><font color="blue">●</font></a>
                         </td>
                     *@

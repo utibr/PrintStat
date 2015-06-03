@@ -61,6 +61,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditTypeConsumable(TypeConsumableView _TypeConsumableView)
         {
+            var anyTypeConsumable = Repository.TypeConsumables.Where(p=>p.ID!=_TypeConsumableView.ID).Any(p => string.Compare(p.Name, _TypeConsumableView.Name) == 0);
+            if (anyTypeConsumable)
+            {
+                ModelState.AddModelError("Name", "Тип компонента с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var _TypeConsumable = Repository.TypeConsumables.FirstOrDefault(p => p.ID == _TypeConsumableView.ID);
@@ -80,7 +85,11 @@ namespace PrintStat.Controllers
             var _TypeConsumable = Repository.TypeConsumables.FirstOrDefault(p => p.ID == id);
             if (_TypeConsumable != null)
             {
-                Repository.RemoveTypeConsumable(_TypeConsumable);
+                if (!Repository.RemoveTypeConsumable(_TypeConsumable))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

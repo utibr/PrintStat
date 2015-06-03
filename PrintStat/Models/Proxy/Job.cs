@@ -16,7 +16,7 @@ namespace PrintStat
 
         public Department Department
         {
-            get 
+            get
             {
                 if (Author != null) return Author.Department;
                 return null;
@@ -60,7 +60,7 @@ namespace PrintStat
             get
             {
                 if (_Height_cm == 0 && SizePaper != null && SizePaper.Height_cm != null) return SizePaper.Height_cm.Value;
-                return _Width_cm;
+                return _Height_cm;
             }
         }
 
@@ -76,7 +76,7 @@ namespace PrintStat
 
         public string EmployeeName
         {
-            get { return Author!= null ? Author.Name : ""; }
+            get { return Employee!= null ? Employee.Name : ""; }
         }
 
         public string DepartmentName

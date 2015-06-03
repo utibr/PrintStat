@@ -63,6 +63,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditManufacturer(ManufacturerView _ManufacturerView)
         {
+            var anyManufacturer = Repository.Manufacturers.Where(p=>p.ID!=_ManufacturerView.ID).Any(p => string.Compare(p.Name, _ManufacturerView.Name) == 0);
+            if (anyManufacturer)
+            {
+                ModelState.AddModelError("Name", "Производитель с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var _Manufacturer = Repository.Manufacturers.FirstOrDefault(p => p.ID == _ManufacturerView.ID);
@@ -82,7 +87,11 @@ namespace PrintStat.Controllers
             var _Manufacturer = Repository.Manufacturers.FirstOrDefault(p => p.ID == id);
             if (_Manufacturer != null)
             {
-                Repository.RemoveManufacturer(_Manufacturer);
+                if (!Repository.RemoveManufacturer(_Manufacturer))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

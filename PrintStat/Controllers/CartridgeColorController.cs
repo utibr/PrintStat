@@ -66,6 +66,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditCartridgeColor(CartridgeColorView cartridgecolorView)
         {
+            var anycartridgecolor = Repository.CartridgeColors.Where(p=>p.ID!=cartridgecolorView.ID).Any(p => string.Compare(p.Name, cartridgecolorView.Name) == 0);
+            if (anycartridgecolor)
+            {
+                ModelState.AddModelError("Name", "Цвет картриджа с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var cartridgecolor = Repository.CartridgeColors.FirstOrDefault(p => p.ID == cartridgecolorView.ID);
@@ -85,7 +90,11 @@ namespace PrintStat.Controllers
             var cartridgecolor = Repository.CartridgeColors.FirstOrDefault(p => p.ID == id);
             if (cartridgecolor != null)
             {
-                Repository.RemoveCartridgeColor(cartridgecolor);
+                if(!Repository.RemoveCartridgeColor(cartridgecolor))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

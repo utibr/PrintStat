@@ -1,8 +1,21 @@
-﻿@model PrintStat.Models.ViewModels.ModelView
+﻿
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href="~/Content/themes/multi-select.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/multiselect")
+@Scripts.Render("~/bundles/quicksearch")
+
+
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"> </script>
+
+
+@model PrintStat.Models.ViewModels.ModelView
 
 @using (Html.BeginForm("CreateModel", "Model", FormMethod.Post, new { @class = "form-horizontal" }))
 {
-    <fieldset>
+    <fieldset id="#form1">
+        @Html.HiddenFor(m => m.ID)
+        <h2>Добавление модели</h2>
         <div class="control-group">
             <label class="control-label" for="ManufacturerID">
                 Производитель
@@ -33,155 +46,151 @@
                 @Html.DropDownList("PrintKindID", new SelectList(ViewBag.PrintKinds, "ID", "Name"))
             </div>
 
-            <div class="editor-field">
-                <label>Комплектующие</label>
-                @{
-    var z = 0;
-    foreach (var testCollection in ViewBag.Consumables)
-    {
-        <input type="checkbox" id="[@z]" name="ChosenConsIds" value="@testCollection.ID" />
-                    <span>@testCollection.Name</span>
-                    <br />
-        z++;
-    }
-                }
+            <div id="partialModConsumable1">
+                @{Html.RenderPartial("partialModelConsumable", Model.Consumables);}
             </div>
 
-            <div class="editor-field">
-                <label>Теги</label>
-                @{
-                    var i = 0;
-                    foreach (var testCollection in ViewBag.Tags)
-                    {
-                        <input type="checkbox" id="[@i]" name="ChosenTagIds" value="@testCollection.ID"/>
-                        <span>@testCollection.Name</span>
-                        <br/>
-                        i++;
-                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br/>
+            <div id="tabs" style="width: 50%">
+                <ul>
+                    @*<li><a href="#tabs-1">Комплектующие</a></li>*@
+                    <li><a href="#tabs-2">Теги</a></li>
+                    <li><a href="#tabs-3">Типоразмер</a></li>
+                    <li><a href="#tabs-4">Тип бумаги</a></li>
+                </ul>
+
+                @*         <div id="tabs-1">
+        <select id="ms1" name="ChosenConsIds" multiple='multiple'>
+            @{
+                foreach (var item in ViewBag.Consumables)
+                {
+            <option value='@item.ID'>@item.Name</option>
                 }
-            </div>
+            }
+        </select>
+    </div>
+            *@
 
-            <div class="editor-field">
-                <label>Типоразмер</label>
-                @{
-                    var j = 0;
-                    foreach (var testCollection in ViewBag.SizePapers)
-                    {
-                        <input type="checkbox" id="[@j]" name="ChosenSizePaperIds" value="@testCollection.ID"/>
-                        <span>@testCollection.Name</span>
-                        <br/>
-                        j++;
-                    }
-                }
-            </div>
+                <div id="tabs-2">
 
-            <div class="editor-field">
-                <label>Тип бумаги</label>
-                @{
-                    var k = 0;
-                    foreach (var testCollection in ViewBag.PaperTypes)
-                    {
-                        <input type="checkbox" id="[@k]" name="ChosenPaperTypeIds" value="@testCollection.ID"/>
-                        <span>@testCollection.Name</span>
-                        <br/>
-                        k++;
-                    }
-                }
-            </div>
-
-            @*test tag show\hide*@
-            <div class="text_container">
-                @*<input id="" type="button" value="Выбирете относящие">
-
-                    <input/>*@
-
-                @*<input id="openDialog" type="button" value="Добавить модель" onclick="showAddModel($);" style="width: 130pt" />*@
-
-                @*<span class="ui-icon-help" onclick=" toggle_visibility('viewTag') ">
-                        Выбирите относящиеся к модели теги
-                    </span>
-                    <br />*@
-                @*<input type:button*@
-                @*<div id="viewTag" style="display: none">
-
-                        <div id="listTag">
-                            <section class=""></section>
-                            @foreach (var tag in ViewBag.Tags)
+                    <select id="ms2" name="ChosenTagIds" multiple='multiple'>
+                        @{
+                            foreach (var item in ViewBag.Tags)
                             {
-                                <span>
-                                    <input id="TagID" type="checkbox" name="selectedObject" value="@tag.ID" />
-                                    @tag.Name
-                                </span>
-                                <br />
-
+                                <option value='@item.ID'>@item.Name</option>
                             }
-                        </div>
-
-
-                        <div>
-
-                            <button id="toRight" type="button" class="btn btn-primary" onclick=" AllCheked() ">
-                                all
-                            </button>
-
-                            <button id="toLeft" type="button" class="btn btn-primary" onclick=" AllNoCheked() ">
-                                noAll
-                            </button>
-                            <br />
-                            <button id="toLeft" type="button" class="btn btn-primary" onclick=" GetParametrs() ">
-                        Get
-                    </button>
-                        </div>
-                    </div>*@
-
-                <script type="text/javascript">
-
-                    function AllNoCheked() {
-                        $('#listTag input:checkbox').each(function () {
-                            this.checked = false;
-                        });
-                    }
-
-                    function AllCheked() {
-                        $('#listTag input:checkbox').each(function () {
-                            this.checked = true;
-                        });
-                    }
-                </script>
-
-                <script type="text/javascript">
-                    //скрыть содержимое div
-                    function toggle_visibility(id) {
-                        var e = document.getElementById(id);
-                        if (e.style.display == 'block') {
-                            e.style.display = 'none';
-
-                        } else {
-                            e.style.display = 'block';
                         }
-                    }
-                </script>
+                    </select>
+                </div>
+                <div id="tabs-3">
+                    <select id="ms3" name="ChosenSizePaperIds" multiple='multiple'>
+                        @{
+                            foreach (var item in ViewBag.SizePapers)
+                            {
+                                <option value='@item.ID'>@item.Name</option>
+                            }
+                        }
+                    </select>
 
 
+                </div>
+                <div id="tabs-4">
+                    <select id="ms4" name="ChosenPaperTypeIds" multiple='multiple'>
+                        @{
+                            foreach (var item in ViewBag.PaperTypes)
+                            {
+                                <option value='@item.ID'>@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
 
             </div>
-            @*/////////////////////////////////////////////////*@
+
+
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+
+
+                    $('#ms1,#ms2,#ms3,#ms4').multiSelect({
+                        selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='поиск по значению'>",
+                        selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='поиск по значению'>",
+                        afterInit: function(ms) {
+                            var that = this,
+                                $selectableSearch = that.$selectableUl.prev(),
+                                $selectionSearch = that.$selectionUl.prev(),
+                                selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                                selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                            that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                                .on('keydown', function(e) {
+                                    if (e.which === 40) {
+                                        that.$selectableUl.focus();
+                                        return false;
+                                    }
+                                });
+
+                            that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                                .on('keydown', function(e) {
+                                    if (e.which == 40) {
+                                        that.$selectionUl.focus();
+                                        return false;
+                                    }
+                                });
+                        },
+                        afterSelect: function() {
+                            this.qs1.cache();
+                            this.qs2.cache();
+                        },
+                        afterDeselect: function() {
+                            this.qs1.cache();
+                            this.qs2.cache();
+                        }
+                    });
+                });
+            </script>
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#tabs").tabs({
+                        collapsible: true
+                    });
+                });
+            </script>
         </div>
 
+        <br/>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                Ok
+                Сохранить
             </button>
 
-            @*<button id="btnNext" type="button" class="btn btn-primary" onclick="btnNextClick()">
-                    Применить
-                </button>*@
+
             <script type="text/javascript">
-                @*function btnNextClick() {
-                    window.location.href = '@Url.Action("Index", "Model")';
-                };*@
+
+            
             </script>
-            @Html.ActionLink("Отмена", "Index", null, null, new { @class = "btn" })
+            @Html.ActionLink("Отмена", "Index", null, null, new {@class = "btn"})
         </div>
     </fieldset>
 }

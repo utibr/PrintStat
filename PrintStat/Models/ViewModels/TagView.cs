@@ -10,8 +10,11 @@ namespace PrintStat.Models.ViewModels
     {
         [Display(Name = "Тег")]
         [Required(ErrorMessage = "Введите тег")]
+        [StringLength(30)]
         public string Tag1 { get; set; }
-
+        [Display(Name = "Тип тега")]
+        [Required(ErrorMessage = "Укажите тип тега")]
+        [StringLength(30)]
         public int TagTypeID { get; set; }
 
     }

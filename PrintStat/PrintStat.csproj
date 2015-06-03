@@ -279,6 +279,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\ViewModels\ComponentView.cs" />
+    <Compile Include="Models\ViewModels\ModelConsumable.cs" />
     <Compile Include="Models\ViewModels\DeviceConsumableView.cs" />
     <Compile Include="Models\ViewModels\ProfileView.cs" />
     <Compile Include="Models\ViewModels\TypeConsumableView.cs" />
@@ -348,6 +349,8 @@
     <Content Include="Content\themes\base\datepicker.css" />
     <Content Include="Content\themes\base\dialog.css" />
     <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\images.jpg" />
+    <Content Include="Content\themes\base\images\switch.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -361,6 +364,9 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\sweetalert.css" />
+    <Content Include="Content\themes\multi-select.css" />
+    <Content Include="Content\themes\jquery.datetimepicker.css" />
     <Content Include="Content\themes\jquery.tokenize.css" />
     <Content Include="Content\themes\base\menu.css" />
     <Content Include="Content\themes\base\progressbar.css" />
@@ -385,12 +391,16 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\createDevice.js" />
+    <Content Include="Scripts\i18n\jquery.ui.datepicker-ru.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.js" />
+    <Content Include="Scripts\jquery.multi-select.js" />
+    <Content Include="Scripts\jquery.quicksearch.js" />
     <Content Include="Scripts\jquery.tokenize.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -402,6 +412,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\openDialog.js" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -511,6 +522,9 @@
     <Content Include="Views\Device\EditDeviceConsumable.cshtml" />
     <Content Include="Views\Shared\ErrorView.cshtml" />
     <Content Include="Views\Device\partialDeviceConsumable.cshtml" />
+    <Content Include="Views\Home\Index1.cshtml" />
+    <Content Include="Views\Home\View1.cshtml" />
+    <Content Include="Views\Model\partialModelConsumable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

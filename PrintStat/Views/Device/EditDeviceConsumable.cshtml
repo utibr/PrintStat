@@ -1,16 +1,13 @@
 ﻿@model PrintStat.Models.ViewModels.DeviceConsumableView
 
 @Scripts.Render("~/bundles/jquery")
-<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"> </script>
-@*<script type="text/javascript">
+@Scripts.Render("~/bundles/datetimepicker")
 
-    $(document).ready(function () {
-        $("#ddlCategory").change(function () {
-            var categoryId =  $("#ddlCategory").val();
-              //$("#dvCategoryResults").load('@(Url.Action("partialDeviceConsumable","Device",null, Request.Url.Scheme))?categoryId=' + categoryId);
-        });
-    });
-</script>*@
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"> </script>
+
+
+
+
 
 @using (Html.BeginForm("EditDeviceConsumable", "Device", FormMethod.Post, new {@class = "form-horizontal"}))
 {

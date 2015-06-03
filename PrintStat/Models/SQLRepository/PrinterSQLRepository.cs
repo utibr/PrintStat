@@ -313,15 +313,15 @@ namespace PrintStat.Models
             }
         }
 
-        public bool CreateModelComsumable(int[] comIDs, int conId)//поменять местами
+        public bool CreateModelComsumable(int[] comIDs, int modId)//поменять местами
         {
             try
             {
                 Db.ModelConsumable.InsertAllOnSubmit(comIDs.Select(id =>
             new ModelConsumable()
             {
-                ConsumableID = conId,
-                ModelID = id
+                ConsumableID = id,
+                ModelID = modId
             })
         );
                 Db.ModelConsumable.Context.SubmitChanges();
@@ -334,7 +334,27 @@ namespace PrintStat.Models
             }
 
         }
+        //todo удаление и добавление 
+        //todo если удалять то спрашивать затем удалить все из dc потом уже из mc
+        //
+        public bool UpdateModelConsumbles(int modelId, int[] comIDs)
+        {
+            
+            var mc = from p in Db.ModelConsumable.Where(p => p.ModelID == modelId)
+                select new {idCon = p.ID, selected=false};
 
+            foreach (var item in comIDs)
+            {
+                //if(mc.C)
+            }
+            return true;
+        }
+        //public IQueryable<Consumable> GetNoInstallCons(int idDevice)
+        //{
+        //    Db.Device.Where(p=>p.ID==idDevice)
+        //        .Join(Db.Model,d=>d.ModelID,m=>m.ID,(d,m)=>m)
+        //        .Join(Db.ModelConsumable,m=>m.ID,mc=>mc.ModelID,(m,mc)=>mc)
+        //}
 
         public IQueryable<ModelTag> ModelTags
         {
@@ -569,14 +589,12 @@ namespace PrintStat.Models
         {
             try
             {
-                if (instance != null)
-                {
+
                     Db.Consumable.DeleteOnSubmit(instance);
                     Db.Consumable.Context.SubmitChanges();
                     return true;
-                }
 
-                return false;
+                
             }
             catch (Exception)
             {

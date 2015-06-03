@@ -62,6 +62,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditSizePaper(SizePaperView papersizeView)
         {
+            var anySizePaper = Repository.SizePapers.Where(p => p.ID != papersizeView.ID).Any(p => string.Compare(p.Name, papersizeView.Name) == 0);
+            if (anySizePaper)
+            {
+                ModelState.AddModelError("Name", "Типоразмер бумаги с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var papersize = Repository.SizePapers.FirstOrDefault(p => p.ID == papersizeView.ID);
@@ -81,7 +86,11 @@ namespace PrintStat.Controllers
             var papersize = Repository.SizePapers.FirstOrDefault(p => p.ID == id);
             if (papersize != null)
             {
-                Repository.RemoveSizePaper(papersize);
+                if (!Repository.RemoveSizePaper(papersize))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

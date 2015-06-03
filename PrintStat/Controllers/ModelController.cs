@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using PrintStat.Models.ViewModels;
@@ -11,8 +13,66 @@ namespace PrintStat.Controllers
         {
             //
             // GET: /CartridgeColor/
-            
+            List<Consumable> _Consumables = new List<Consumable>();
 
+            List<Consumable> Consumables
+            {
+                get { return _Consumables; }
+                set { _Consumables = value; }
+            }
+
+            [HttpGet]
+            public PartialViewResult DelModelCons(int? idMod,int idCons)
+            {
+
+                        var temp = Session["Cons"] as List<Consumable>;
+                if (temp==null)
+                {
+                    temp = Repository.ModelConsumables.Where(p => p.ModelID == idMod).Join(
+                        Repository.Consumables,
+                        p => p.ConsumableID,
+                        x => x.ID,
+                        (p, x) => x
+                        ).ToList();
+                }
+                        if (temp!=null)
+                        {
+                            temp.RemoveAll(x=>x.ID==idCons);
+                            Session["Cons"] = temp;
+                            try
+                            {
+                                
+                                Repository.RemoveModelConsumable(
+                                    Repository.ModelConsumables.Where(
+                                        p => p.ModelID == idMod && p.ConsumableID == idCons));
+                            }
+                            catch (Exception)
+                            {
+                                
+                                throw;
+                            }
+                        }
+                        return PartialView("partialModelConsumable", temp);
+
+                return null;
+            }
+
+            [HttpGet]
+            public ActionResult AddConsToModel(string name)
+                {
+                    var temp = new List<Consumable>();
+                    if(Session["Cons"]!=null)
+                    temp = Session["Cons"] as List<Consumable>;
+
+                var Cons = Repository.Consumables.FirstOrDefault(p => p.Name == name);
+                if (Cons != null)
+                {
+                        temp.Add(Cons);
+                        Session["Cons"] = temp;
+                        return PartialView("partialModelConsumable", temp);
+                }
+                return PartialView("partialModelConsumable", temp);
+            }
             public ActionResult Index()
             {
                 var model = Repository.Models.ToList();
@@ -37,8 +97,9 @@ namespace PrintStat.Controllers
             public ActionResult CreateModel()
             {
                 InitViewBag();
-
                 var newModelView =  new ModelView();
+
+     
                 return View(newModelView);
             }
 
@@ -57,13 +118,17 @@ namespace PrintStat.Controllers
                     var model = (Model)ModelMapper.Map(modelView, typeof(ModelView), typeof(Model));
                     Repository.CreateModel(model);
                     var modelId = model.ID;
-                    Repository.CreateModelComsumable(modelView.ChosenConsIds, modelId);
+                    //Repository.CreateModelComsumable(modelView.ChosenConsIds, modelId);
+                    var tempCons = Session["Cons"] as List<Consumable>;
+                    if (tempCons != null)
+                        Repository.CreateModelComsumable(tempCons.Select(x => x.ID).ToArray(), modelId);
+                     Session.Abandon();
                     Repository.CreateModelTag(modelView.ChosenTagIds, modelId);
                     Repository.CreateModelPaperType(modelView.ChosenPaperTypeIds, modelId);
                     Repository.CreateModelSizePaper(modelView.ChosenSizePaperIds, modelId);
                     return RedirectToAction("Index");
                 }
-
+                InitViewBag();
                 return View(modelView);
             }
 
@@ -77,15 +142,19 @@ namespace PrintStat.Controllers
             public ActionResult EditModel(int? id)
             {
                 InitViewBag();
+                ViewBag.ID = id;
                 var model = Repository.Models.FirstOrDefault(p => p.ID == id);
+             
                 if (model != null)
                 {
                     var modelView = (ModelView)ModelMapper.Map(model, typeof(Model), typeof(ModelView));
+
                     var choosModelCons = Repository.ModelConsumables.Where(p => p.ModelID == id);
                     foreach (var item in choosModelCons)
                     {
                         modelView.Consumables.Add(Repository.Consumables.First(c=>c.ID == item.ConsumableID));
                     }
+                    Session["Cons"] = modelView.Consumables;
                     var choosModelTag = Repository.ModelTags.Where(p => p.ModelID == id);
                     foreach (var item in choosModelTag)
                     {
@@ -131,10 +200,13 @@ namespace PrintStat.Controllers
                     Repository.RemoveModelPaperType(modelPaperType);
                     Repository.CreateModelPaperType(modelView.ChosenPaperTypeIds, modelId);
 
+                    //var modelCons = Repository.ModelConsumables.Where(mc => mc.ModelID == modelId);
+//todo должен быть апдейт а не удаление,
+//Todo при добавлении нового комплектующего его еще нужно добавить к устройству сразу
+                    var cons = Session["Cons"] as List<Consumable>;
+                    Session.Abandon();
                     var modelCons = Repository.ModelConsumables.Where(mc => mc.ModelID == modelId);
-                    Repository.RemoveModelConsumable(modelCons);
-                    Repository.CreateModelComsumable(modelView.ChosenConsIds, modelId);
-
+                    Repository.CreateModelComsumable((from item in cons where !modelCons.Any(p => p.ConsumableID == item.ID) select item.ID).ToArray(), modelId);
                     return RedirectToAction("Index");
                 }
 
@@ -148,20 +220,32 @@ namespace PrintStat.Controllers
                 var model = Repository.Models.FirstOrDefault(p => p.ID == id);
                 if (model != null)
                 {
-                    if(Repository.RemoveModel(model))
-                    { 
-                        var modelPaperType = Repository.ModelPaperTypes.Where(mt => mt.ModelID == id);
-                        Repository.RemoveModelPaperType(modelPaperType);
-                       
-                        var modelPaperSizePaper = Repository.ModelSizePapers.Where(mt => mt.ModelID == id);
-                        Repository.RemoveModelSizePaper(modelPaperSizePaper);
-                       
-                        var modelPaperTag = Repository.ModelTags.Where(mt => mt.ModelID == id);
-                        Repository.RemoveModelTag(modelPaperTag);
-                        
+                    try
+                    {
                         var modelConsumable = Repository.ModelConsumables.Where(mt => mt.ModelID == id);
                         Repository.RemoveModelConsumable(modelConsumable);
+                        //todo удалить mc если есть 
+                        if (Repository.RemoveModel(model))
+                        {
+                            var modelPaperType = Repository.ModelPaperTypes.Where(mt => mt.ModelID == id);
+                            Repository.RemoveModelPaperType(modelPaperType);
+
+                            var modelPaperSizePaper = Repository.ModelSizePapers.Where(mt => mt.ModelID == id);
+                            Repository.RemoveModelSizePaper(modelPaperSizePaper);
+
+                            var modelPaperTag = Repository.ModelTags.Where(mt => mt.ModelID == id);
+                            Repository.RemoveModelTag(modelPaperTag);
+
+
+                        }
                     }
+                    catch (Exception)
+                    {
+                        ModelState.AddModelError("","Невозможно удалить модель "+model.Manufacturer.Name+" "+ model.Name+", так как она используется");
+                        var _models = Repository.Models.ToList();
+                        return View("Index",_models);
+                    }
+                
                 }
                 return RedirectToAction("Index");
             }

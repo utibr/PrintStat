@@ -14,6 +14,7 @@ namespace PrintStat.Models.ViewModels
 
         [Display(Name = "Короткое название")]
         [Required(ErrorMessage = "Введите короткое название")]
+        [StringLength(2)]
         public string ShortName { get; set; }
 
     }

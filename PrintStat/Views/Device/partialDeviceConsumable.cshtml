@@ -1,8 +1,27 @@
 ﻿@using System.Drawing
 @model PrintStat.Models.ViewModels.DeviceConsumableView
-    <h4>
-        Используемые в настоящий момент комплектующие
-    </h4>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#datetimepicker').datetimepicker(
+        {
+            lang: 'ru',
+            mask: true
+        });
+    })
+</script>
+<h4>
+    Неустановленные комплектующие
+</h4>
+<input id="datetimepicker" type="text" style="width: 150px;">
+@*Html.ListBoxFor(p=>p.deviceID,)*@
+<h4>
+    Используемые в настоящий момент комплектующие
+</h4>
+
+
+
+
 
     <table>
         <thead>
@@ -29,7 +48,7 @@
                         </td>
 
                         <td>
-                            @item.DateEnd
+                            @item.DateEnd 
                         </td>
 
                         <td>

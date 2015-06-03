@@ -1,14 +1,47 @@
 ﻿@model PrintStat.Models.ViewModels.ReportSettingsView
+<link href="~/Content/themes/jquery-ui.css" rel="stylesheet"/>
+<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>
+<script src="~/Scripts/i18n/jquery.ui.datepicker-ru.js"></script>
 
 @using (Html.BeginForm("ExportJobs", "Report", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <fieldset>
         <div class="control-group">
+            <script type="text/javascript">
+    $(function () {
+        $("#DateStart,#DateEnd").datepicker(
+        {
+            defaultDate: new Date(),
+            dateFormat: "dd.mm.yy" ,
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+            </script>
+
+            <h2>
+                Отчет о печати
+            </h2>
+
+            <p>
+                Время:
+                <label>
+                    <b>C: </b>
+                    @Html.TextBoxFor(p=>p.DateStart, new{id="DateStart"})
+                    
+                </label>
+                <label>
+                    <b>По: </b>
+                    @Html.TextBoxFor(p => p.DateEnd, new { id = "DateEnd" })
+                 
+                </label>
+
+            </p>
             <table class="tdnoborder" cellpadding="6" cellspacing="8">
                 <tr>
                     <td class="tdnoborder">
                         <label class="control-label" for="EmployeeTabNumber">
-                            Сотрудник
+                            Исполнитель
                         </label>
 
                         <div class="styled-select">
@@ -29,7 +62,7 @@
                 <tr>
                     <td class="tdnoborder">
                         <label class="control-label" for="PrinterID">
-                            Принтер
+                            Устройство печати
                         </label>
 
                         <div class="styled-select">
@@ -51,21 +84,21 @@
                 <tr></tr>
 
                 <tr>
-                    <td class="tdnoborder">
-                        <label class="control-label" for="DepartmentID">
-                            Отдел
-                        </label>
+                <td class="tdnoborder">
+                    <label class="control-label" for="DepartmentID">
+                        Отдел
+                    </label>
 
-                        <div class="controls">
-                            @Html.DropDownList("DepartmentID", new SelectList(ViewBag.Departments, "Value", "Text"))
-                            @Html.ValidationMessage("DepartmentID")
-                        </div>
-                    </td>
-                    <td class="tdnoborder">
-                        
-                    </td>
+                    <div class="controls">
+                        @Html.DropDownList("DepartmentID", new SelectList(ViewBag.Departments, "Value", "Text"))
+                        @Html.ValidationMessage("DepartmentID")
+                    </div>
+                </td>
+                <td class="tdnoborder">
+
+                </td>
             </table>
-         </div>
+        </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
                 Создать отчет о печати

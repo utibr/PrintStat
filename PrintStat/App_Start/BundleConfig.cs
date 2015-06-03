@@ -53,8 +53,26 @@ namespace PrintStat
                         "~/Content/themes/jquery-ui.css"
                 ));
 
+            bundles.Add(new StyleBundle("~/Content/datetimepickerCSS").Include(
+            "~/Content/themes/jquery.datetimepicker.css"
+            ));
+
+            bundles.Add(new StyleBundle("~/Content/multiselectCSS").Include(
+                "~/Content/themes/jquery.multi-select.css"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/Dialog").Include(
                         "~/Script/openDialog.js" ));
+
+            bundles.Add(new ScriptBundle("~/bundles/datetimepicker").Include(
+                        "~/Script/jquery.datetimepicker.js" ));
+
+            bundles.Add(new ScriptBundle("~/bundles/multiselect").Include(
+                "~/Scripts/jquery.multi-select.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/quicksearch").Include(
+                "~/Scripts/jquery.quicksearch.js"));
+          
         }
     }
 }

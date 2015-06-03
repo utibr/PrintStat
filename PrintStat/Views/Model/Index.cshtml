@@ -3,14 +3,14 @@
     ViewBag.Title = "Модели устройств печати";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@Html.ValidationSummary(true)
 <h2>Модели устройств печати</h2>
 
 <p>
     <div class="menu">
         <a href="@Url.Action("CreateModel", "Model")">Добавить модель</a>
         <a href="@Url.Action("Index", "Manufacturer")">Производители</a>
-        <a href="@Url.Action("Index", "DeviceType")">Типы устройства</a>
+        <a href="@Url.Action("Index", "DeviceType")">Виды устройства</a>
         <a href="@Url.Action("Index", "PrintKind")">Типы печати</a>
     </div>
 

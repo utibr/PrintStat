@@ -61,6 +61,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditTagType(TagTypeView _TagTypeView)
         {
+            var anyTagType = Repository.TagTypes.Where(p=>p.ID!=_TagTypeView.ID).Any(p => string.Compare(p.Type, _TagTypeView.Type) == 0);
+            if (anyTagType)
+            {
+                ModelState.AddModelError("Type", "Такой тип уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var _TagType = Repository.TagTypes.FirstOrDefault(p => p.ID == _TagTypeView.ID);
@@ -80,7 +85,11 @@ namespace PrintStat.Controllers
             var _TagType = Repository.TagTypes.FirstOrDefault(p => p.ID == id);
             if (_TagType != null)
             {
-                Repository.RemoveTagType(_TagType);
+                if (!Repository.RemoveTagType(_TagType))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

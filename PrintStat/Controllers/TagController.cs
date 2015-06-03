@@ -90,7 +90,11 @@ namespace PrintStat.Controllers
             var _Tag = Repository.Tags.FirstOrDefault(p => p.ID == id);
             if (_Tag != null)
             {
-                Repository.RemoveTag(_Tag);
+                if (!Repository.RemoveTag(_Tag))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

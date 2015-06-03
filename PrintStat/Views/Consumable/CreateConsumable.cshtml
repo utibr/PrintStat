@@ -1,18 +1,19 @@
-﻿@model PrintStat.Models.ViewModels.ConsumableView
+﻿@using System.Web.UI.WebControls
+@model PrintStat.Models.ViewModels.ConsumableView
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryui")
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script src="~/Scripts/jquery.tokenize.js"></script>
-<link href="~/Content/themes/jquery.tokenize.css" rel="stylesheet" />
+@*<script src="~/Scripts/jquery.tokenize.js"></script>
+<link href="~/Content/themes/jquery.tokenize.css" rel="stylesheet" />*@
 
 <script language="javascript">
     $(document).ready(function ($) {
         var e = document.getElementById('color');
         e.style.display = 'none'; 
-        $('#Type_onsumableID').change(function() {
-            var obj = $("#Type_onsumableID :selected");
-            var url = "/Consumable/checkCartridge/";
+        $('#TypeConsumableID').change(function() {
+            var obj = $("#TypeConsumableID :selected");
+            var url = "/Consumable/CheckCartridge/";
             
             $.get(url, { TypeName: "картридж" }, function (data) {
                 var id =(data);
@@ -28,6 +29,9 @@
 
 @using (Html.BeginForm("CreateConsumable", "Consumable", FormMethod.Post, new { @class = "form-horizontal" }))
 {
+    <h2>
+        Добавление комплектующего
+    </h2>
     <fieldset>
         <div class="control-group">
             <label class="control-label" for="TypeConsumableID">
@@ -35,7 +39,7 @@
             </label>
 
             <div class="styled-select">
-                @Html.DropDownList("TypeConsumableID", new SelectList(ViewBag.TypeConsumable, "ID", "Name"))
+                @Html.DropDownList("TypeConsumableID", new SelectList(ViewBag.TypeConsumable, "ID", "Name"),"Выберите тип комплектующего")
                 @Html.ValidationMessage("TypeConsumableID")
             </div>
 
@@ -54,7 +58,7 @@
                 </label>
 
                 <div class="styled-select">
-                    @Html.DropDownList("CartridgeColorID", new SelectList(ViewBag.CartridgeColor, "ID", "Name"))
+                    @Html.DropDownList("CartridgeColorID", new SelectList(ViewBag.CartridgeColor, "ID", "Name"),new { @class = "hidden" })
                 </div>
             </div>
 
@@ -75,18 +79,18 @@
 
 
 
-            <div class="section">
+            @*<div class="section">
                 <h2>Принадлежность к моделям</h2>
 
                 <label for="required">Select</label>
 
                 <select id="tokenize" multiple="multiple" name="ChosenModelIds" class="tokenize-sample"></select>
-            </div>
+            </div>*@
 
 
 
 
-            <script type="text/javascript">
+            @*<script type="text/javascript">
                 $('#tokenize').tokenize({
                     datas: "/Model/_GetModels",
                     placeholder: "Выберите модели"
@@ -97,7 +101,7 @@
                 .tokenize-sample {
                     width: 300px;
                 }
-            </style>
+            </style>*@
 
 
 

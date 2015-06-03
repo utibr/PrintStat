@@ -18,9 +18,9 @@ namespace PrintStat.Controllers
             ViewBag.CartridgeColor = Repository.CartridgeColors;
         }
 
-        public int? checkCartridge(string TypeName)
+        public int? CheckCartridge(string typeName)
         {
-            return Repository.CheckCartridge(TypeName);
+            return Repository.CheckCartridge(typeName);
         }
         public ActionResult Index()
         {
@@ -43,8 +43,7 @@ namespace PrintStat.Controllers
             var anyComponent = Repository.Consumables.Any(p => string.Compare(p.Name, _ComponentView.Name) == 0);
             if (anyComponent)
             {
-                ModelState.AddModelError("Name", "Component с" +
-                                                 " таким наименованием уже существует");
+                ModelState.AddModelError("Name", "Комплектующий с" + " таким наименованием уже существует");
             }
 
             if (ModelState.IsValid)
@@ -54,10 +53,10 @@ namespace PrintStat.Controllers
                 
                 Repository.CreateConsumable(_Component);
                 
-                if (_ComponentView.ChosenModelIds!=null)
-                {
-                    Repository.CreateModelComsumable(_ComponentView.ChosenModelIds, _Component.ID);
-                }
+                //if (_ComponentView.ChosenModelIds!=null)
+                //{
+                //    Repository.CreateModelComsumable(_ComponentView.ChosenModelIds, _Component.ID);
+                //}
                 return RedirectToAction("Index");
             }
 
@@ -73,13 +72,13 @@ namespace PrintStat.Controllers
             {
                 var _ComponentView =(ConsumableView)ModelMapper.Map(_Component, typeof(Consumable), typeof(ConsumableView));
 
-                var choosModelConsumable =  Repository.ModelConsumables.Where(m => m.ConsumableID == id);
+                //var choosModelConsumable =  Repository.ModelConsumables.Where(m => m.ConsumableID == id);
                 
 
-                foreach (var item in choosModelConsumable)
-                {
-                    _ComponentView.Models.Add(Repository.Models.First(t => t.ID == item.ModelID));
-                }
+                //foreach (var item in choosModelConsumable)
+                //{
+                //    _ComponentView.Models.Add(Repository.Models.First(t => t.ID == item.ModelID));
+                //}
                 
                 return View(_ComponentView);
             }
@@ -89,11 +88,20 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditConsumable(ConsumableView _ComponentView)
         {
+            var anyComponent = Repository.Consumables.Where(p=>p.ID!=_ComponentView.ID).Any(p => string.Compare(p.Name, _ComponentView.Name) == 0);
+            if (anyComponent)
+            {
+                ModelState.AddModelError("Name", "Комплектующий с" + " таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var _Component = Repository.Consumables.FirstOrDefault(p => p.ID == _ComponentView.ID);
                 ModelMapper.Map(_ComponentView, _Component, typeof(ConsumableView), typeof(Consumable));
                 Repository.UpdateConsumable(_Component);
+
+               ///нельзя Repository.RemoveModelConsumable(_ComponentView.ChosenModelIds);
+               //     Repository.CreateModelComsumable(_ComponentView.ChosenModelIds, _Component.ID);
+
 
                 return RedirectToAction("Index");
             }
@@ -108,17 +116,25 @@ namespace PrintStat.Controllers
             var _Component = Repository.Consumables.FirstOrDefault(p => p.ID == id);
             if (_Component != null && (Repository.CountUsesConsumble(id)==0))
             {
-                Repository.RemoveConsumable(_Component);
-            }
-            else
-            {
+                if (!Repository.RemoveConsumable(_Component))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
                 
-                ViewBag.Message = "Невозможно удалить комплектующий, т.к. он используется";
-                return View("~/Views/Shared/ErrorView.cshtml");
             }
+
+
             return RedirectToAction("Index");
         }
 
+
+        public JsonResult AutocompleteConsumble(string term)
+        {
+
+            return Json(Repository.SearchConsumble(term,Session["Cons"] as List<Consumable>), JsonRequestBehavior.AllowGet);
+
+        }
     }
 }
         

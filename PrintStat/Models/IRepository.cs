@@ -30,6 +30,7 @@ namespace PrintStat.Models
         //комплектующие
         bool RemoveModelConsumable(IQueryable<ModelConsumable> instance);
         bool CreateModelComsumable(int[] comIDs, int modelID);
+        bool UpdateModelConsumbles(int modelId,int[] comIDs);
 
         IQueryable<ModelTag> ModelTags { get; }
         IQueryable<SupportSize> ModelSizePapers { get; }
@@ -61,6 +62,9 @@ namespace PrintStat.Models
         bool RemoveManufacturer(Manufacturer instance);
 
         List<string> SearchManufacturer(string term);
+        //List<string> SearchConsumble(string term);
+        List<string> SearchConsumble(string term, List<Consumable> consumables);
+
         List<Model> SearchModel(string term);
 
         int? CheckManufacturer(string name);
@@ -142,12 +146,8 @@ namespace PrintStat.Models
 
         IQueryable<PrintKind> PrintKinds { get;  }
         IQueryable<Job> Jobs { get;  }
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="page"></param>
-       /// <returns></returns>
-        IQueryable<Job> JobPaginators(int page);
+
+
 
         IQueryable<Employee> AuthorEmployees { get;  }
         IQueryable<Employee> UserEmployees { get; }

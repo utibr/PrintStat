@@ -15,17 +15,21 @@ namespace PrintStat.Models.ViewModels
         {
             get { return _model; }
         }
-
-    [Required(ErrorMessage = "Пожалуйста введите производителя")]
+        [Display(Name = "Производитель")]
+        [Required(ErrorMessage = "Пожалуйста введите производителя")]
         public string Manufacturer { get; set; }
+        [Display(Name = "Модель")]
         [Required(ErrorMessage = "Пожалуйста выберите модель")]
         public int ModelID { get; set; }
-
+        [Display(Name = "Серийный номер")]
         [Required(ErrorMessage = "Пожалуйста введите серийный номер")]
         public string Sn { get; set; }
-        
+        [Display(Name = "Поисковая строка")]
+        [Required(ErrorMessage = "Пожалуйста введите поисковую строку")]
         public string SearchString { get; set; }
+        [Display(Name = "Инвентарный номер")]
         public string InvNumber { get; set; }
+        [Display(Name = "Поддержка отправки статистики")]
         public bool StatisticsSupported { get; set; }
     }
 }

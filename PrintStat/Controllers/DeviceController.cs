@@ -22,10 +22,10 @@ namespace PrintStat.Controllers
         }
 
 
-        private void InitViewBag()
+        private void 
+        InitViewBag()
         {
             ViewBag.Models = Repository.Models;
-
         }
         [HttpGet]
         public ActionResult CreateDevice()

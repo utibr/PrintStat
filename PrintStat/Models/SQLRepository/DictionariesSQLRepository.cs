@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Ninject.Infrastructure.Language;
 
 
 namespace PrintStat.Models
@@ -52,15 +53,18 @@ namespace PrintStat.Models
 
         public bool RemoveTypeConsumable(TypeConsumable instance)
         {
-            // Component instance = Db.Component.Where(p => p.ID == idComponent).FirstOrDefault();
-            if (instance != null)
+            try
             {
                 Db.TypeConsumable.DeleteOnSubmit(instance);
                 Db.TypeConsumable.Context.SubmitChanges();
                 return true;
             }
+            catch (Exception)
+            {
 
-            return false;
+                return false;
+            }
+
         }
         #endregion
         
@@ -102,14 +106,17 @@ namespace PrintStat.Models
 
         public bool RemoveTag(Tag instance)
         {
-            if (instance != null)
+            try
             {
                 Db.Tag.DeleteOnSubmit(instance);
                 Db.Tag.Context.SubmitChanges();
                 return true;
             }
+            catch (Exception)
+            {
 
-            return false;
+                return false;
+            }
         }
     #endregion
 
@@ -139,9 +146,18 @@ namespace PrintStat.Models
 
                 public bool RemoveSizePaper(SizePaper instance)
                 {
-                    Db.SizePaper.DeleteOnSubmit(instance);
-                    Db.SizePaper.Context.SubmitChanges();
-                    return true;
+                    try
+                    {
+                        Db.SizePaper.DeleteOnSubmit(instance);
+                        Db.SizePaper.Context.SubmitChanges();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+                    }
+
                 }
         #endregion
 
@@ -222,12 +238,22 @@ namespace PrintStat.Models
                     return true;
                 }
 
-                public bool RemovePapertype(PaperType instance)
-                {
-                    Db.PaperType.DeleteOnSubmit(instance);
-                    Db.PaperType.Context.SubmitChanges();
-                    return true;
-                }
+        public bool RemovePapertype(PaperType instance)
+        {
+            try
+            {
+                Db.PaperType.DeleteOnSubmit(instance);
+                Db.PaperType.Context.SubmitChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+
+            }
+        }
+
         #endregion
 
 
@@ -255,9 +281,18 @@ namespace PrintStat.Models
 
                 public bool RemovePrintKind(PrintKind instance)
                 {
-                    Db.PrintKind.DeleteOnSubmit(instance);
-                    Db.PrintKind.Context.SubmitChanges();
-                    return true;
+                    try
+                    {
+                        Db.PrintKind.DeleteOnSubmit(instance);
+                        Db.PrintKind.Context.SubmitChanges();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+                    }
+
                 }
         #endregion
 
@@ -299,10 +334,18 @@ namespace PrintStat.Models
 
                 public bool RemoveDepartment(Department instance)
                 {
-
+                    try
+                    {
                         Db.Department.DeleteOnSubmit(instance);
                         Db.Department.Context.SubmitChanges();
                         return true;
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+                    }
+                        
 
                 }
         #endregion
@@ -335,6 +378,23 @@ namespace PrintStat.Models
             return Db.Manufacturer.Where(m => m.Name.ToLower().Contains(term.ToLower())).Select(m => m.Name).ToList();
             
         }
+
+
+        public List<string> SearchConsumble(string term,List<Consumable> consumables )
+        {
+
+            if (consumables != null) 
+            {
+                var z = Db.Consumable.Where(x => x.Name.ToLower().Contains(term.ToLower())).ToEnumerable();//..ToList();
+                return z.Where(x => consumables.All(y => y.ID != x.ID)).Select(m => m.Name).ToList();
+            }
+            else
+            {
+                 return Db.Consumable.Where(m => m.Name.ToLower().Contains(term.ToLower())).Select(m => m.Name).ToList();
+
+            }
+
+        }                                              
         //проверка
         public int? CheckManufacturer(string name)
         {
@@ -356,14 +416,18 @@ namespace PrintStat.Models
 
                 public bool RemoveManufacturer(Manufacturer instance)
                 {
-                    if (instance != null)
+                    try
                     {
                         Db.Manufacturer.DeleteOnSubmit(instance);
                         Db.Manufacturer.Context.SubmitChanges();
                         return true;
                     }
+                    catch (Exception)
+                    {
 
-                    return false;
+                        return false;
+                    }
+
                 }
         
 #endregion
@@ -454,10 +518,21 @@ namespace PrintStat.Models
 
                 public bool RemoveApplication(Application instance)
                 {
-            
+                    try
+                    {
                         Db.Application.DeleteOnSubmit(instance);
                         Db.Application.Context.SubmitChanges();
                         return true;
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+
+                            
+                        //error page
+                    }
+                       
                 }
         #endregion
 
@@ -486,9 +561,18 @@ namespace PrintStat.Models
 
                 public bool RemoveCartridgeColor(CartridgeColor instance)
                 {
-                    Db.CartridgeColor.DeleteOnSubmit(instance);
-                    Db.CartridgeColor.Context.SubmitChanges();
-                    return true;
+                    try
+                    {
+                        Db.CartridgeColor.DeleteOnSubmit(instance);
+                        Db.CartridgeColor.Context.SubmitChanges();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+
+                        return false;
+                    }
+                    
                 }
         #endregion
 
@@ -592,7 +676,9 @@ namespace PrintStat.Models
         {
             get
             {
-                return Db.Employee.Where(p => p.DepartmentID == 2);
+                //==2 зачем ?
+                //TODO
+                return Db.Employee.Where(p => p.DepartmentID != 2);
             }
         }
 
@@ -636,15 +722,20 @@ namespace PrintStat.Models
 
         public bool RemoveTagType(TagType instance)
         {
-            
-            if (instance != null)
+            try
             {
                 Db.TagType.DeleteOnSubmit(instance);
                 Db.TagType.Context.SubmitChanges();
                 return true;
             }
+            catch (Exception)
+            {
+                
+                return false;;
+            }
 
-            return false;
+
+            
         }
 
         #endregion

@@ -88,12 +88,13 @@ namespace PrintStat.Controllers
         }
 
 
-        public ActionResult partialJobPaginator(int? page)
+        public ActionResult partialJobPaginator(int? page, int? countJob)
         {
-            var Jobs = Repository.Jobs; //returns IQueryable<Product> representing an unknown number of products. a thousand maybe?
+            var Jobs = Repository.Jobs.OrderByDescending(s => s.EndTime); ; //returns IQueryable<Product> representing an unknown number of products. a thousand maybe?
 
             var pageNumber = page ?? 1; // if no page was specified in the querystring, default to the first page (1)
-            return PartialView("partialJobPaginator", Jobs.ToPagedList(pageNumber, 1));
+            var count = countJob ?? 30;
+            return PartialView("partialJobPaginator", Jobs.ToPagedList(pageNumber, count));
         }
 
 

@@ -60,6 +60,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditPrintKind(PrintKindView printkindView)
         {
+            var anyPrintKind = Repository.PrintKinds.Where(p=>p.ID!=printkindView.ID).Any(p => string.Compare(p.Name, printkindView.Name) == 0);
+            if (anyPrintKind)
+            {
+                ModelState.AddModelError("Name", "Вид печати с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var printKind= Repository.PrintKinds.FirstOrDefault(p => p.ID == printkindView.ID);
@@ -79,7 +84,11 @@ namespace PrintStat.Controllers
             var printkind = Repository.PrintKinds.FirstOrDefault(p => p.ID == id);
             if (printkind != null)
             {
-                Repository.RemovePrintKind(printkind);
+                if (!Repository.RemovePrintKind(printkind))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

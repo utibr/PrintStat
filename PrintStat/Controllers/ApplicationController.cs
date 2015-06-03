@@ -29,6 +29,7 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult CreateApplication(ApplicationView applicationView)
         {
+
             var anyApplication = Repository.Applications.Any(p => string.Compare(p.Name, applicationView.Name) == 0);
             if (anyApplication)
             {
@@ -61,6 +62,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditApplication(ApplicationView applicationView)
         {
+            var anyApplication = Repository.Applications.Where(p=>p.ID!=applicationView.ID).Any(p => string.Compare(p.Name, applicationView.Name) == 0);
+            if (anyApplication)
+            {
+                ModelState.AddModelError("Name", "Приложение с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var application = Repository.Applications.FirstOrDefault(p => p.ID == applicationView.ID);
@@ -80,7 +86,11 @@ namespace PrintStat.Controllers
             var application = Repository.Applications.FirstOrDefault(p => p.ID == id);
             if (application != null)
             {
-                Repository.RemoveApplication(application);
+                if (!Repository.RemoveApplication(application))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

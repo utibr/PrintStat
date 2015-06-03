@@ -31,7 +31,7 @@ namespace PrintStat.Controllers
             var anyDepartment = Repository.Departments.Any(p => string.Compare(p.Name, departmentView.Name) == 0);
             if (anyDepartment)
             {
-                ModelState.AddModelError("Name", "Отдела с таким наименованием уже существует");
+                ModelState.AddModelError("Name", "Отдел с таким наименованием уже существует");
             }
 
             if (ModelState.IsValid)
@@ -48,6 +48,7 @@ namespace PrintStat.Controllers
         [HttpGet]
         public ActionResult EditDepartment(int? id)
         {
+
             var department = Repository.Departments.FirstOrDefault(p => p.ID == id);
             if (department != null)
             {
@@ -60,6 +61,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditDepartment(DepartmentView departmentView)
         {
+            var anyDepartment = Repository.Departments.Where(p=>p.ID!=departmentView.ID).Any(p => string.Compare(p.Name, departmentView.Name) == 0);
+            if (anyDepartment)
+            {
+                ModelState.AddModelError("Name", "Отдел с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var department = Repository.Departments.FirstOrDefault(p => p.ID == departmentView.ID);
@@ -79,7 +85,11 @@ namespace PrintStat.Controllers
             var department = Repository.Departments.FirstOrDefault(p => p.ID == id);
             if (department != null)
             {
-                Repository.RemoveDepartment(department);
+                if (!Repository.RemoveDepartment(department))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }

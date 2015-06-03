@@ -12,15 +12,18 @@ namespace PrintStat.Models.ViewModels
     {
         public List<SQLRepository.devCons> AllDevCons { set; get; }
 
+        [Required(ErrorMessage = "Укажите устройство")]
         public int deviceID { get; set; }
-        [Display(Name = "Рабочий ресурс")]
-        public int Endurance { get; set; }
 
-        [Display(Name = "Короткое название")]
-        public string ShortName { get; set; }
-        [Display(Name = "Тип комплектующего")]
-        [Required(ErrorMessage = "Выберите тип комплектующего")]
-        public int TypeConsumableID { get; set; }
+       // [Display(Name = "Рабочий ресурс")]
+       // public int Endurance { get; set; }
+
+      //  [Display(Name = "Короткое название")]
+      //  public string ShortName { get; set; }
+
+       // [Display(Name = "Тип комплектующего")]
+       // [Required(ErrorMessage = "Выберите тип комплектующего")]
+       // public int TypeConsumableID { get; set; }
         [Display(Name = "Поддерживаемые модели")]
         public int[] ChosenModelIds { get; set; }
 

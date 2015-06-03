@@ -2,12 +2,11 @@
 
 $("#Manufacturer").attr("placeholder", "Начните вводить производителя");
 
-$(document).ready(function () {
+$(document).ready(function() {
     $('#Manufacturer').autocomplete({
         source: '/Manufacturer/AutocompleteManufacturer'
+
     });
-
-
 });
 
 

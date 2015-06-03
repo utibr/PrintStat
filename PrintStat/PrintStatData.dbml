@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PrintStat" Class="PrintStatDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=BUKA;Initial Catalog=PrintStat;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PrintStatConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.Application" Member="Application">
-    <Type Name="Application">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Application_Job" Member="Job" ThisKey="ID" OtherKey="ApplicationID" Type="Job" />
-    </Type>
-  </Table>
   <Table Name="dbo.TypeConsumable" Member="TypeConsumable">
     <Type Name="TypeConsumable">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="TypeConsumable_Consumable" Member="Consumable" ThisKey="ID" OtherKey="TypeConsumableID" Type="Consumable" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Application" Member="Application">
+    <Type Name="Application">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Application_Job" Member="Job" ThisKey="ID" OtherKey="ApplicationID" Type="Job" />
     </Type>
   </Table>
   <Table Name="dbo.Cartridge" Member="Cartridge">
@@ -60,6 +60,7 @@
       <Column Name="CartridgeColorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="TypeConsumableID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ShortName" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Association Name="Consumable_ModelConsumable" Member="ModelConsumable" ThisKey="ID" OtherKey="ConsumableID" Type="ModelConsumable" />
       <Association Name="CartridgeColor_Consumable" Member="CartridgeColor" ThisKey="CartridgeColorID" OtherKey="ID" Type="CartridgeColor" IsForeignKey="true" />
       <Association Name="TypeConsumable_Consumable" Member="TypeConsumable" ThisKey="TypeConsumableID" OtherKey="ID" Type="TypeConsumable" IsForeignKey="true" />
     </Type>
@@ -205,8 +206,7 @@
       <Column Name="ModelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ConsumableID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="ModelConsumable_DeviceConsumable" Member="DeviceConsumable" ThisKey="ID" OtherKey="ModelConsumableID" Type="DeviceConsumable" />
-      <Association Name="ModelConsumable_ModelConsumable" Member="ModelConsumable2" ThisKey="ID" OtherKey="ID" Type="ModelConsumable" Cardinality="One" />
-      <Association Name="ModelConsumable_ModelConsumable" Member="ModelConsumable1" ThisKey="ID" OtherKey="ID" Type="ModelConsumable" IsForeignKey="true" />
+      <Association Name="Consumable_ModelConsumable" Member="Consumable" ThisKey="ConsumableID" OtherKey="ID" Type="Consumable" IsForeignKey="true" />
       <Association Name="Model_ModelConsumable" Member="Model" ThisKey="ModelID" OtherKey="ID" Type="Model" IsForeignKey="true" />
     </Type>
   </Table>

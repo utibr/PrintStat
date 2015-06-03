@@ -62,6 +62,11 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditPaperType(PaperTypeView papertypeView)
         {
+            var anyPaperType = Repository.PaperTypes.Where(p=>p.ID!=papertypeView.ID).Any(p => string.Compare(p.Name, papertypeView.Name) == 0);
+            if (anyPaperType)
+            {
+                ModelState.AddModelError("Name", "Тип бумаги с таким наименованием уже существует");
+            }
             if (ModelState.IsValid)
             {
                 var paperType = Repository.PaperTypes.FirstOrDefault(p => p.ID == papertypeView.ID);
@@ -81,7 +86,11 @@ namespace PrintStat.Controllers
             var papertype = Repository.PaperTypes.FirstOrDefault(p => p.ID == id);
             if (papertype != null)
             {
-                Repository.RemovePapertype(papertype);
+                if (!Repository.RemovePapertype(papertype))
+                {
+                    ViewBag.Message = "Невозможно удалить значение, т.к. оно используется";
+                    return View("~/Views/Shared/ErrorView.cshtml");
+                }
             }
             return RedirectToAction("Index");
         }
