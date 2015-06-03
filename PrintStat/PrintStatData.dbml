@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PrintStat" Class="PrintStatDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=BUKA;Initial Catalog=PrintStat;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PrintStatConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.TypeConsumable" Member="TypeConsumable">
-    <Type Name="TypeConsumable">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="TypeConsumable_Consumable" Member="Consumable" ThisKey="ID" OtherKey="TypeConsumableID" Type="Consumable" />
-    </Type>
-  </Table>
   <Table Name="dbo.Application" Member="Application">
     <Type Name="Application">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Application_Job" Member="Job" ThisKey="ID" OtherKey="ApplicationID" Type="Job" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TypeConsumable" Member="TypeConsumable">
+    <Type Name="TypeConsumable">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="TypeConsumable_Consumable" Member="Consumable" ThisKey="ID" OtherKey="TypeConsumableID" Type="Consumable" />
     </Type>
   </Table>
   <Table Name="dbo.Cartridge" Member="Cartridge">

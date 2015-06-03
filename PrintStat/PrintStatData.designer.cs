@@ -30,12 +30,12 @@ namespace PrintStat
 		
     #region Определения метода расширяемости
     partial void OnCreated();
-    partial void InsertTypeConsumable(TypeConsumable instance);
-    partial void UpdateTypeConsumable(TypeConsumable instance);
-    partial void DeleteTypeConsumable(TypeConsumable instance);
     partial void InsertApplication(Application instance);
     partial void UpdateApplication(Application instance);
     partial void DeleteApplication(Application instance);
+    partial void InsertTypeConsumable(TypeConsumable instance);
+    partial void UpdateTypeConsumable(TypeConsumable instance);
+    partial void DeleteTypeConsumable(TypeConsumable instance);
     partial void InsertCartridge(Cartridge instance);
     partial void UpdateCartridge(Cartridge instance);
     partial void DeleteCartridge(Cartridge instance);
@@ -155,19 +155,19 @@ namespace PrintStat
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<TypeConsumable> TypeConsumable
-		{
-			get
-			{
-				return this.GetTable<TypeConsumable>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Application> Application
 		{
 			get
 			{
 				return this.GetTable<Application>();
+			}
+		}
+		
+		public System.Data.Linq.Table<TypeConsumable> TypeConsumable
+		{
+			get
+			{
+				return this.GetTable<TypeConsumable>();
 			}
 		}
 		
@@ -404,120 +404,6 @@ namespace PrintStat
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TypeConsumable")]
-	public partial class TypeConsumable : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private EntitySet<Consumable> _Consumable;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    #endregion
-		
-		public TypeConsumable()
-		{
-			this._Consumable = new EntitySet<Consumable>(new Action<Consumable>(this.attach_Consumable), new Action<Consumable>(this.detach_Consumable));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TypeConsumable_Consumable", Storage="_Consumable", ThisKey="ID", OtherKey="TypeConsumableID")]
-		public EntitySet<Consumable> Consumable
-		{
-			get
-			{
-				return this._Consumable;
-			}
-			set
-			{
-				this._Consumable.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Consumable(Consumable entity)
-		{
-			this.SendPropertyChanging();
-			entity.TypeConsumable = this;
-		}
-		
-		private void detach_Consumable(Consumable entity)
-		{
-			this.SendPropertyChanging();
-			entity.TypeConsumable = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Application")]
 	public partial class Application : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -629,6 +515,120 @@ namespace PrintStat
 		{
 			this.SendPropertyChanging();
 			entity.Application = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.TypeConsumable")]
+	public partial class TypeConsumable : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private EntitySet<Consumable> _Consumable;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public TypeConsumable()
+		{
+			this._Consumable = new EntitySet<Consumable>(new Action<Consumable>(this.attach_Consumable), new Action<Consumable>(this.detach_Consumable));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TypeConsumable_Consumable", Storage="_Consumable", ThisKey="ID", OtherKey="TypeConsumableID")]
+		public EntitySet<Consumable> Consumable
+		{
+			get
+			{
+				return this._Consumable;
+			}
+			set
+			{
+				this._Consumable.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Consumable(Consumable entity)
+		{
+			this.SendPropertyChanging();
+			entity.TypeConsumable = this;
+		}
+		
+		private void detach_Consumable(Consumable entity)
+		{
+			this.SendPropertyChanging();
+			entity.TypeConsumable = null;
 		}
 	}
 	
@@ -3047,13 +3047,13 @@ namespace PrintStat
 		private void attach_Job(Job entity)
 		{
 			this.SendPropertyChanging();
-            entity.Author = this;
+			entity.Author = this;
 		}
 		
 		private void detach_Job(Job entity)
 		{
 			this.SendPropertyChanging();
-            entity.Author = null;
+			entity.Author = null;
 		}
 		
 		private void attach_Job1(Job entity)
@@ -3330,8 +3330,8 @@ namespace PrintStat
 		private EntitySet<TonerJob> _TonerJob;
 		
 		private EntityRef<Application> _Application;
-
-        private EntityRef<Employee> _Author;
+		
+		private EntityRef<Employee> _Author;
 		
 		private EntityRef<Device> _Device;
 		
@@ -3398,7 +3398,7 @@ namespace PrintStat
 			this._ExpForJob = new EntitySet<ExpForJob>(new Action<ExpForJob>(this.attach_ExpForJob), new Action<ExpForJob>(this.detach_ExpForJob));
 			this._TonerJob = new EntitySet<TonerJob>(new Action<TonerJob>(this.attach_TonerJob), new Action<TonerJob>(this.detach_TonerJob));
 			this._Application = default(EntityRef<Application>);
-			this._Employee = default(EntityRef<Employee>);
+			this._Author = default(EntityRef<Employee>);
 			this._Device = default(EntityRef<Device>);
 			this._Employee = default(EntityRef<Employee>);
 			this._PaperType = default(EntityRef<PaperType>);
@@ -3733,7 +3733,7 @@ namespace PrintStat
 			{
 				if ((this._AuthorTabNumber != value))
 				{
-					if (this._Employee.HasLoadedOrAssignedValue)
+					if (this._Author.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -3950,26 +3950,26 @@ namespace PrintStat
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job", Storage="_Employee", ThisKey="AuthorTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
-        public Employee Author
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Employee_Job", Storage="_Author", ThisKey="AuthorTabNumber", OtherKey="TabNumber", IsForeignKey=true)]
+		public Employee Author
 		{
 			get
 			{
-				return this._Employee.Entity;
+				return this._Author.Entity;
 			}
 			set
 			{
-				Employee previousValue = this._Employee.Entity;
+				Employee previousValue = this._Author.Entity;
 				if (((previousValue != value) 
-							|| (this._Employee.HasLoadedOrAssignedValue == false)))
+							|| (this._Author.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Employee.Entity = null;
+						this._Author.Entity = null;
 						previousValue.Job.Remove(this);
 					}
-					this._Employee.Entity = value;
+					this._Author.Entity = value;
 					if ((value != null))
 					{
 						value.Job.Add(this);
@@ -3979,7 +3979,7 @@ namespace PrintStat
 					{
 						this._AuthorTabNumber = default(string);
 					}
-					this.SendPropertyChanged("Employee");
+                    this.SendPropertyChanged("Author");
 				}
 			}
 		}
