@@ -313,42 +313,43 @@ namespace PrintStat.Models
             }
         }
 
-        public bool CreateModelComsumable(int[] comIDs, int modId)//поменять местами
+        public int[] CreateModelComsumable(int[] comIDs, int modId)//поменять местами
         {
             try
             {
-                Db.ModelConsumable.InsertAllOnSubmit(comIDs.Select(id =>
-            new ModelConsumable()
-            {
-                ConsumableID = id,
-                ModelID = modId
-            })
-        );
+                var modelConsList = (comIDs.Select(id =>
+                    new ModelConsumable()
+                    {
+                        ConsumableID = id,
+                        ModelID = modId
+                    })).ToList();
+               
+                Db.ModelConsumable.InsertAllOnSubmit(modelConsList);
                 Db.ModelConsumable.Context.SubmitChanges();
-                return true;
+                return modelConsList.Select(p=>p.ID).ToArray();
             }
             catch (Exception)
             {
                 
-                return false;
+                return null;
             }
 
         }
         //todo удаление и добавление 
         //todo если удалять то спрашивать затем удалить все из dc потом уже из mc
         //
-        public bool UpdateModelConsumbles(int modelId, int[] comIDs)
-        {
+        //public bool UpdateModelConsumbles(int modelId, int[] comIDs)
+        //{
             
-            var mc = from p in Db.ModelConsumable.Where(p => p.ModelID == modelId)
-                select new {idCon = p.ID, selected=false};
+        //    var mc = from p in Db.ModelConsumable.Where(p => p.ModelID == modelId)
+        //        select new {idCon = p.ID, selected=false};
 
-            foreach (var item in comIDs)
-            {
-                //if(mc.C)
-            }
-            return true;
-        }
+        //    foreach (var item in comIDs)
+        //    {
+        //        //if(mc.C)
+        //    }
+        //    return true;
+        //}
         //public IQueryable<Consumable> GetNoInstallCons(int idDevice)
         //{
         //    Db.Device.Where(p=>p.ID==idDevice)
@@ -482,6 +483,33 @@ namespace PrintStat.Models
             {
                 return Db.Model;
             }
+        }
+
+        public void ClearContextOfDeletes()
+        {
+            try
+            {
+                  Db.ModelConsumable.Context.GetChangeSet().Deletes.Clear();
+            }
+            catch (Exception)
+            {
+              return;
+            }
+          
+        }
+
+        public void SubmitContexOfDeletes()
+        {
+            try
+            {
+                Db.ModelConsumable.Context.SubmitChanges();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
         }
 
         public bool CreateModel(Model instance)

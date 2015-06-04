@@ -28,6 +28,7 @@ namespace PrintStat.Models.ViewModels
             get { return _setval; }
             set { _setval = value; }
         }
-        public IEnumerable<SelectListItem> Values { get; set; }
+        public IQueryable<Settings> Setting { get; set; }
+        public int[] ChosenSetting { get; set; }
     }
 }

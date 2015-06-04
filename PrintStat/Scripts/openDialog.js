@@ -9,7 +9,7 @@ function showAddModel() {
     $('#dialogDivModel').load('/Model/PartialCreateModel/').dialog(
     {
         autoOpen: true,
-        title: 'Добавить модель',
+        title: 'Добавление модели устройства',
         modal: true,
         resizable: true,
         minWidth: '550',

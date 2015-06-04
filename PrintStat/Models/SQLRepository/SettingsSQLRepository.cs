@@ -121,16 +121,29 @@ namespace PrintStat.Models
             }
         }
 
-        public bool CreateSettingValue(SettingValue instance)
+        public bool CreateSettingValue(int[] setId, int profId)
         {
-            if (instance.ID == 0)
+            try
             {
-                Db.SettingValue.InsertOnSubmit(instance);
-                Db.SettingValue.Context.SubmitChanges();
-                return true;
+
+                Db.SettingValue.InsertAllOnSubmit(
+                   setId.Select(id =>
+                       new SettingValue()
+                       {
+                           SettingsID = id,
+                           ProfileID = profId
+                       })
+                   );
+               Db.SettingValue.Context.SubmitChanges();
+                        return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
             }
 
-            return false;
+            
         }
 
         public bool UpdateSettingValue(List<ProfileView.setval> sv)

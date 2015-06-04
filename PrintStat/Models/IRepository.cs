@@ -14,6 +14,8 @@ namespace PrintStat.Models
 
         #region Model
 
+        void ClearContextOfDeletes();
+        void SubmitContexOfDeletes();
         IQueryable<Model> Models { get; }
 
         bool CreateModel(Model instance);
@@ -29,8 +31,8 @@ namespace PrintStat.Models
         #region ModelRelation
         //комплектующие
         bool RemoveModelConsumable(IQueryable<ModelConsumable> instance);
-        bool CreateModelComsumable(int[] comIDs, int modelID);
-        bool UpdateModelConsumbles(int modelId,int[] comIDs);
+        int[] CreateModelComsumable(int[] comIDs, int modelID);
+        //bool UpdateModelConsumbles(int modelId,int[] comIDs);
 
         IQueryable<ModelTag> ModelTags { get; }
         IQueryable<SupportSize> ModelSizePapers { get; }
@@ -182,7 +184,7 @@ namespace PrintStat.Models
 
         IQueryable<SettingValue> SettingValues { get; }
 
-        bool CreateSettingValue(SettingValue instance);
+        bool CreateSettingValue(int[] setId, int profId);
 
         bool UpdateSettingValue(List<ProfileView.setval> sv);
 

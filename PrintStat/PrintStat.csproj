@@ -391,6 +391,7 @@
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\createDevice.js" />
+    <Content Include="Scripts\EditModelScript.js" />
     <Content Include="Scripts\i18n\jquery.ui.datepicker-ru.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -525,6 +526,7 @@
     <Content Include="Views\Home\Index1.cshtml" />
     <Content Include="Views\Home\View1.cshtml" />
     <Content Include="Views\Model\partialModelConsumable.cshtml" />
+    <Content Include="Views\Profile\CreateProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

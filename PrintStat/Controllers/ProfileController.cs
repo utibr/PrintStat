@@ -24,6 +24,16 @@ namespace PrintStat.Controllers
             }
         }
 
+        public IEnumerable<SelectListItem> Names
+        {
+            get
+            {
+                var p = new List<SelectListItem>();
+                p.Add(new SelectListItem() {Value = "Email", Text = "Email"});
+                p.Add(new SelectListItem() { Value = "ActiveDirectory", Text = "MS ActiveDirectory" });
+                return p;
+            }
+        }
 
 
 
@@ -36,7 +46,37 @@ namespace PrintStat.Controllers
 
 
 
+        [HttpGet]
+        public ActionResult CreateProfile()
+        {
+            ViewBag.Names = Names;
+            var profileView = new ProfileView {Setting = Repository.Settingses.AsQueryable()};
+            return View(profileView);
+        }
 
+        [HttpPost]
+        public ActionResult CreateProfile(ProfileView profileView)
+        {
+            var anyProfile = Repository.Profiles.Any(p => String.Compare(p.Name, profileView.Name) == 0);
+            if (anyProfile)
+            {
+                ModelState.AddModelError("Name","Профиль с таким название уже существует");
+            }
+            else
+            {
+                var temp = new Profile() {Name = profileView.Name};
+                Repository.CreateProfile(temp);
+            
+                if (ModelState.IsValid)
+                {
+                    Repository.CreateSettingValue(profileView.ChosenSetting,temp.ID);
+                    return RedirectToAction("Index");
+                }
+            }
+            ViewBag.Names = Names;
+            profileView.Setting = Repository.Settingses.AsQueryable();
+            return View(profileView);
+        }
         [HttpGet]
         public ActionResult EditProfile(int? id)
         {
@@ -80,6 +120,16 @@ namespace PrintStat.Controllers
             ViewBag.Protocols = Protocols;
             {
                 Repository.UpdateSettingValue(profileView.SettingVals);
+                return RedirectToAction("Index");    
+            }
+           
+        }     
+        [HttpGet]
+        public ActionResult DeleteProfile(int? id)
+        {
+            var temp = Repository.Profiles.First(p => p.ID == id);
+            {
+                Repository.RemoveProfile(temp);
                 return RedirectToAction("Index");    
             }
            

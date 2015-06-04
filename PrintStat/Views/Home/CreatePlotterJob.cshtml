@@ -4,6 +4,7 @@
 
 @using (Html.BeginForm("CreateJob", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
 {
+    <h2>Добавление задания плоттера</h2>
     <fieldset>
         <div class="control-group">
             @Html.HiddenFor(p => p.EndTime)

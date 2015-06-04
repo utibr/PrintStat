@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -90,8 +91,12 @@ namespace PrintStat.Controllers
             ViewBag.AuthorEmployees = AuthorEmployees;
             ViewBag.UserEmployees =  UserEmployees;
             ViewBag.Departments = Departments;
-
-            return View();
+            var reportView = new ReportSettingsView()
+            {
+                DateStart = DateTime.ParseExact(DateTime.Now.ToString(), "dd-mm-yyyy", CultureInfo.InvariantCulture),
+                DateEnd = DateTime.ParseExact(DateTime.Now.ToString(), "dd-mm-yyyy", CultureInfo.InvariantCulture),
+            };
+            return View(reportView);
         }
 
         [HttpPost]
@@ -107,23 +112,7 @@ namespace PrintStat.Controllers
                  ((p.Employee != null && p.Employee.TabNumber == reportsettingsview.EmployeeTabNumber) || reportsettingsview.EmployeeTabNumber == null) &&
                                                    ((p.Device != null && p.Device.ID == reportsettingsview.PrinterID) || reportsettingsview.PrinterID == 0)).OrderByDescending(s => s.EndTime);
 
-            //var subjobs = Repository.Jobs.Where(p => (p.StartTime >= reportsettingsview.DateStart && p.StartTime <= reportsettingsview.DateEnd) && (p.ApplicationID == reportsettingsview.ApplicationID || reportsettingsview.ApplicationID == 0)&&
-            //    ((p.Author != null && p.Author.TabNumber == reportsettingsview.AuthorTabNumber) || reportsettingsview.AuthorTabNumber == null)&&
-            //    ((p.Department != null && p.Department.ID == reportsettingsview.DepartmentID) || reportsettingsview.DepartmentID == 0)&&
-            //           ((p.Employee!= null && p.Employee.TabNumber == reportsettingsview.EmployeeTabNumber)||reportsettingsview.EmployeeTabNumber== null)&&
-            //                                       ((p.Device != null && p.Device.ID == reportsettingsview.PrinterID) || reportsettingsview.PrinterID == 0));
-
-            //var subjob = Repository.Jobs.Where(
-            //    p => (p.StartTime >= reportsettingsview.DateStart && p.StartTime <= reportsettingsview.DateEnd)).
-            //    Where(p => p.ApplicationID == reportsettingsview.ApplicationID || reportsettingsview.ApplicationID == 0);
-            //if(reportsettingsview.EmployeeTabNumber!="")
-
-            //var subjobs = Repository.Jobs.Where(p => (p.ApplicationID == reportsettingsview.ApplicationID || reportsettingsview.ApplicationID == 0) &&
-            //    ((p.Author != null && p.Author.TabNumber == reportsettingsview.AuthorTabNumber)||reportsettingsview.AuthorTabNumber == null)&& 
-            //                                       ((p.Department != null && p.Department.ID == reportsettingsview.DepartmentID) || reportsettingsview.DepartmentID == 0) &&
-            //    ((p.Employee!= null && p.Employee.TabNumber == reportsettingsview.EmployeeTabNumber)||reportsettingsview.EmployeeTabNumber== null)&&
-            //                                       ((p.Device != null && p.Device.ID == reportsettingsview.PrinterID) || reportsettingsview.PrinterID == 0));
-
+          
             var jobs = from j in subjobs
                        select new { j.Name, j.Pages, j.Copies, j.PrinterName, j.ApplicationName, j.RealWidth_cm, j.RealHeight_cm, j.PaperTypeName, j.StartTime, j.EndTime, j.Duration, j.EmployeeName, j.AuthorName, j.DepartmentName };
 

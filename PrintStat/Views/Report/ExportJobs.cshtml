@@ -8,96 +8,98 @@
     <fieldset>
         <div class="control-group">
             <script type="text/javascript">
-    $(function () {
-        $("#DateStart,#DateEnd").datepicker(
-        {
-            defaultDate: new Date(),
-            dateFormat: "dd.mm.yy" ,
-            changeMonth: true,
-            changeYear: true
-        });
-    });
+                $(function () {
+                    $("#DateStart,#DateEnd").datepicker(
+                    {
+                        defaultDate: new Date(),
+                        dateFormat: "dd.mm.yy",
+                        changeMonth: true,
+                        changeYear: true
+                    });
+                });
             </script>
 
             <h2>
                 Отчет о печати
             </h2>
 
-            <p>
-                Время:
-                <label>
-                    <b>C: </b>
-                    @Html.TextBoxFor(p=>p.DateStart, new{id="DateStart"})
-                    
-                </label>
-                <label>
-                    <b>По: </b>
-                    @Html.TextBoxFor(p => p.DateEnd, new { id = "DateEnd" })
-                 
-                </label>
-
-            </p>
             <table class="tdnoborder" cellpadding="6" cellspacing="8">
                 <tr>
+                    Время:
                     <td class="tdnoborder">
-                        <label class="control-label" for="EmployeeTabNumber">
-                            Исполнитель
-                        </label>
+                        <label>
+                            <b>C: </b>
+                            @Html.TextBoxFor(p => p.DateStart, new {id = "DateStart"})
 
-                        <div class="styled-select">
-                            @Html.DropDownList("EmployeeTabNumber", new SelectList(ViewBag.UserEmployees, "Value", "Text"))
-                        </div>
+                        </label>
                     </td>
                     <td class="tdnoborder">
-                        <label class="control-label" for="AuthorTabNumber">
-                            Автор
+                        <label>
+                            <b>По: </b>
+                            @Html.TextBoxFor(p => p.DateEnd, new { id = "DateEnd" })
+
                         </label>
-
-                        <div class="styled-select">
-                            @Html.DropDownList("AuthorTabNumber", new SelectList(ViewBag.AuthorEmployees, "Value", "Text"))
-                        </div>
                     </td>
-                </tr>
+            </tr>
+                    
+                        <tr>
+                            <td class="tdnoborder">
+                                <label class="control-label" for="EmployeeTabNumber">
+                                    Исполнитель
+                                </label>
 
-                <tr>
-                    <td class="tdnoborder">
-                        <label class="control-label" for="PrinterID">
-                            Устройство печати
-                        </label>
+                                <div class="styled-select">
+                                    @Html.DropDownList("EmployeeTabNumber", new SelectList(ViewBag.UserEmployees, "Value", "Text"))
+                                </div>
+                            </td>
+                            <td class="tdnoborder">
+                                <label class="control-label" for="AuthorTabNumber">
+                                    Автор
+                                </label>
 
-                        <div class="styled-select">
-                            @Html.DropDownList("PrinterID", new SelectList(ViewBag.Printers, "Value", "Text"))
-                        </div>
-                    </td>
-                    <td class="tdnoborder">
-                        <label class="control-label" for="ApplicationID">
-                            Приложение
-                        </label>
+                                <div class="styled-select">
+                                    @Html.DropDownList("AuthorTabNumber", new SelectList(ViewBag.AuthorEmployees, "Value", "Text"))
+                                </div>
+                            </td>
+                        </tr>
 
-                        <div class="styled-select">
-                            @Html.DropDownList("ApplicationID", new SelectList(ViewBag.Applications, "Value", "Text"))
-                        </div>
+                        <tr>
+                            <td class="tdnoborder">
+                                <label class="control-label" for="PrinterID">
+                                    Устройство печати
+                                </label>
 
-                    </td>
-                </tr>
+                                <div class="styled-select">
+                                    @Html.DropDownList("PrinterID", new SelectList(ViewBag.Printers, "Value", "Text"))
+                                </div>
+                            </td>
+                            <td class="tdnoborder">
+                                <label class="control-label" for="ApplicationID">
+                                    Приложение
+                                </label>
 
-                <tr></tr>
+                                <div class="styled-select">
+                                    @Html.DropDownList("ApplicationID", new SelectList(ViewBag.Applications, "Value", "Text"))
+                                </div>
 
-                <tr>
-                <td class="tdnoborder">
-                    <label class="control-label" for="DepartmentID">
-                        Отдел
-                    </label>
+                            </td>
+                        </tr>
 
-                    <div class="controls">
-                        @Html.DropDownList("DepartmentID", new SelectList(ViewBag.Departments, "Value", "Text"))
-                        @Html.ValidationMessage("DepartmentID")
-                    </div>
-                </td>
-                <td class="tdnoborder">
+                        <tr></tr>
 
-                </td>
-            </table>
+                        <tr>
+                            <td class="tdnoborder">
+                                <label class="control-label" for="DepartmentID">
+                                    Отдел
+                                </label>
+
+                                <div class="controls">
+                                    @Html.DropDownList("DepartmentID", new SelectList(ViewBag.Departments, "Value", "Text"))
+                                    @Html.ValidationMessage("DepartmentID")
+                                </div>
+                            </td>
+                            <td class="tdnoborder"></td>
+                    </table>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">

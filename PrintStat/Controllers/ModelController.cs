@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,18 +40,18 @@ namespace PrintStat.Controllers
                         {
                             temp.RemoveAll(x=>x.ID==idCons);
                             Session["Cons"] = temp;
-                            try
-                            {
+                            //try
+                            //{
                                 
-                                Repository.RemoveModelConsumable(
-                                    Repository.ModelConsumables.Where(
-                                        p => p.ModelID == idMod && p.ConsumableID == idCons));
-                            }
-                            catch (Exception)
-                            {
+                            //    Repository.RemoveModelConsumable(
+                            //        Repository.ModelConsumables.Where(
+                            //            p => p.ModelID == idMod && p.ConsumableID == idCons));
+                            //}
+                            //catch (Exception)
+                            //{
                                 
-                                throw;
-                            }
+                            //    throw;
+                            //}
                         }
                         return PartialView("partialModelConsumable", temp);
 
@@ -138,6 +139,26 @@ namespace PrintStat.Controllers
                 return PartialView("PartialCreateModel");
             }
 
+
+
+            public void SubmitContextDelete(int idMod)
+            {
+                var temp = Session["Cons"] as List<Consumable>;// что требуется оставить
+                var usesModCons = Repository.ModelConsumables.Where(p => p.ModelID == idMod).ToList(); //здесь все что были
+
+
+                foreach (var item in usesModCons)
+                {
+                    if (!temp.Any(p => p.ID == item.ConsumableID))
+                    {
+                        var item1 = item;
+                        Repository.RemoveModelConsumable(
+                            Repository.ModelConsumables.Where(
+                                p => p.ConsumableID == item1.ConsumableID && p.ModelID == idMod));
+                    }
+                }
+            }
+
             [HttpGet]
             public ActionResult EditModel(int? id)
             {
@@ -200,13 +221,21 @@ namespace PrintStat.Controllers
                     Repository.RemoveModelPaperType(modelPaperType);
                     Repository.CreateModelPaperType(modelView.ChosenPaperTypeIds, modelId);
 
-                    //var modelCons = Repository.ModelConsumables.Where(mc => mc.ModelID == modelId);
-//todo должен быть апдейт а не удаление,
-//Todo при добавлении нового комплектующего его еще нужно добавить к устройству сразу
+
                     var cons = Session["Cons"] as List<Consumable>;
                     Session.Abandon();
                     var modelCons = Repository.ModelConsumables.Where(mc => mc.ModelID == modelId);
-                    Repository.CreateModelComsumable((from item in cons where !modelCons.Any(p => p.ConsumableID == item.ID) select item.ID).ToArray(), modelId);
+                    int[] idModCons =Repository.CreateModelComsumable((from item in cons where !modelCons.Any(p => p.ConsumableID == item.ID) select item.ID).ToArray(), modelId);
+                    int[] idDeviceOfModel =
+                        Repository.PrintersAndPlotters.Where(p => p.ModelID == modelView.ID).Select(p => p.ID).ToArray();
+                    foreach (var itemModCon in idModCons)
+                    {
+                        foreach (var itemDevice in idDeviceOfModel)
+                        {
+                            Repository.CreateDeviceConsumable(itemDevice,itemModCon,DateTime.MinValue);
+                        }
+                    }
+                    
                     return RedirectToAction("Index");
                 }
 
