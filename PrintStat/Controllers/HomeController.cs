@@ -30,6 +30,8 @@ namespace PrintStat.Controllers
             return View();
         }
 
+
+
         private void InitViewBag()
         {
             ViewBag.Printers = Repository.Printers;
@@ -41,6 +43,36 @@ namespace PrintStat.Controllers
             ViewBag.AuthorEmployees = Repository.AuthorEmployees;
             ViewBag.UserEmployees = Repository.UserEmployees;
             ViewBag.PaperTypes = Repository.PaperTypes;
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadSizePaperForDevice(int idDev)
+        {
+            var sizePapers = Repository.Printers.First(p => p.ID == idDev).Model.SupportSize
+                .Join(Repository.SizePapers,p=>p.SizePaperID,s=>s.ID,(p,s)=> new{
+                ID= s.ID,
+                Name = s.Name
+                });
+            var sizePaperData = sizePapers.Select(m => new SelectListItem()
+            {
+                Text = m.Name,
+                Value = m.ID.ToString()
+            });
+            return Json(sizePaperData, JsonRequestBehavior.AllowGet);
+        }        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadPaperTypeForDevice(int idDev)
+        {
+            var paperTypes = Repository.Printers.First(p => p.ID == idDev).Model.ModelPaperType
+                .Join(Repository.PaperTypes,p=>p.PaperTypeID,s=>s.ID,(p,s)=> new{
+                ID= s.ID,
+                Name = s.Name
+                });
+            var paperTypeData = paperTypes.Select(m => new SelectListItem()
+            {
+                Text = m.Name,
+                Value = m.ID.ToString()
+            });
+            return Json(paperTypeData, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

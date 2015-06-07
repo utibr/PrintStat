@@ -40,18 +40,6 @@ namespace PrintStat.Controllers
                         {
                             temp.RemoveAll(x=>x.ID==idCons);
                             Session["Cons"] = temp;
-                            //try
-                            //{
-                                
-                            //    Repository.RemoveModelConsumable(
-                            //        Repository.ModelConsumables.Where(
-                            //            p => p.ModelID == idMod && p.ConsumableID == idCons));
-                            //}
-                            //catch (Exception)
-                            //{
-                                
-                            //    throw;
-                            //}
                         }
                         return PartialView("partialModelConsumable", temp);
 
@@ -119,7 +107,6 @@ namespace PrintStat.Controllers
                     var model = (Model)ModelMapper.Map(modelView, typeof(ModelView), typeof(Model));
                     Repository.CreateModel(model);
                     var modelId = model.ID;
-                    //Repository.CreateModelComsumable(modelView.ChosenConsIds, modelId);
                     var tempCons = Session["Cons"] as List<Consumable>;
                     if (tempCons != null)
                         Repository.CreateModelComsumable(tempCons.Select(x => x.ID).ToArray(), modelId);
@@ -143,7 +130,7 @@ namespace PrintStat.Controllers
 
             public void SubmitContextDelete(int idMod)
             {
-                var temp = Session["Cons"] as List<Consumable>;// что требуется оставить
+                var temp = Session["Cons"] as List<Consumable>;
                 var usesModCons = Repository.ModelConsumables.Where(p => p.ModelID == idMod).ToList(); //здесь все что были
 
 
@@ -326,61 +313,32 @@ namespace PrintStat.Controllers
                     }
 
                     return new JavaScriptSerializer().Serialize(_models);
-                //var temp = Json(models, JsonRequestBehavior.AllowGet);
-                //return temp;
-
             }
 
            
-            public JsonResult GetModels(string search)
-            {
-
-
-                __model tempModel = new __model();
-                var _models = new List<__model>();
-                var models = new List<Model>();
-                models = Repository.Models.ToList();
-                if (models.Count != 0)
-                {
-                    int i = 1;
-                    foreach (var m in models)
-                    {
-                        tempModel.i = i.ToString();
-                        tempModel.value = m.ID.ToString();
-                        tempModel.text = m.Name;
-                        _models.Add(tempModel);
-                        i++;
-                    }
-                }
-                return Json(_models, JsonRequestBehavior.AllowGet);
+            //public JsonResult GetModels(string search)
+            //{
+            //    __model tempModel = new __model();
+            //    var _models = new List<__model>();
+            //    var models = new List<Model>();
+            //    models = Repository.Models.ToList();
+            //    if (models.Count != 0)
+            //    {
+            //        int i = 1;
+            //        foreach (var m in models)
+            //        {
+            //            tempModel.i = i.ToString();
+            //            tempModel.value = m.ID.ToString();
+            //            tempModel.text = m.Name;
+            //            _models.Add(tempModel);
+            //            i++;
+            //        }
+            //    }
+            //    return Json(_models, JsonRequestBehavior.AllowGet);
                  
-            }
+            //}
 
 
-            public JsonResult _GetModels(string search)
-            {
-                var models = new List<Model>();
-                models = Repository.SearchModel(search);
-
-                __model tempModel = new __model();
-                var _models = new List<__model>();
-                if (models.Count != 0)
-                {
-                    int i = 1;
-                    foreach (var m in models)
-                    {
-                        tempModel.i = i.ToString();
-                        tempModel.value = m.ID.ToString();
-                        tempModel.text = m.Name;
-                        _models.Add(tempModel);
-                        i++;
-                    }
-                }
-                return Json(_models, JsonRequestBehavior.AllowGet);
-                 
-
-
-            }
             public JsonResult AutocompleteManufacturer(string term)
             {
 

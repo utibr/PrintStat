@@ -45,12 +45,12 @@
                 });
             });
 
- jQuery(document).ready(function() {
+            jQuery(document).ready(function() {
                 jQuery('[data-confirm]').click(function(e) {
                     if (!confirm(jQuery(this).attr("data-confirm"))) {
                         e.preventDefault();
                         //todo нет
-                        //window.location.href = "/Model/Index" //in your case, /employee/empl
+                        window.location.href = "/Model/Index"
                     } else {
                         //да  SubmitContextDelete
                         var idMod = $('#ID').val();

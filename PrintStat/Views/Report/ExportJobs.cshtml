@@ -15,6 +15,7 @@
                         dateFormat: "dd.mm.yy",
                         changeMonth: true,
                         changeYear: true
+                        
                     });
                 });
             </script>
@@ -29,14 +30,14 @@
                     <td class="tdnoborder">
                         <label>
                             <b>C: </b>
-                            @Html.TextBoxFor(p => p.DateStart, new {id = "DateStart"})
+                            @Html.TextBoxFor(p => p.DateStart, new { id = "DateStart" , Value = Model.DateStart.ToString("dd.MM.yyyy")})
 
                         </label>
                     </td>
                     <td class="tdnoborder">
                         <label>
                             <b>По: </b>
-                            @Html.TextBoxFor(p => p.DateEnd, new { id = "DateEnd" })
+                            @Html.TextBoxFor(p => p.DateEnd, new { id = "DateEnd", Value = Model.DateEnd.ToString("dd.MM.yyyy") })
 
                         </label>
                     </td>
@@ -103,7 +104,7 @@
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">
-                Создать отчет о печати
+                Создать отчет
             </button>
             @Html.ActionLink("Отмена", "Index", "Home", null, new { @class = "btn" })
         </div>

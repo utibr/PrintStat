@@ -282,6 +282,7 @@
     <Compile Include="Models\ViewModels\ModelConsumable.cs" />
     <Compile Include="Models\ViewModels\DeviceConsumableView.cs" />
     <Compile Include="Models\ViewModels\ProfileView.cs" />
+    <Compile Include="Models\ViewModels\ReportSettingsResoursesView.cs" />
     <Compile Include="Models\ViewModels\TypeConsumableView.cs" />
     <Compile Include="Models\ViewModels\ConsumableView.cs">
       <SubType>Code</SubType>
@@ -390,6 +391,8 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\AddPrinterJob.js" />
+    <Content Include="Scripts\Consumable.js" />
     <Content Include="Scripts\createDevice.js" />
     <Content Include="Scripts\EditModelScript.js" />
     <Content Include="Scripts\i18n\jquery.ui.datepicker-ru.js" />
@@ -527,6 +530,7 @@
     <Content Include="Views\Home\View1.cshtml" />
     <Content Include="Views\Model\partialModelConsumable.cshtml" />
     <Content Include="Views\Profile\CreateProfile.cshtml" />
+    <Content Include="Views\Report\ExportResourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,31 +1,7 @@
 ﻿@using System.Web.UI.WebControls
 @model PrintStat.Models.ViewModels.ConsumableView
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryui")
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-@*<script src="~/Scripts/jquery.tokenize.js"></script>
-<link href="~/Content/themes/jquery.tokenize.css" rel="stylesheet" />*@
-
-<script language="javascript">
-    $(document).ready(function ($) {
-        var e = document.getElementById('color');
-        e.style.display = 'none'; 
-        $('#TypeConsumableID').change(function() {
-            var obj = $("#TypeConsumableID :selected");
-            var url = "/Consumable/CheckCartridge/";
-            
-            $.get(url, { TypeName: "картридж" }, function (data) {
-                var id =(data);
-                if (obj.val() == id) {
-                    e.style.display = 'block';
-                } else {
-                    e.style.display = 'none';
-                }
-            });
-        });
-    });
-</script>
+<script src="~/Scripts/Consumable.js"></script>
 
 @using (Html.BeginForm("CreateConsumable", "Consumable", FormMethod.Post, new { @class = "form-horizontal" }))
 {
@@ -76,35 +52,6 @@
             <div class="controls">
                 @Html.TextBox("ShortName", Model.ShortName)
             </div>
-
-
-
-            @*<div class="section">
-                <h2>Принадлежность к моделям</h2>
-
-                <label for="required">Select</label>
-
-                <select id="tokenize" multiple="multiple" name="ChosenModelIds" class="tokenize-sample"></select>
-            </div>*@
-
-
-
-
-            @*<script type="text/javascript">
-                $('#tokenize').tokenize({
-                    datas: "/Model/_GetModels",
-                    placeholder: "Выберите модели"
-                });
-            </script>
-
-            <style>
-                .tokenize-sample {
-                    width: 300px;
-                }
-            </style>*@
-
-
-
 
         </div>
 

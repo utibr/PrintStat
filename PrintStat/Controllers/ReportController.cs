@@ -17,7 +17,27 @@ namespace PrintStat.Controllers
         //
         // GET: /Report/
 
+        class Rule
+        {
+            public int i;
+            public string value;
+            public string text;
+        }
+        public JsonResult _GetRule()
+        {
 
+            var rules = new List<Rule>();
+            rules.Add(new Rule(){ text = "Устройство",value = "1"});
+            rules.Add(new Rule(){ text ="Исполнитель",value = "2"});
+            rules.Add(new Rule(){ text="Автор задания", value = "3"});
+            rules.Add(new Rule(){ text= "Отдел", value = "4" });
+
+
+            return Json(rules, JsonRequestBehavior.AllowGet);
+
+
+
+        }
         public IEnumerable<SelectListItem> PrintersAndPlotters
         {
             get
@@ -93,8 +113,8 @@ namespace PrintStat.Controllers
             ViewBag.Departments = Departments;
             var reportView = new ReportSettingsView()
             {
-                DateStart = DateTime.ParseExact(DateTime.Now.ToString(), "dd-mm-yyyy", CultureInfo.InvariantCulture),
-                DateEnd = DateTime.ParseExact(DateTime.Now.ToString(), "dd-mm-yyyy", CultureInfo.InvariantCulture),
+                DateStart = DateTime.Now,
+                DateEnd = DateTime.Now,
             };
             return View(reportView);
         }
@@ -161,5 +181,45 @@ namespace PrintStat.Controllers
             
         }
 
+        [HttpGet]
+        public ActionResult ExportResourses()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ExportResourses(ReportSettingsResoursesView viewModel)
+        {
+            //todo основная часть запроса
+            foreach (var item in viewModel.ChosenRules)
+            {
+                
+                // если выбраны критерии
+                 switch (item)
+                {
+                     case 1:
+                        break;
+                     case 2:
+                        break;
+                     case 3:
+                        break;
+                     case 4:
+                        break;
+
+                };
+                //формируем exel
+                try
+                {
+
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+            }
+           
+            return RedirectToAction("Index");
+        }
     }
 }

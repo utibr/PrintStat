@@ -60,5 +60,8 @@ namespace PrintStat.Models.ViewModels
         public string ComputerName { get; set; }
          [Display(Name = "Ручной ввод")]
         public bool IsManual { get; set; }
+
+
+
     }
 }
