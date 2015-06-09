@@ -1,144 +1,31 @@
-﻿@model IList<PrintStat.Job>
+﻿@*model IList<PrintStat.Job>*@
+
+
+
 @{
     ViewBag.Title = "задания";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Задания</h2>
-<div class="menu">
-    <font size="1">
-        <a href="@Url.Action("CreateJob", "Home")">1-50</a>
-        <a href="@Url.Action("CreateJob", "Home")">51-100</a>
-        <a href="@Url.Action("CreateJob", "Home")">101-150</a>
-        <a href="@Url.Action("CreateJob", "Home")">151-179</a>
-    </font>
-</div>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css"/>
+
+
+<h2>Задания печати</h2>
+
 
 
 <p>
     <div class="menu">
-        <a href="@Url.Action("Index", "Home")">Получить почту</a>
+        <a href="@Url.Action("GetMail", "Home")">Получить почту</a>
         <a href="@Url.Action("CreatePlotterJob", "Home")">Добавить задание плоттера</a>
         <a href="@Url.Action("CreatePrinterJob", "Home")">Добавить задание принтера</a>
         <a href="@Url.Action("ExportJobs", "Report")">Отчет о печати</a>
-        <a href="@Url.Action("ExportResources", "Home")">Статистика использования расходников</a>
+        <a href="@Url.Action("ExportResources", "Report")">Статистика использования расходников</a>
     </div>
 
 </p>
 
-<p>
-    <table width="1200">
-        <thead>
-            <tr>
-                <th>Редакция</th>
-                <th>Просмотр</th>
-                <th>Удаление</th>
 
-                <th>Наименование</th>
-                <th>Ширина, см</th>
-                <th>Длина, см</th>
-                <th>Типоразмер</th>
-                <th>Отправитель</th>
-                <th>Автор</th>
-                <th>Отдел</th>
-                <th>Страниц</th>
-                <th>Копий</th>
-                <th>Принтер</th>
-                <th>Приложение</th>
-
-
-            </tr>
-        </thead>
-        @foreach (var Job in Model)
-        {
-
-            {
-            <tr>
-                <td width="80">
-                    @if (@Job.DeviceType.ID == 1)
-                    { 
-                        <a href="@Url.Action("EditPlotterJob", "Home", new { id = @Job.ID })">●</a>
-                    }
-                    
-                    @if (@Job.DeviceType.ID == 2)
-                    {
-                        <a href="@Url.Action("EditPrinterJob", "Home", new { id = @Job.ID })">●</a>
-                    }
-                </td>
-                <td width="80">
-                    <a href="@Url.Action("ViewJob", "Home", new { id = @Job.ID })"><font color="blue">●</font></a>
-                </td>
-                <td width="80">
-                    <a href="@Url.Action("DeleteJob", "Home", new { id = @Job.ID })"><font color="red">●</font></a>
-                </td>
-
-
-                <td width="200" style="text-align: left; padding: 2px">
-                    <font size="2"> 
-                            <b> @Job.Name </b>
-                    </font>
-                </td>
-                <td width="80">
-                    @Job.RealWidth_cm
-                </td>
-
-                <td width="80">
-                    @Job.RealHeight_cm
-                </td>
-
-                <td width="80">
-                    @Job.PaperType 
-                </td>
-
-                <td width="100" >
-                    <font size="1">
-                        @Job.Employee
-                    </font>
-                </td>
-
-                <td width="100">
-                    <font size="1">
-                         @Job.Author
-                    </font>
-                </td>
-
-
-                <td width="100">
-                    <font size="1">
-                        @Job.Department
-                    </font>
-                </td>
-
-
-                <td width="80">
-                    @Job.Pages
-                </td>
-
-
-                <td width="80">
-                    @Job.Copies
-                </td>
-
-                <td width="120">
-                    <font size="1">
-                        @Job.Printer
-                    </font>
-                </td>
-
-                <td width="120">
-                    <font size="1">
-                        @Job.Application
-                    </font>
-                </td>
-
-
-
-                
-            </tr>
-            }
-        }
-    </table>
-</p>
-
-
-
+@{Html.RenderAction("partialJobPaginator", "Job");}

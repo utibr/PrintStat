@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
-
+using System.Web.UI.WebControls;
 using Ninject;
 using PrintStat.Models;
 using PrintStat.Models.ViewModels;
@@ -13,24 +14,72 @@ namespace PrintStat.Controllers
 {
     public class HomeController : BaseController
     {
-        // GET: /Paper/
 
-
-        public ActionResult Index()
+        public void GetMail()
         {
-            var Jobs = Repository.Jobs.OrderByDescending(s => s.EndTime).ToList();
-            return View(Jobs);
+            (new ParseModule.GetData(new DateTime(2015,06,01),DateTime.Now)).GetSource();
+            //return View();
         }
+        public ActionResult Index(int page=1)
+        {
+           // var Jobs = Repository.Jobs.OrderByDescending(s => s.EndTime).ToList();
+            //var Jobs = Repository.JobPaginators(page).ToList();
+            
+
+            ViewBag.pageCount = null;
+            
+            return View();
+        }
+
+        public ActionResult Index1()
+        {
+            
+            return View();
+        }
+
+
 
         private void InitViewBag()
         {
             ViewBag.Printers = Repository.Printers;
             ViewBag.Plotters = Repository.Plotters;
             ViewBag.Applications = Repository.Applications;
-            ViewBag.PrinterPapertypes = Repository.PrinterPaperTypes;
+            ViewBag.PrinterPaper = Repository.PrinterPaperTypes;
+            ViewBag.SizePaper = Repository.SizePapers;
             ViewBag.PlotterPapertypes = Repository.PlotterPaperTypes;
             ViewBag.AuthorEmployees = Repository.AuthorEmployees;
             ViewBag.UserEmployees = Repository.UserEmployees;
+            ViewBag.PaperTypes = Repository.PaperTypes;
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadSizePaperForDevice(int idDev)
+        {
+            var sizePapers = Repository.Printers.First(p => p.ID == idDev).Model.SupportSize
+                .Join(Repository.SizePapers,p=>p.SizePaperID,s=>s.ID,(p,s)=> new{
+                ID= s.ID,
+                Name = s.Name
+                });
+            var sizePaperData = sizePapers.Select(m => new SelectListItem()
+            {
+                Text = m.Name,
+                Value = m.ID.ToString()
+            });
+            return Json(sizePaperData, JsonRequestBehavior.AllowGet);
+        }        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult LoadPaperTypeForDevice(int idDev)
+        {
+            var paperTypes = Repository.Printers.First(p => p.ID == idDev).Model.ModelPaperType
+                .Join(Repository.PaperTypes,p=>p.PaperTypeID,s=>s.ID,(p,s)=> new{
+                ID= s.ID,
+                Name = s.Name
+                });
+            var paperTypeData = paperTypes.Select(m => new SelectListItem()
+            {
+                Text = m.Name,
+                Value = m.ID.ToString()
+            });
+            return Json(paperTypeData, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -44,6 +93,7 @@ namespace PrintStat.Controllers
             newJobView.Duration = 0;
             newJobView.Pages = 1;
             newJobView.Copies = 1;
+            newJobView.SizePaperID = 0;
             newJobView.PaperTypeID = 0;
             newJobView.IsManual = true;
 
@@ -60,6 +110,7 @@ namespace PrintStat.Controllers
             newJobView.Duration = 0;
             newJobView.Pages = 1;
             newJobView.Copies = 1;
+            newJobView.SizePaperID = 0;
             newJobView.PaperTypeID = 0;
             newJobView.IsManual = true;
 
@@ -72,11 +123,12 @@ namespace PrintStat.Controllers
             var anyJob = Repository.Jobs.Any(p => string.Compare(p.Name, JobView.Name) == 0);
             if (anyJob)
             {
-                ModelState.AddModelError("Name", "Тип бумаги с таким наименованием уже существует");
+                ModelState.AddModelError("Name", "Задание с таким наименованием уже существует");
             }
 
             if (ModelState.IsValid)
             {
+
                 var Job = (Job)ModelMapper.Map(JobView, typeof(JobView), typeof(Job));
                 Repository.CreateJob(Job);
                 return RedirectToAction("Index");
@@ -119,6 +171,7 @@ namespace PrintStat.Controllers
         [HttpPost]
         public ActionResult EditJob(JobView JobView)
         {
+            InitViewBag();
             if (ModelState.IsValid)
             {
                 var Job = Repository.Jobs.FirstOrDefault(p => p.ID == JobView.ID);
@@ -158,6 +211,72 @@ namespace PrintStat.Controllers
             return View();
         }
 
-     
+        public class temp
+        {
+            public string Name { get; set; }
+            public int Value { get; set; }
+        } 
+        
+        public IEnumerable<temp> GetDevice()
+        {
+
+            var result= new List<temp>();
+
+            result.Add(new temp {Name = "Принтер", Value = Repository.DeviceTypes.Where(p=>p.Name=="Принтер").Join(Repository.Models,m=>m.ID,dt=>dt.DeviceTypeID,
+                (dt,m)=>m).Join(Repository.PrintersAndPlotters,m=>m.ID,d=>d.ModelID,
+                (m,d)=>d).Count()});
+            result.Add(new temp
+            {
+                Name = "Плоттер",Value = Repository.DeviceTypes.Where(p => p.Name == "Плоттер").Join(Repository.Models, m => m.ID, dt => dt.DeviceTypeID,
+                    (dt, m) => m).Join(Repository.PrintersAndPlotters, m => m.ID, d => d.ModelID,
+                    (m, d) => d).Count()
+            });
+
+
+            return result;
+        }
+
+        public IEnumerable<temp> GetJobsDevice()
+        {
+            var result = new List<temp>();
+            
+            foreach (var dev in Repository.PrintersAndPlotters)
+            {
+                result.Add(new temp{Name = dev.Name, Value = dev.Job.Count});
+            }
+            //return Json(new { DevsJob = result }, JsonRequestBehavior.AllowGet);
+            return result;
+        }
+
+        public ActionResult GetChart1()
+        {
+            var data = GetDevice();
+            var myChart = new Chart(width: 600, height: 400)
+                .AddTitle("Соотношение принтеров и плоттеров")
+                .AddSeries(
+                    name: "Соотношение принтеров и плоттеров",
+                    
+                    chartType: "Pie",
+                    xValue: data, xField: "Name",
+                    yValues: data, yFields: "Value")
+                .AddLegend("","Name")
+                .Write();
+            return null;
+        }     
+        public ActionResult GetChart()
+        {
+            var data = GetJobsDevice();
+            var myChart = new Chart(width: 600, height: 400, theme: ChartTheme.Yellow)
+
+            .AddTitle("Количество заданий печати на каждое устройство печати")
+            .DataBindTable(dataSource: data)
+
+            .AddSeries("Default",
+                xValue: data, xField: "Name",
+                yValues: data, yFields: "Value")
+
+            .Write();
+            return null;
+        }
     }
 }
