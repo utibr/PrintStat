@@ -133,16 +133,22 @@ namespace PrintStat.Controllers
                 var temp = Session["Cons"] as List<Consumable>;
                 var usesModCons = Repository.ModelConsumables.Where(p => p.ModelID == idMod).ToList(); //здесь все что были
 
-
-                foreach (var item in usesModCons)
+                try
                 {
-                    if (!temp.Any(p => p.ID == item.ConsumableID))
+                    foreach (var item in usesModCons)
                     {
-                        var item1 = item;
-                        Repository.RemoveModelConsumable(
-                            Repository.ModelConsumables.Where(
-                                p => p.ConsumableID == item1.ConsumableID && p.ModelID == idMod));
+                        if (!temp.Any(p => p.ID == item.ConsumableID))
+                        {
+                            var item1 = item;
+                            Repository.RemoveModelConsumable(
+                                Repository.ModelConsumables.Where(
+                                    p => p.ConsumableID == item1.ConsumableID && p.ModelID == idMod));
+                        }
                     }
+                }
+                catch
+                {
+                    // ignored
                 }
             }
 
