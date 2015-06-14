@@ -272,6 +272,7 @@ namespace PrintStat.Models
         #region DeviceConsumable
 
         IQueryable<DeviceConsumable> DeviceConsumables { get; }
+        bool UpdateDeviceConsumable(DeviceConsumable instance);
 
         bool CreateDeviceConsumable(int idDevice, int idModelConsumable, DateTime time);
 

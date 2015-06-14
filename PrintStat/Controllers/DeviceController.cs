@@ -14,7 +14,24 @@ namespace PrintStat.Controllers
         //
 
 
-
+        public void SetTimeConsDev(int idDevCon, string dateTime, int variant)
+        {
+            var devCon=Repository.DeviceConsumables.First(p => p.ID == idDevCon);
+            switch (variant)
+            {
+                case 1:
+                {
+                    devCon.DateInstalled = Convert.ToDateTime(dateTime);
+                    break;
+                }
+                default:
+                {
+                    devCon.DateEnd = Convert.ToDateTime(dateTime);
+                    break;
+                }
+            }
+            Repository.UpdateDeviceConsumable(devCon);
+        }
         public ActionResult Index()
         {
                 var printers = Repository.PrintersAndPlotters.ToList();
@@ -22,8 +39,7 @@ namespace PrintStat.Controllers
         }
 
 
-        private void 
-        InitViewBag()
+        private void InitViewBag()
         {
             ViewBag.Models = Repository.Models;
         }
@@ -92,10 +108,10 @@ namespace PrintStat.Controllers
                 var printer = Repository.PrintersAndPlotters.FirstOrDefault(p => p.ID == printerView.ID);
                 ModelMapper.Map(printerView, printer, typeof(DeviceView), typeof(Device));
                 Repository.UpdatePrinter(printer);
-
+                
                 return RedirectToAction("Index");
             }
-
+            InitViewBag();
             return View(printerView);
         }
 

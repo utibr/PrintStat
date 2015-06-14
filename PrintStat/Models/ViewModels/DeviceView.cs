@@ -9,14 +9,14 @@ namespace PrintStat.Models.ViewModels
 {
     public class DeviceView: BaseView
     {
-        private List<Model> _model = new List<Model>();
+        //private List<Model> _model = new List<Model>();
 
-        public List<Model> models
-        {
-            get { return _model; }
-        }
+        //public List<Model> models
+        //{
+        //    get { return _model; }
+        //}
         [Display(Name = "Производитель")]
-        [Required(ErrorMessage = "Пожалуйста введите производителя")]
+
         public string Manufacturer { get; set; }
         [Display(Name = "Модель")]
         [Required(ErrorMessage = "Пожалуйста выберите модель")]

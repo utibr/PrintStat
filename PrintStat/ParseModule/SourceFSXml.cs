@@ -55,12 +55,15 @@ namespace PrintStat.ParseModule
                                                     Convert.ToInt32(GetInnerText((XmlElement)x.GetElementsByTagName("kmloginfo:end_time")[0], "kmloginfo:hour")),
                                                     Convert.ToInt32(GetInnerText((XmlElement)x.GetElementsByTagName("kmloginfo:end_time")[0], "kmloginfo:minute")),
                                                     Convert.ToInt32(GetInnerText((XmlElement)x.GetElementsByTagName("kmloginfo:end_time")[0], "kmloginfo:second")));
+                    var temp = (GetInnerText(x, "kmloginfo:user_name"));
                     try
                     {
-                        j.UserTabNumber = context.Employee.FirstOrDefault(p => p.ID == Convert.ToInt32(GetInnerText(x, "kmloginfo:user_name"))).ID.ToString();
+                        
+                        j.UserTabNumber = context.Employee.First(p => p.TabNumber.Contains(temp)).TabNumber.ToString();
                     }
                     catch
                     {
+                        
                         j.UserTabNumber = "1369";
                     }
                     j.ApplicationID = context.Application.First(p => p.Name == "Default").ID;

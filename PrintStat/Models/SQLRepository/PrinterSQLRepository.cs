@@ -195,8 +195,8 @@ namespace PrintStat.Models
                 buf.DateEnd = item.DateEnd;
                 buf.Type = item.Type;
                 buf.Uses = item.Uses;
-                buf.Count = GetCountPaper(item.deviceId, item.DateInstalled, item.DateEnd);
-                buf.CountSnmp = GetCountSnmp(item.deviceId, item.DateInstalled, item.DateEnd);
+                //buf.Count = GetCountPaper(item.deviceId, item.DateInstalled, item.DateEnd);
+               // buf.CountSnmp = GetCountSnmp(item.deviceId, item.DateInstalled, item.DateEnd);
 
                 listdc.Add(buf);
             }
@@ -258,6 +258,17 @@ namespace PrintStat.Models
             return true;
         }
 
+        public bool UpdateDeviceConsumable(DeviceConsumable instance)
+        {
+            if (instance.ID != 0)
+            {
+                
+                Db.DeviceConsumable.Context.SubmitChanges();
+                return true;
+            }
+
+            return false;
+        }
         public bool RemoveDeviceConsumable(int idDevice)
         {
             IEnumerable<DeviceConsumable> instance = Db.DeviceConsumable.Where(p => p.DeviceID == idDevice);
@@ -588,7 +599,7 @@ namespace PrintStat.Models
 
         public bool UpdateConsumable(Consumable instance)    
         {
-            if (instance.ID == 0)
+            if (instance.ID != 0)
             {
                 Db.Consumable.InsertOnSubmit(instance);
                 Db.Consumable.Context.SubmitChanges();

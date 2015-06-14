@@ -1,18 +1,26 @@
 ﻿@using System.Drawing
 @model PrintStat.Models.ViewModels.DeviceConsumableView
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"> </script>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#datetimepicker').datetimepicker(
+        $('#datetimepicker,#datetimepicker1,#datetimepicker2').datetimepicker(
         {
-            lang: 'ru',
-            mask: true
+            format: 'd.m.Y H:i',
+            lang: 'ru' //,
         });
-    })
+
+    });
+
+    function setTime(variant, dateTime, idDevCon) {
+        $.post("/Device/SetTimeConsDev/", { idDevCon: idDevCon, dateTime: dateTime, variant: variant });
+
+    }
+
 </script>
 
 <input id="datetimepicker" type="text" style="width: 150px;">
-@*Html.ListBoxFor(p=>p.deviceID,)*@
+
 <h4>
     Используемые в настоящий момент комплектующие
 </h4>
@@ -37,16 +45,23 @@
                 foreach (var item in Model.AllDevCons.Where(p => p.Uses == true))
                 {
                     <tr>
+
                         <td>
                             @item.Type @item.Name
                         </td>
 
-                        <td>
-                            @item.DateInstalled
+                        <td id="install">
+                            @*@item.DateInstalled*@
+                            <input id="datetimepicker1" type="text" style="width: 150px;" value="@item.DateInstalled.ToString()" onblur=" setTime(1,this.value,@item.ID)">
                         </td>
 
-                        <td>
-                            @item.DateEnd 
+                        <td id="end">
+                            @*@item.DateEnd*@
+                            @{
+                    if (item.DateEnd != null)
+                    {
+                        <input id="datetimepicker2" type="text" style="width: 150px;" value="@item.DateEnd.ToString()" onblur=" setTime(2,this.value,@item.ID)">}
+                            }
                         </td>
 
                         <td>
@@ -54,23 +69,23 @@
                             {
 
                                 @Ajax.ActionLink(
-                                "Прекратить использование",
-                                "GetDeviceConsumble",
-                                "Device",
-                                new { deviceId = @Model.deviceID, id = @item.ID, option = 1 },
-                                          new AjaxOptions { UpdateTargetId = "partialDevConsumable" }
-                                )
+                                    "Прекратить использование",
+                                    "GetDeviceConsumble",
+                                    "Device",
+                                    new {deviceId = @Model.deviceID, id = @item.ID, option = 1},
+                                    new AjaxOptions {UpdateTargetId = "partialDevConsumable"}
+                                    )
                             }
                             else
                             {
-                                
+
                                 @Ajax.ActionLink(
-                                     "Заменить",
-                                "GetDeviceConsumble",
-                                "Device",
-                                new { deviceId = @Model.deviceID, id = @item.ID, option = 2 },
-                                          new AjaxOptions { UpdateTargetId = "partialDevConsumable" }
-                                )
+                                    "Заменить",
+                                    "GetDeviceConsumble",
+                                    "Device",
+                                    new {deviceId = @Model.deviceID, id = @item.ID, option = 2},
+                                    new AjaxOptions {UpdateTargetId = "partialDevConsumable"}
+                                    )
                             }
                         </td>
 
@@ -85,43 +100,45 @@
     <h4>
         Комплектующие, вышедшие из эксплуатации
     </h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Наименование комплектующего</th>
-                <th>Дата добавления</th>
-                <th>Дата прекращения работы</th>
-                <th>Счетчик бумаги на задания</th>
-                <th>Счетчик бумаги SNMP</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.AllDevCons.Where(p => p.Uses == false) != null)
-            {
-                foreach (var item in Model.AllDevCons.Where(p => p.Uses == false))
-                {
-                    <tr>
-                        <td>
-                            @item.Type @item.Name
-                        </td>
+      <table>
+          <thead>
+          <tr>
+              <th>Наименование комплектующего</th>
+              <th>Дата добавления</th>
+              <th>Дата прекращения работы</th>
+              @*<th>Счетчик бумаги на задания</th>
+                <th>Счетчик бумаги SNMP</th>*@
+          </tr>
+          </thead>
+          <tbody>
 
-                        <td>
-                            @item.DateInstalled
-                        </td>
+          @if (Model.AllDevCons.Where(p => p.Uses == false) != null)
+          {
+              foreach (var item in Model.AllDevCons.Where(p => p.Uses == false))
+              {
+                  <tr>
+                      <td>
+                          @item.Type @item.Name
+                      </td>
 
-                        <td>
-                            @item.DateEnd
-                        </td>
+                      <td>
+                          @item.DateInstalled
+                      </td>
 
-                        <td>
+                      <td>
+                          @item.DateEnd
+                      </td>
+
+                      @*<td>
                             @item.Count
                         </td>
                         <td>
                             @item.CountSnmp
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+                        </td>*@
+                  </tr>
+              }
+          }
+          </tbody>
+      </table>
+ 
 
