@@ -58,13 +58,16 @@
             }
         }
 
-        <tr>
-            <td>
-                @Html.TextBox("search", "", new {  placeholder = "Добавить " })
 
+        
+        <tr>
+            <td >
+                @Html.TextBox("search", "", new { placeholder = "Добавить " , @class="gray"})
+                
             </td>
             <td>
-                <img id="add" class="ui-icon ui-icon-plus" alt="" />
+                <img id="add" src="../../Content/themes/base/images/file.png" alt="" width="44" height="44" />
+                     @*class="ui-icon ui-icon-plus" alt="" />*@
 
                 <script>
                     $(document).ready(function () {

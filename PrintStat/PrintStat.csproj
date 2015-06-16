@@ -360,6 +360,7 @@
     <Content Include="Content\themes\base\datepicker.css" />
     <Content Include="Content\themes\base\dialog.css" />
     <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\file.png" />
     <Content Include="Content\themes\base\images\images.jpg" />
     <Content Include="Content\themes\base\images\switch.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

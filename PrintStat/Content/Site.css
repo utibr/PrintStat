@@ -440,6 +440,9 @@ input, textarea {
     padding: 5px;
     width: 300px;
 }
+.gray {
+    background: #EFEEEF;
+}
 
 
 select {
