@@ -127,7 +127,7 @@ namespace PrintStat.Controllers
 
             return RedirectToAction("Index");
         }
-
+       
 
         public JsonResult AutocompleteConsumble(string term)
         {

@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Отчеты</h2>
+
+
+<a href="@Url.Action("ExportJobs", "Report")">Отчет о печати</a>
+<br/>
+<a href="@Url.Action("", "Report")">Отчет о расходных материалов</a>
+<br/>
+<a href="@Url.Action("ExportResources", "Report")">Расчет потребности в заменяемых элементов механизма</a>
+
+

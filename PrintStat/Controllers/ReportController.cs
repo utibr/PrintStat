@@ -8,6 +8,7 @@ using PrintStat.Models.ViewModels;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
+using System.Text;
 
 
 namespace PrintStat.Controllers
@@ -16,7 +17,18 @@ namespace PrintStat.Controllers
     {
         //
         // GET: /Report/
+        public ActionResult Index()
+        {
+            return View();
+        }
 
+
+        public JsonResult AutocompleteEmployee(string term)
+        {
+            if (term !="")
+            return Json(Repository.Employees.Where(p=>p.Name.Contains(term)).Select(p=>p.Name), JsonRequestBehavior.AllowGet);
+            return null;
+        }
         class Rule
         {
             public int i;
@@ -127,9 +139,9 @@ namespace PrintStat.Controllers
 
             var subjobs = Repository.Jobs.Where(p => ((p.StartTime == reportsettingsview.DateStart && p.EndTime == reportsettingsview.DateEnd) &&
                 p.ApplicationID == reportsettingsview.ApplicationID || reportsettingsview.ApplicationID == 0) &&
-                ((p.Author != null && p.Author.TabNumber == reportsettingsview.AuthorTabNumber) || reportsettingsview.AuthorTabNumber == null) &&
+                ((p.Author != null && p.Author.Name == reportsettingsview.AuthorTabNumber) || reportsettingsview.AuthorTabNumber == null) &&
                                                    ((p.Department != null && p.Department.ID == reportsettingsview.DepartmentID) || reportsettingsview.DepartmentID == 0) &&
-                 ((p.Employee != null && p.Employee.TabNumber == reportsettingsview.EmployeeTabNumber) || reportsettingsview.EmployeeTabNumber == null) &&
+                 ((p.Employee != null && p.Employee.Name == reportsettingsview.EmployeeTabNumber) || reportsettingsview.EmployeeTabNumber == null) &&
                                                    ((p.Device != null && p.Device.ID == reportsettingsview.PrinterID) || reportsettingsview.PrinterID == 0)).OrderByDescending(s => s.EndTime);
 
           
@@ -149,7 +161,8 @@ namespace PrintStat.Controllers
             gv.HeaderRow.Cells[4].Text = "Приложение";
             gv.HeaderRow.Cells[5].Text = "Ширина, см";
             gv.HeaderRow.Cells[6].Text = "Длина, см";
-            gv.HeaderRow.Cells[7].Text = "Типоразмер";
+            gv.HeaderRow.Cells[7].Text = "Тип бумаги";
+                //gv.HeaderRow.Cells[8].Text = "Формат бумаги";
             gv.HeaderRow.Cells[8].Text = "Начало печати";
             gv.HeaderRow.Cells[9].Text = "Окончание печати";
             gv.HeaderRow.Cells[10].Text = "Длительность, мин";
@@ -161,6 +174,9 @@ namespace PrintStat.Controllers
             Response.Buffer = true;
             Response.AddHeader("content-disposition", "attachment; filename=PrintJobReport.xls");
             Response.ContentType = "application/ms-excel";
+
+            Response.ContentEncoding =System.Text.Encoding.UTF8;
+           // Response.Charset = "UTF-8";
             Response.Charset = "";
             StringWriter sw = new StringWriter();
             HtmlTextWriter htw = new HtmlTextWriter(sw);

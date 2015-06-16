@@ -25,17 +25,18 @@
                 @Html.TextBox("Name", Model.Name)
                 @Html.ValidationMessage("Name")
             </div>
+@if (Model.TypeConsumableID == 2)
+{
+    <div id="color" display:none>
+        <label class="control-label" for="Name">
+            Цвет картриджа
+        </label>
 
-            <div id="color" display:none>
-                <label class="control-label" for="Name">
-                    Цвет картриджа
-                </label>
-
-                <div class="styled-select">
-                    @Html.DropDownList("CartridgeColorID", new SelectList(ViewBag.CartridgeColor, "ID", "Name"))
-                </div>
-            </div>
-
+        <div class="styled-select">
+            @Html.DropDownList("CartridgeColorID", new SelectList(ViewBag.CartridgeColor, "ID", "Name"))
+        </div>
+    </div>
+}
             <label class="control-label" for="Endurance">
                 Рабочий ресурс
             </label>

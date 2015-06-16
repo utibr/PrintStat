@@ -18,6 +18,24 @@
                         
                     });
                 });
+
+         
+
+       $(document).ready(function() {
+           $('input#AuthorTabNumber,input#EmployeeTabNumber').autocomplete({
+            source: '/Report/AutocompleteEmployee',
+            minLength: 0
+           }).focus(function () {
+               $(this).val("");
+            $(this).autocomplete("search");
+           }).blur(function() {
+               if ($(this).val() === "") {
+                   $(this).val("не задан");
+               }
+           });
+    });
+
+  
             </script>
 
             <h2>
@@ -48,9 +66,9 @@
                                 <label class="control-label" for="EmployeeTabNumber">
                                     Исполнитель
                                 </label>
-
                                 <div class="styled-select">
-                                    @Html.DropDownList("EmployeeTabNumber", new SelectList(ViewBag.UserEmployees, "Value", "Text"))
+                                    @Html.TextBox("EmployeeTabNumber", value:"не задан")
+                                    @*@Html.DropDownList("EmployeeTabNumber", new SelectList(ViewBag.UserEmployees, "Value", "Text"))*@
                                 </div>
                             </td>
                             <td class="tdnoborder">
@@ -59,7 +77,8 @@
                                 </label>
 
                                 <div class="styled-select">
-                                    @Html.DropDownList("AuthorTabNumber", new SelectList(ViewBag.AuthorEmployees, "Value", "Text"))
+                                    @Html.TextBox("AuthorTabNumber", value: "не задан")
+                                    @*@Html.DropDownList("AuthorTabNumber", new SelectList(ViewBag.AuthorEmployees, "Value", "Text"))*@
                                 </div>
                             </td>
                         </tr>

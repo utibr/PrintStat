@@ -601,7 +601,6 @@ namespace PrintStat.Models
         {
             if (instance.ID != 0)
             {
-                Db.Consumable.InsertOnSubmit(instance);
                 Db.Consumable.Context.SubmitChanges();
                 return true;
             }

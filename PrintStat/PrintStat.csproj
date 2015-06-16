@@ -543,6 +543,7 @@
     <Content Include="Views\Model\partialModelConsumable.cshtml" />
     <Content Include="Views\Profile\CreateProfile.cshtml" />
     <Content Include="Views\Report\ExportResourses.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

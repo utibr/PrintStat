@@ -21,7 +21,7 @@ namespace PrintStat.Models.ViewModels
         [Required(ErrorMessage = "Выберите тип комплектующего")]
         public int TypeConsumableID { get; set; }
 
-        
+        public int CartridgeColorID { get; set; }
         
         //[Display(Name = "Поддерживаемые модели")]
      
